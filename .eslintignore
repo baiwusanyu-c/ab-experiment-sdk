@@ -1,0 +1,9 @@
+node_modules
+/packages/**/*.test.ts
+/packages/**/*.d.ts
+/packages/**/*.test.tsx
+package.json
+jest.config.js
+.eslintrc.js
+/**/*.d.ts
+build-script
