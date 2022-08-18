@@ -9,7 +9,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2021,
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'prettier'],
   extends: [
     'eslint:recommended',
     'plugin:import/recommended',
@@ -17,6 +17,7 @@ module.exports = {
     'plugin:jsonc/recommended-with-jsonc',
     'plugin:markdown/recommended',
     'plugin:@typescript-eslint/recommended',
+    'prettier',
   ], // ++
   overrides: [
     {
@@ -24,7 +25,7 @@ module.exports = {
       parser: 'jsonc-eslint-parser',
     },
     {
-      files: ['*.ts', '*.vue'],
+      files: ['*.ts'],
       rules: {
         'no-undef': 'off',
       },
@@ -33,6 +34,7 @@ module.exports = {
       files: ['**/__tests__/**'],
       rules: {
         'no-console': 'off',
+        'vue/one-component-per-file': 'off',
       },
     },
     {
@@ -101,7 +103,7 @@ module.exports = {
   rules: {
     // js/ts
     camelcase: ['off'],
-    'no-console': ['warn', { allow: ['error','warn','info'] }],
+    'no-console': ['warn', { allow: ['error','info'] }],
     'no-debugger': 'warn',
     'no-constant-condition': ['error', { checkLoops: false }],
     'no-restricted-syntax': ['error', 'LabeledStatement', 'WithStatement'],
@@ -157,8 +159,10 @@ module.exports = {
       },
     ],
     '@typescript-eslint/ban-ts-comment': ['off'],
-    "@typescript-eslint/no-this-alias": ["off"],
 
+
+    // prettier
+    'prettier/prettier': 'error', // ++
     // import
     'import/first': 'error',
     'import/no-duplicates': 'error',

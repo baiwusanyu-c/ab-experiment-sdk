@@ -1,16 +1,15 @@
-
 export interface IOption {
   [key: string]: any
 }
 
-export interface IConfig extends IOption{
+export interface IConfig extends IOption {
   app_id?: number
-  report_channel: "cn" | "en"
+  report_channel: 'cn' | 'en'
   log: boolean
-  enable_ab_test:boolean
-  custom_config:IOption
+  enable_ab_test: boolean
+  custom_config: IOption
 }
-export interface IConfigMiniWechat extends IConfig{
+export interface IConfigMiniWechat extends IConfig {
   clear_ab_cache_on_user_change?: boolean
   auto_report?: boolean
 }

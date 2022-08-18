@@ -1,0 +1,6 @@
+public
+/src/**/*.scss
+dist
+node_modules
+coverage
+

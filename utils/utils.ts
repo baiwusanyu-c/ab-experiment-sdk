@@ -1,59 +1,63 @@
 export const log = (info: string) => {
-    console.info(`[cbd -- A/B test sdk] ${info}`)
+  console.info(`[cbd -- A/B test sdk] ${info}`)
 }
-function uaMatch(ua:string) {
-  const rMsie = /(msie\s|trident.*rv:)([\w.]+)/;
-  const rFirefox = /(firefox)\/([\w.]+)/;
-  const rOpera = /(opera).+version\/([\w.]+)/;
-  const rChrome = /(chrome)\/([\w.]+)/;
-  const rSafari = /version\/([\w.]+).*(safari)/;
-  let match = rMsie.exec(ua);
+function uaMatch(ua: string) {
+  const rMsie = /(msie\s|trident.*rv:)([\w.]+)/
+  const rFirefox = /(firefox)\/([\w.]+)/
+  const rOpera = /(opera).+version\/([\w.]+)/
+  const rChrome = /(chrome)\/([\w.]+)/
+  const rSafari = /version\/([\w.]+).*(safari)/
+  let match = rMsie.exec(ua)
   if (match != null) {
-    return {browser: "IE", version: match[2] || "0"};
+    return { browser: 'IE', version: match[2] || '0' }
   }
-  match = rFirefox.exec(ua);
+  match = rFirefox.exec(ua)
   if (match != null) {
-    return {browser: match[1] || "", version: match[2] || "0"};
+    return { browser: match[1] || '', version: match[2] || '0' }
   }
-  match = rOpera.exec(ua);
+  match = rOpera.exec(ua)
   if (match != null) {
-    return {browser: match[1] || "", version: match[2] || "0"};
+    return { browser: match[1] || '', version: match[2] || '0' }
   }
-  match = rChrome.exec(ua);
+  match = rChrome.exec(ua)
   if (match != null) {
-    return {browser: match[1] || "", version: match[2] || "0"};
+    return { browser: match[1] || '', version: match[2] || '0' }
   }
-  match = rSafari.exec(ua);
+  match = rSafari.exec(ua)
   if (match != null) {
-    return {browser: match[2] || "", version: match[1] || "0"};
+    return { browser: match[2] || '', version: match[1] || '0' }
   }
   if (match != null) {
-    return {browser: "", version: "0"};
+    return { browser: '', version: '0' }
   }
 }
-const getResolution = () =>{
+const getResolution = () => {
   const width = window.screen.width * window.devicePixelRatio
   const height = window.screen.height * window.devicePixelRatio
   return {
     width,
     height,
-    resolution:`${width}x${height}`
+    resolution: `${width}x${height}`,
   }
 }
 
 export function getOsVersion() {
   const u = navigator.userAgent
-  let device_model = '',os_name = '',os_version = ''
+  let device_model = '',
+    os_name = '',
+    os_version = ''
   if (u.indexOf('Mac OS X') > -1) {
     // ios
     const regStr_saf = /OS [\d._]*/gi
     const verinfo = u.match(regStr_saf)
-    device_model = `IOS${  (`${verinfo  }`).replace(/[^0-9|_.]/ig, '').replace(/_/ig, '.')}`
+    device_model = `IOS${`${verinfo}`.replace(/[^0-9|_.]/gi, '').replace(/_/gi, '.')}`
     os_name = 'IOS'
-  } else if (u.indexOf('Android') > -1 ||
-      u.indexOf('Linux') > -1) {
+  } else if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
     // android
-    device_model = `Android${  u.substr(u.indexOf('Android') + 8, u.indexOf(';', u.indexOf('Android')) - u.indexOf('Android') - 8)}`
+    device_model = `Android${u.substr(
+      u.indexOf('Android') + 8,
+      u.indexOf(';', u.indexOf('Android')) - u.indexOf('Android') - 8
+    )}`
     os_name = 'Android'
   } else {
     const userAgent = navigator.userAgent.toLowerCase()
@@ -61,20 +65,25 @@ export function getOsVersion() {
       device_model = 'Windows XP'
       os_name = 'Windows'
       os_version = 'xp'
-    }  else if (userAgent.indexOf('windows nt 6.1') > -1 || userAgent.indexOf('windows 7') > -1) {
+    } else if (userAgent.indexOf('windows nt 6.1') > -1 || userAgent.indexOf('windows 7') > -1) {
       device_model = 'Windows NT 7'
       os_name = 'Windows'
       os_version = '7'
-    }  else if (userAgent.indexOf('windows nt 6.2') > -1 || userAgent.indexOf('windows nt 10.0') > -1) {
+    } else if (
+      userAgent.indexOf('windows nt 6.2') > -1 ||
+      userAgent.indexOf('windows nt 10.0') > -1
+    ) {
       device_model = 'Windows NT 10'
       os_name = 'Windows'
       os_version = '10'
-    } else if (userAgent.indexOf('windows nt 6.2') > -1 || userAgent.indexOf('windows nt 11.0') > -1) {
+    } else if (
+      userAgent.indexOf('windows nt 6.2') > -1 ||
+      userAgent.indexOf('windows nt 11.0') > -1
+    ) {
       device_model = 'Windows NT 11'
       os_name = 'Windows'
       os_version = '11'
-
-    }else {
+    } else {
       device_model = 'Unknown'
       os_name = 'Unknown'
       os_version = 'Unknown'
@@ -83,16 +92,19 @@ export function getOsVersion() {
   return {
     device_model,
     os_name,
-    language:navigator.language,
-    os_version
+    language: navigator.language,
+    os_version,
   }
 }
 
-export const getSysInfo = () =>{
-  const browserInfo = uaMatch(navigator.userAgent.toLocaleLowerCase()) || {browser: "", version: "0"};
+export const getSysInfo = () => {
+  const browserInfo = uaMatch(navigator.userAgent.toLocaleLowerCase()) || {
+    browser: '',
+    version: '0',
+  }
   const resolutionInfo = getResolution()
   const osInfo = getOsVersion()
-  if(window){
+  if (window) {
     return {
       ab_url: location.href,
       browser: browserInfo.browser,
@@ -107,7 +119,7 @@ export const getSysInfo = () =>{
   }
 }
 
-export const extend = (objFir:any,objSec:any) => {
+export const extend = (objFir: any, objSec: any) => {
   return Object.assign({}, objFir, objSec)
 }
 
@@ -120,4 +132,4 @@ export const isNumber = (val: unknown) => typeof val === 'number'
 
 // 判定 是否是方法
 export const isFunction = (val: unknown) =>
-    Object.prototype.toString.call(val) === '[object Function]'
+  Object.prototype.toString.call(val) === '[object Function]'
