@@ -1,1 +1,3 @@
-console.log('web')
+import { log } from '@ab-test-sdk/utils'
+
+log('web')

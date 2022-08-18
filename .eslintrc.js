@@ -100,7 +100,7 @@ module.exports = {
 
   rules: {
     // js/ts
-    camelcase: ['error', { properties: 'never' }],
+    camelcase: ['off'],
     'no-console': ['warn', { allow: ['error','warn','info'] }],
     'no-debugger': 'warn',
     'no-constant-condition': ['error', { checkLoops: false }],

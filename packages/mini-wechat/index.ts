@@ -1,1 +1,1 @@
-console.log('wechat')
+export * from './config'

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "init": "pnpm install --w",
+    "play": "pnpm --filter @ab-test-sdk/play run dev",
     "lint:ts-fix": "eslint --fix ./ --ext .js,.ts,.jsx,.tsx",
     "prepare": "husky install",
     "test": "jest",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@ab-test-sdk/wechat": "workspace:^1.0.0",
     "@ab-test-sdk/web": "workspace:^1.0.0",
+    "@ab-test-sdk/play": "workspace:^1.0.0",
     "@ab-test-sdk/utils": "workspace:^1.0.0",
     "@babel/preset-typescript": "^7.16.0",
     "@commitlint/cli": "^16.2.1",
