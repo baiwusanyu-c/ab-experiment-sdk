@@ -1,4 +1,4 @@
-import { extend, log} from '@ab-test-sdk/utils'
+import {extend, isFunction, log} from '@ab-test-sdk/utils'
 import defaultConfig from './config'
 import type {IConfigMiniWechat} from '@ab-test-sdk/utils';
 const mergeConfig = (config:IConfigMiniWechat) =>{
@@ -7,36 +7,43 @@ const mergeConfig = (config:IConfigMiniWechat) =>{
 
 const sdk = {
     configOption:{} as IConfigMiniWechat,
+    log:false,
     /**
      * 初始化sdk
      */
     init(config:IConfigMiniWechat){
         // 合并配置
         this.configOption = mergeConfig(config)
+        this.log = this.configOption.log
     },
     /**
      * 初始化完成，开始获取实验信息
      */
     start(){
-        log('start',this.configOption.log)
+        this.log && log('start')
     },
     /**
      * 获取实验参数
      */
     getVar(){
-        log('getVar',this.configOption.log)
+        this.log && log('getVar')
     },
     /**
      * 修改config
      */
     config(){
-        log('config',this.configOption.log)
+        this.log && log('config')
     },
     /**
      * 触发自定义事件
      */
     triggerEvt(){
-        log('triggerEvt',this.configOption.log)
+        this.log && log('triggerEvt')
     }
 }
-export default sdk
+
+export const cbdABTest = (funcName:string,...arg:any[]) =>{
+    if(sdk[funcName as keyof typeof sdk] && isFunction(sdk[funcName as keyof typeof sdk])){
+        (sdk[funcName as keyof typeof sdk] as Function)(...arg)
+    }
+}

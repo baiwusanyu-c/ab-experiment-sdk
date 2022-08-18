@@ -1,7 +1,5 @@
-export const log = (info: string,isLog:boolean) => {
-  if(isLog){
+export const log = (info: string) => {
     console.info(`[cbd -- A/B test sdk] ${info}`)
-  }
 }
 function uaMatch(ua:string) {
   const rMsie = /(msie\s|trident.*rv:)([\w.]+)/;
@@ -112,3 +110,14 @@ export const getSysInfo = () =>{
 export const extend = (objFir:any,objSec:any) => {
   return Object.assign({}, objFir, objSec)
 }
+
+// 判定布尔
+export const isBool = (val: unknown) => typeof val === 'boolean'
+// 判定字符串
+export const isString = (val: unknown) => typeof val == 'string' && val.constructor == String
+// 判定数字
+export const isNumber = (val: unknown) => typeof val === 'number'
+
+// 判定 是否是方法
+export const isFunction = (val: unknown) =>
+    Object.prototype.toString.call(val) === '[object Function]'

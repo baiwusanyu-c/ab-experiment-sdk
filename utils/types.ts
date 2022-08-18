@@ -11,8 +11,8 @@ export interface IConfig extends IOption{
   custom_config:IOption
 }
 export interface IConfigMiniWechat extends IConfig{
-  clear_ab_cache_on_user_change: boolean
-  auto_report: boolean
+  clear_ab_cache_on_user_change?: boolean
+  auto_report?: boolean
 }
 
 export interface ISysInfo {
