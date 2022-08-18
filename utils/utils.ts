@@ -1,5 +1,7 @@
-export const log = (info: string) => {
-  console.info(info)
+export const log = (info: string,isLog:boolean) => {
+  if(isLog){
+    console.info(`[cbd -- A/B test sdk] ${info}`)
+  }
 }
 function uaMatch(ua:string) {
   const rMsie = /(msie\s|trident.*rv:)([\w.]+)/;
@@ -105,4 +107,8 @@ export const getSysInfo = () =>{
       width: resolutionInfo.width,
     }
   }
+}
+
+export const extend = (objFir:any,objSec:any) => {
+  return Object.assign({}, objFir, objSec)
 }
