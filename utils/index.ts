@@ -1,1 +1,1 @@
-console.log('utils')
+export * from './types'

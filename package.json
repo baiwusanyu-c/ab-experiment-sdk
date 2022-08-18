@@ -42,6 +42,7 @@
     "jest-environment-jsdom": "^27.5.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@types/jest": "^27.5.1",
-    "ts-jest": "27.1.4"
+    "ts-jest": "27.1.4",
+    "@antfu/eslint-config": "^0.25.2"
   }
 }
