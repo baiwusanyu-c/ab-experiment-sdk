@@ -42,7 +42,8 @@ const getResolution = () =>{
 }
 
 export function getOsVersion() {
-  const u = navigator.userAgent, device_model = '',os_name = '',os_version = ''
+  const u = navigator.userAgent
+  let device_model = '',os_name = '',os_version = ''
   if (u.indexOf('Mac OS X') > -1) {
     // ios
     const regStr_saf = /OS [\d._]*/gi
