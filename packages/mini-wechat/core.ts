@@ -1,4 +1,4 @@
-import { extend, isFunction, log } from '@ab-test-sdk/utils'
+import { extend, isFunction, log, testRequest } from '@ab-test-sdk/utils'
 import defaultConfig from './config'
 import type { IConfigMiniWechat } from '@ab-test-sdk/utils'
 const mergeConfig = (config: IConfigMiniWechat) => {
@@ -22,6 +22,7 @@ const sdk = {
   start() {
     this.log && log('start')
     log(this.configOption)
+    testRequest()
   },
   /**
    * 获取实验参数
