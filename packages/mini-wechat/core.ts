@@ -21,6 +21,7 @@ const sdk = {
    */
   start() {
     this.log && log('start')
+    log(this.configOption)
   },
   /**
    * 获取实验参数
