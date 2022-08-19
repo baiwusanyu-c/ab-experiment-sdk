@@ -1,45 +1,40 @@
-import {log} from "../utils";
-import {
-  IReqConfig,
-  ContentType,
-  HttpMethod,
-  interceptorsRequest,
-  interceptorsResponse} from "./fetch-utils";
+import { log } from '../utils'
+import { ContentType, HttpMethod, interceptorsRequest, interceptorsResponse } from './fetch-utils'
+import type { IReqConfig } from './fetch-utils'
 
 const request = async (
-    url: string,
-    config: IReqConfig = {
-      params: {},
-      method: 'POST',
-      headers: {
-        'Content-Type': ContentType.json,
-        token: '',
-      },
-      token: '',
+  url: string,
+  config: IReqConfig = {
+    params: {},
+    method: 'POST',
+    headers: {
       'Content-Type': ContentType.json,
-    }
+      token: '',
+    },
+    token: '',
+    'Content-Type': ContentType.json,
+  }
 ) => {
   // 请求拦截
   const { reqUrl, headers } = interceptorsRequest(url, config)
   // 发送请求
   const promise = await sendRequest(reqUrl, headers, config)
   // 处理请求结果(响应拦截)
-  return interceptorsResponse(promise,handleRes)
+  return interceptorsResponse(promise, handleRes)
 }
-
 
 /**
  * 发送请求
  */
 function sendRequest(url: string, headers: Headers, config: IReqConfig) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     // @ts-ignore
     wx.request({
       url,
       method: HttpMethod.post,
-      data:config.params,
+      data: config.params,
       header: {
-        ...headers
+        ...headers,
       },
       success: (res: any) => {
         resolve(res)
