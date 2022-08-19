@@ -2,3 +2,4 @@ packages:
   - 'packages/**' # 组件库代码
   - utils
   - play
+  - build-script
