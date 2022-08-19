@@ -13,5 +13,5 @@ cbdABTest('init', {
   custom_config: {},
 })
 cbdABTest('start')
-cbdABTest('getVar')
+cbdABTest('config',{app_id:111111})
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(<App />)

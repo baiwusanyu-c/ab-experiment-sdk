@@ -35,7 +35,7 @@ class Request {
   }
   /**
    * 拦截器方法
-   * @param {res} Function  object
+   * @param {Function} res  object
    */
   intercept(res: Function) {
     return this.interceptors.filter(f => typeof f === 'function').every(f => f(res))
@@ -52,7 +52,7 @@ class Request {
     return new Promise((resolve, reject) => {
       // @ts-ignore
       wx.request({
-        url: (this._baseUrl || '') + url,
+        url: (this._baseUrl || 'https://localhost:8000/') + url,
         method: method || METHOD.GET,
         data,
         header: {

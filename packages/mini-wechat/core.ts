@@ -1,8 +1,8 @@
-import { extend, isFunction, log, testRequest } from '@ab-test-sdk/utils'
+import { abTestGrouping, abTestShunt, extend, isFunction, log } from '@ab-test-sdk/utils'
 import defaultConfig from './config'
 import type { IConfigMiniWechat } from '@ab-test-sdk/utils'
-const mergeConfig = (config: IConfigMiniWechat) => {
-  return extend(defaultConfig, config)
+const mergeConfig = (config: IConfigMiniWechat, defaultConfigs = defaultConfig) => {
+  return extend(defaultConfigs, config)
 }
 
 const sdk = {
@@ -21,23 +21,28 @@ const sdk = {
    */
   start() {
     this.log && log('start')
-    log(this.configOption)
-    testRequest()
+    abTestShunt()
   },
   /**
-   * 获取实验参数
+   * 获取实验参数，即获取分流分组接过参数
    */
   getVar() {
     this.log && log('getVar')
+    abTestGrouping()
   },
+
   /**
    * 修改config
+   * (预留，现阶段不需要)
    */
-  config() {
-    this.log && log('config')
+  config(nConfig: IConfigMiniWechat) {
+    // 根据现有config 进行合并更新
+    this.configOption = mergeConfig(nConfig, this.configOption)
+    this.log && log('config set success !')
   },
   /**
    * 触发自定义事件
+   * (预留，现阶段不需要)
    */
   triggerEvt() {
     this.log && log('triggerEvt')

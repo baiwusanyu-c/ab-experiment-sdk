@@ -1,3 +1,4 @@
+export declare type env = 'web' | 'mini-wechat'
 export interface IOption {
   [key: string]: any
 }

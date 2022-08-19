@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "init": "pnpm install --w",
-    "play": "pnpm --filter @ab-test-sdk/play run dev",
+    "play:web": "pnpm --filter @ab-test-sdk/play run dev",
     "lint:ts-fix": "eslint --fix ./ --ext .js,.ts,.jsx,.tsx",
     "prepare": "husky install",
     "test": "jest",
