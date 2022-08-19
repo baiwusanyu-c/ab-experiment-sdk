@@ -14,5 +14,8 @@ export default series(
   withTaskName('build mini wechat sdk....', async () => {
     await run('pnpm run --filter @ab-test-sdk/build --parallel build:wechat')
   }),
+    withTaskName('build web sdk....', async () => {
+        await run('pnpm run --filter @ab-test-sdk/build --parallel build:web')
+    }),
 
 )
