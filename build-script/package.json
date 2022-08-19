@@ -1,0 +1,13 @@
+{
+  "name": "@ab-test-sdk/build",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "build:wechat": "gulp --require sucrase/register/ts -f build-mini-wechat-sdk.esm.js",
+    "build": "gulp --require sucrase/register/ts -f gulpfile.esm.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
