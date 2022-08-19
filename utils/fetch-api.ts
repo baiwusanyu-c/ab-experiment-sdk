@@ -1,10 +1,10 @@
 import { ENV } from './env-config'
 let requestInst: any = null
-requestInst = import('./fetch-mini-wechat')
+requestInst = import('./fetch/fetch-mini-wechat')
 if (process.env.CURRENT_ENV === ENV.MINI_WECHAT) {
-  requestInst = import('./fetch-mini-wechat')
+  requestInst = import('./fetch/fetch-mini-wechat')
 } else if (process.env.CURRENT_ENV === ENV.WEB) {
-  requestInst = import('./fetch-mini-wechat')
+  requestInst = import('./fetch/fetch-web')
   console.log('webbbbbbbbbbbbbbbb')
 }
 function req(url: string, params: any = {}) {
