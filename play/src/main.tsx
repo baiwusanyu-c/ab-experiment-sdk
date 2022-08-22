@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.css'
 cbdABTest('init', {
-  app_id: 123456, // 替换成您的APP_ID
+  appKey: 123456, // 替换成您的appKey
   auto_report: false, //自动上报进入页面事件
   report_channel: 'cn', // 数据上报
   log: true, // 是否打印log
@@ -13,5 +13,5 @@ cbdABTest('init', {
   custom_config: {},
 })
 cbdABTest('start')
-cbdABTest('config',{app_id:111111})
+cbdABTest('config',{appKey:111111})
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(<App />)

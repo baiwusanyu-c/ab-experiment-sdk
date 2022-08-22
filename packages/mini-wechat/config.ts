@@ -1,7 +1,7 @@
 import type { IConfigMiniWechat } from '@ab-test-sdk/utils'
 
 const config: IConfigMiniWechat = {
-  app_id: undefined, // 替换成您的APP_ID
+  appKey: undefined, // 替换成您的APPKEY
   auto_report: false, //自动上报进入页面事件
   report_channel: 'cn', // 数据上报
   log: false, // 是否打印log

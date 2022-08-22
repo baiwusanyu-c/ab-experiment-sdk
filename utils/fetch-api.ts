@@ -1,11 +1,9 @@
 import { ENV } from './env-config'
 let requestInst: any = null
-requestInst = import('./fetch-mini-wechat')
 if (process.env.CURRENT_ENV === ENV.MINI_WECHAT) {
   requestInst = import('./fetch-mini-wechat')
 } else if (process.env.CURRENT_ENV === ENV.WEB) {
   requestInst = import('./fetch-mini-wechat')
-  console.log('webbbbbbbbbbbbbbbb')
 }
 function req(url: string, params: any = {}) {
   return new Promise(resolve => {
@@ -16,9 +14,10 @@ function req(url: string, params: any = {}) {
     })
   })
 }
-export async function abTestShunt() {
-  return req('algorithm/shunt', {})
+interface IExperimentConfig {
+  appKey: number
 }
-export async function abTestGrouping() {
-  return req('algorithm/grouping', {})
+export async function experimentConfig(params: IExperimentConfig) {
+  const res = await req('experiment/config/list', params)
+  return res
 }

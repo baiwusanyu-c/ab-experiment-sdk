@@ -108,6 +108,9 @@ importers:
       typescript: 4.7.4
       yaml-eslint-parser: 0.5.0
 
+  build-script:
+    specifiers: {}
+
   packages/mini-wechat:
     specifiers: {}
 
@@ -116,6 +119,7 @@ importers:
 
   play:
     specifiers:
+      '@ab-test-sdk/utils': workspace:^1.0.0
       '@types/react': ^18.0.15
       '@types/react-dom': ^18.0.6
       '@vitejs/plugin-react': ^2.0.0
@@ -127,6 +131,7 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
+      '@ab-test-sdk/utils': link:../utils
       '@types/react': 18.0.17
       '@types/react-dom': 18.0.6
       '@vitejs/plugin-react': 2.0.1_vite@3.0.8

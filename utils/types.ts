@@ -3,7 +3,7 @@ export interface IOption {
 }
 
 export interface IConfig extends IOption {
-  app_id?: number
+  appKey?: number
   report_channel: 'cn' | 'en'
   log: boolean
   enable_ab_test: boolean
