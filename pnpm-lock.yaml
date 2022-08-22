@@ -37,6 +37,7 @@ importers:
       esno: ^0.13.0
       gulp: ^4.0.2
       gulp-typescript: ^6.0.0-alpha.1
+      hash-it: ^5.0.2
       husky: ^7.0.4
       jest: ^27.5.1
       jest-environment-jsdom: ^27.5.1
@@ -89,6 +90,7 @@ importers:
       esno: 0.13.0
       gulp: 4.0.2
       gulp-typescript: 6.0.0-alpha.1_typescript@4.7.4
+      hash-it: 5.0.2
       husky: 7.0.4
       jest: 27.5.1
       jest-environment-jsdom: 27.5.1
@@ -5321,6 +5323,10 @@ packages:
     engines: {node: '>= 0.4.0'}
     dependencies:
       function-bind: 1.1.1
+    dev: true
+
+  /hash-it/5.0.2:
+    resolution: {integrity: sha512-csU3E/a9QEmEgPPxoShVuMcFWM329IGioEPRvYVBv3r5BFrU8pCfnk3jGEVvriAcwqd+nl6KsNhPPjg8MUzkhQ==}
     dev: true
 
   /hash-sum/2.0.0:

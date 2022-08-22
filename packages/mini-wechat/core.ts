@@ -68,7 +68,11 @@ const sdk = {
     this.log && log('triggerEvt')
   },
 }
-
+/**
+ * 导出的api入口
+ * @param funcName
+ * @param arg
+ */
 export const cbdABTest = (funcName: string, ...arg: any[]) => {
   if (sdk[funcName as keyof typeof sdk] && isFunction(sdk[funcName as keyof typeof sdk])) {
     ;(sdk[funcName as keyof typeof sdk] as Function)(...arg)
