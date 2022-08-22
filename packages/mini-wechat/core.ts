@@ -8,6 +8,8 @@ const mergeConfig = (config: IConfigMiniWechat, defaultConfigs = defaultConfig) 
 const sdk = {
   configOption: {} as IConfigMiniWechat,
   log: false,
+  expConfig: {} as any,
+  timer: 0,
   /**
    * 初始化sdk
    */
@@ -23,9 +25,13 @@ const sdk = {
   async start() {
     this.log && log('start')
     // 获取实验参数，并缓存本地
-    const expConfig = await getExperimentConfig(this.configOption.appKey!)
+    this.expConfig = await getExperimentConfig(this.configOption.appKey!)
     // 根据参数进行分流
     abTestShunt()
+    // 如果配置了自动刷新
+    if (this.configOption.autoRefresh) {
+      autoRefresh(this)
+    }
   },
   /**
    * 获取实验参数，即通过分组算法获取结果
@@ -37,7 +43,7 @@ const sdk = {
   },
 
   /**
-   * 修改config
+   * 修改config,在自动模式开启时会自动生效，否则需要手动start
    */
   config(nConfig: IConfigMiniWechat) {
     // 根据现有config 进行合并更新
@@ -49,7 +55,7 @@ const sdk = {
    */
   async reFresh() {
     // 获取实验参数，并缓存本地
-    const expConfig = await getExperimentConfig(this.configOption.appKey!)
+    this.expConfig = await getExperimentConfig(this.configOption.appKey!)
     // 根据参数进行分流
     abTestShunt()
   },
@@ -88,4 +94,15 @@ export const abTestShunt = () => {
  */
 export const abTestGrouping = () => {
   console.info('abTestGrouping')
+}
+/**
+ * 自动刷新实验配置
+ * @param ctx
+ */
+export const autoRefresh = (ctx: typeof sdk) => {
+  const step = ctx.configOption.autoRefreshStep
+  ctx.timer = window.setInterval(async () => {
+    ctx.expConfig = await getExperimentConfig(ctx.configOption.appKey!)
+    abTestShunt()
+  }, step)
 }

@@ -4,10 +4,12 @@ export interface IOption {
 
 export interface IConfig extends IOption {
   appKey?: number
-  report_channel: 'cn' | 'en'
+  reportChannel: 'cn' | 'en'
   log: boolean
-  enable_ab_test: boolean
-  custom_config: IOption
+  enableAbTest: boolean
+  customConfig: IOption
+  autoRefresh: boolean
+  autoRefreshStep: number
 }
 export interface IConfigMiniWechat extends IConfig {
   clear_ab_cache_on_user_change?: boolean
