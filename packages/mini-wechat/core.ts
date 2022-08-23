@@ -1,15 +1,13 @@
 import { experimentConfig, extend, isFunction, log } from '@ab-test-sdk/utils'
 import defaultConfig from './config'
 import type { IConfigMiniWechat } from '@ab-test-sdk/utils'
-const mergeConfig = (config: IConfigMiniWechat, defaultConfigs = defaultConfig) => {
-  return extend(defaultConfigs, config)
-}
 
-const sdk = {
+export const sdk = {
   configOption: {} as IConfigMiniWechat,
   log: false,
   expConfig: {} as any,
   timer: 0,
+  isInit: false,
   /**
    * 初始化sdk
    */
@@ -17,12 +15,14 @@ const sdk = {
     // 合并配置
     this.configOption = mergeConfig(config)
     this.log = this.configOption.log
+    this.isInit = true
   },
   /**
    * 初始化完成，开始获取实验信息
    * 获取实验参数，即通过分流算法获取结果
    */
   async start() {
+    if (!this.isInit) return
     this.log && log('start')
     // 获取实验参数，并缓存本地
     this.expConfig = await getExperimentConfig(this.configOption.appKey!)
@@ -37,6 +37,7 @@ const sdk = {
    * 获取实验参数，即通过分组算法获取结果
    */
   getVar() {
+    if (!this.isInit) return
     this.log && log('getVar')
     // 进行分组
     abTestGrouping()
@@ -46,6 +47,7 @@ const sdk = {
    * 修改config,在自动模式开启时会自动生效，否则需要手动start
    */
   config(nConfig: IConfigMiniWechat) {
+    if (!this.isInit) return
     // 根据现有config 进行合并更新
     this.configOption = mergeConfig(nConfig, this.configOption)
     this.log && log('config set success !')
@@ -54,6 +56,7 @@ const sdk = {
    * 刷新实验配置，刷新后会自动重新分流，你需要重新调用getVar
    */
   async reFresh() {
+    if (!this.isInit) return
     // 获取实验参数，并缓存本地
     this.expConfig = await getExperimentConfig(this.configOption.appKey!)
     // 根据参数进行分流
@@ -65,9 +68,19 @@ const sdk = {
    * (预留，现阶段不需要)
    */
   triggerEvt() {
+    if (!this.isInit) return
     this.log && log('triggerEvt')
   },
 }
+/**
+ * 合并配置
+ * @param config
+ * @param defaultConfigs
+ */
+export const mergeConfig = (config: IConfigMiniWechat, defaultConfigs = defaultConfig) => {
+  return extend(defaultConfigs, config)
+}
+
 /**
  * 导出的api入口
  * @param funcName
