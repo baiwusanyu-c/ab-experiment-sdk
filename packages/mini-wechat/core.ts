@@ -199,7 +199,8 @@ export const groupingAlgorithm = (key: string, weight: number) => {
  */
 export const autoRefresh = (ctx: typeof sdk) => {
   const step = ctx.configOption.autoRefreshStep
-  ctx.timer = window.setInterval(async () => {
+  // @ts-ignore
+  ctx.timer = setInterval(async () => {
     ctx.refresh()
   }, step)
 }

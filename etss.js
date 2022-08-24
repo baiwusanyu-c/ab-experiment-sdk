@@ -1,5 +1,6 @@
-/*import hash from 'hash-it'
-const hashVal = Math.abs(hash('1231委屈额1饿112饿')) % 1000
+const hash = require('hash-it')
+const { shuntAlgorithm, groupingAlgorithm } = require('./dist/web/ab-test-sdk-web.cjs')
+/*const hashVal = Math.abs(hash('1231委屈额1饿112饿')) % 1000
 const experimentTrafficWeight = 0.3
 
 const experimentId = null
@@ -32,7 +33,7 @@ console.log(hashVal) // 5386905135935*/
  * @return {number} 32-bit positive integer hash
  */
 
-export function murmurhash3_32_gc(key, seed) {
+/*export function murmurhash3_32_gc(key, seed) {
   let remainder, bytes, h1, h1b, c1, c1b, c2, c2b, k1, i
 
   remainder = key.length & 3 // key.length % 4
@@ -88,4 +89,40 @@ export function murmurhash3_32_gc(key, seed) {
   h1 ^= h1 >>> 16
 
   return h1 >>> 0
+}*/
+
+let tnum = 0
+const tnumArr = []
+let fnum = 0
+for (let i = 0; i < 100; i++) {
+  const res = shuntAlgorithm(i, 5.6)
+  if (res) {
+    tnumArr[tnum] = i
+    tnum++
+  } else {
+    fnum++
+  }
 }
+console.log(`分流：true:${tnum},false:${fnum}`)
+
+let gnumA = 0
+let gnumB = 0
+const gnumC = 0
+for (let i = 0; i < tnumArr.length - 1; i++) {
+  const resA = groupingAlgorithm(`${tnumArr[i]}groupA`, 5)
+  const resB = groupingAlgorithm(`${tnumArr[i]}groupB`, 5)
+  //let resC = groupingAlgorithm(i + 'group',4)
+  if (resA) {
+    console.log('A', tnumArr[i])
+    gnumA++
+  }
+  if (resB) {
+    console.log('B', tnumArr[i])
+    gnumB++
+  }
+  /* if(resC) {
+    console.log('C',i)
+    gnumC++
+  }*/
+}
+console.log(`分组：A组:${gnumA},B组:${gnumB},C组:${gnumC}`)
