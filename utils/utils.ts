@@ -132,7 +132,8 @@ export const isNumber = (val: unknown) => typeof val === 'number'
 
 // 判定 是否是方法
 export const isFunction = (val: unknown) =>
-  Object.prototype.toString.call(val) === '[object Function]'
+  Object.prototype.toString.call(val) === '[object Function]' ||
+  Object.prototype.toString.call(val) === '[object AsyncFunction]'
 
 // 判断是否为空对象
 export const isEmptyObj = (val: unknown) => JSON.stringify(val) === '{}'

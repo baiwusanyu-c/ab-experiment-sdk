@@ -9,9 +9,9 @@ if (currentEnv === ENV.MINI_WECHAT) {
 }
 function req(url: string, params: any = {}) {
   return new Promise(resolve => {
-    requestInst.then((res: { default: { post: Function } }) => {
-      res.default.post(url, {}, params, false).then((data: any) => {
-        resolve(data)
+    requestInst.then((reqFn: { default: Function }) => {
+      reqFn.default(url, { params }, false).then((res: any) => {
+        if (res && res.code === 200) resolve(res.data)
       })
     })
   })

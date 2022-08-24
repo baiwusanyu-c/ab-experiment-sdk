@@ -53,7 +53,7 @@ const setContentType = (config?: IReqConfig): string => {
  * @param url
  */
 const setRequestUrl = (url: string): string => {
-  return url.replace('//', '/')
+  return `http://47.96.100.195/api/ab-test/${url.replace('//', '/')}`
 }
 /**
  * 设置请求头

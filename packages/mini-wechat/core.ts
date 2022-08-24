@@ -1,13 +1,17 @@
 import { experimentConfig, extend, isFunction, log } from '@ab-test-sdk/utils'
+import hash from 'hash-it'
+
+// @ts-ignore
+// import { murmurhash3_32_gc } from './etss.js'
 import defaultConfig from './config'
 import type { IConfigMiniWechat } from '@ab-test-sdk/utils'
-
 export const sdk = {
-  configOption: {} as IConfigMiniWechat,
-  log: false,
-  expConfig: {} as any,
-  timer: 0,
-  isInit: false,
+  configOption: {} as IConfigMiniWechat, // sdk配置
+  log: false, // 开启日志
+  expConfig: {} as any, // 实验配置
+  timer: 0, // 自动刷新定时器
+  isInit: false, // 是否初始化
+  isEntry: false, // 是否进入实验
   /**
    * 初始化sdk
    */
@@ -26,12 +30,15 @@ export const sdk = {
     this.log && log('start')
     // 获取实验参数，并缓存本地
     this.expConfig = await getExperimentConfig(this.configOption.appKey!)
+    if (!this.expConfig) return
+    debugger
+
     // 根据参数进行分流
-    abTestShunt()
-    // 如果配置了自动刷新
-    if (this.configOption.autoRefresh) {
-      autoRefresh(this)
-    }
+    // this.isEntry = abTestShunt(this)
+    // // 如果配置了自动刷新
+    // if (this.configOption.autoRefresh) {
+    //   autoRefresh(this)
+    // }
   },
   /**
    * 获取实验参数，即通过分组算法获取结果
@@ -40,7 +47,7 @@ export const sdk = {
     if (!this.isInit) return
     this.log && log('getVar')
     // 进行分组
-    abTestGrouping()
+    abTestGrouping(this)
   },
 
   /**
@@ -60,7 +67,7 @@ export const sdk = {
     // 获取实验参数，并缓存本地
     this.expConfig = await getExperimentConfig(this.configOption.appKey!)
     // 根据参数进行分流
-    abTestShunt()
+    this.isEntry = abTestShunt(this)
   },
 
   /**
@@ -103,14 +110,18 @@ export const getExperimentConfig = async (appKey: number) => {
 /**
  * 分流方法
  */
-export const abTestShunt = () => {
-  console.info('abTestShunt')
+export const abTestShunt = (ctx: typeof sdk) => {
+  const value = Math.abs(hash(ctx.expConfig.userId)) % 1000
+  const weight = value / 100
+  return weight <= ctx.expConfig.experimentTrafficWeight * 10
 }
 /**
  * 分组方法
  */
-export const abTestGrouping = () => {
-  console.info('abTestGrouping')
+export const abTestGrouping = (ctx: typeof sdk) => {
+  const value = Math.abs(hash(`${ctx.expConfig.userId}abTestGrouping`)) % 100
+  const weight = value / 10
+  return weight <= ctx.expConfig.versionTrafficWeight * 10
 }
 /**
  * 自动刷新实验配置
@@ -120,6 +131,6 @@ export const autoRefresh = (ctx: typeof sdk) => {
   const step = ctx.configOption.autoRefreshStep
   ctx.timer = window.setInterval(async () => {
     ctx.expConfig = await getExperimentConfig(ctx.configOption.appKey!)
-    abTestShunt()
+    ctx.isEntry = abTestShunt(ctx)
   }, step)
 }
