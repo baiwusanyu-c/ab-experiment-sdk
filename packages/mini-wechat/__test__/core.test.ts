@@ -169,6 +169,33 @@ describe('test-mini-wechat--core.ts', () => {
         expect(startSDK.shuntRes['1'].hashVal).toBe(91)
     })
 
+    test('sdk instance function ———— getVar', async () => {
+        cbdABTest('resetInstance')
+        const reSDK = cbdABTest('init', {
+            appKey: 'CBD_WX_MP',
+            log: true,
+            userId: 'GACo74wkDIkDzEhkwRwgjGt1pqlk'
+        },getExpConfig) as typeof sdk
+        await cbdABTest('start')
+        cbdABTest('getVar','2','defaultVersion',(data:any)=>{
+            expect(data.msg).toBe('unknown exception')
+            expect(data.res).toBe('defaultVersion')
+        })
+        cbdABTest('getVar','1','defaultVersion',(data:any)=>{
+            expect(data.msg).toBe('user did not enter the experiment')
+            expect(data.res).toBe('defaultVersion')
+        })
+        cbdABTest('config',{
+            appKey: 'CBD_DY_MP',
+            userId: 'GACo74wkDIkDzEhkwRwgjGz1123'
+        })
+        await cbdABTest('start')
+        cbdABTest('getVar','1','defaultVersion',(data:any)=>{
+            expect(data.msg).toBe('group successfully')
+            expect(data.res.isEntryVersion).toBeTruthy()
+        })
+    })
+
     test('sdk instance function ———— config', () => {
         const reSDK = cbdABTest('init', {
             appKey: 'CBD_WX_MP',

@@ -72,8 +72,8 @@ export const sdk = {
       this.log && log('user did not enter the experiment')
       cb && cb({ res: defaultVal, msg: 'user did not enter the experiment' })
     }
-    // 异常兜底
-    if (!expShuntRes) {
+    // 异常兜底，传入没有的id、
+    if (!expShuntRes || this.expConfig.length === 0) {
       this.log && log('unknown exception')
       cb && cb({ res: defaultVal, msg: 'unknown exception' })
     }
