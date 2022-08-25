@@ -10,12 +10,14 @@ export const sdk = {
   isInit: false, // 是否初始化
   shuntRes: {} as IOption, // 分流结果
   groupRes: {} as IOption, // 分组流结果
+  getExpConfig: Function, // 获取实验参数接口方法，作为属性挂在实例上，和方法解耦
   /**
    * 初始化sdk
    * （完成）
    */
-  init(config: IConfigMiniWechat) {
+  init(config: IConfigMiniWechat, getExpConfigFunc: Function) {
     this.log && log('init running')
+    this.getExpConfig = getExpConfigFunc || getExperimentConfig
     // 合并配置
     this.configOption = mergeConfig(config, defaultConfig)
     this.log = this.configOption.log
@@ -32,9 +34,8 @@ export const sdk = {
       return
     }
     this.log && log('start running')
-
     // 获取实验参数(可以考虑做本地存储)
-    this.expConfig = await getExperimentConfig(this.configOption.appKey!, this)
+    this.expConfig = await this.getExpConfig(this.configOption.appKey!, this)
     if (!this.expConfig) return
 
     // 根据参数进行分流，并存储到sdk实例
@@ -43,7 +44,7 @@ export const sdk = {
     if (this.configOption.autoRefresh) {
       autoRefresh(this)
     }
-    return cb && cb(this.expConfig, this.shuntRes)
+    return cb && cb({ expConfig: this.expConfig, shuntRes: this.shuntRes, sdk: this })
   },
   /**
    * 获取实验参数，即通过分组算法获取结果
@@ -63,7 +64,6 @@ export const sdk = {
     // 传入的expId 进入实验，则进行分组
     if (expShuntRes && expShuntRes.isEntry) {
       this.groupRes = abTestGrouping(this, expShuntRes)
-      // TODO: 分组后获取版本参数并返回
       this.log && log('group successfully')
       cb && cb(this.groupRes)
     }
@@ -102,12 +102,12 @@ export const sdk = {
       return
     }
     // 获取实验参数，并缓存本地
-    this.expConfig = await getExperimentConfig(this.configOption.appKey!, this)
+    this.expConfig = await this.getExpConfig(this.configOption.appKey!, this)
     if (!this.expConfig) return
 
     // 根据参数进行分流，并存储到sdk实例
     this.shuntRes = abTestShunt(this)
-    return cb && cb(this.expConfig, this.shuntRes)
+    return cb && cb({ expConfig: this.expConfig, shuntRes: this.shuntRes, sdk: this })
   },
   /**
    * 重置实例方法
@@ -116,6 +116,9 @@ export const sdk = {
     this.configOption = {}
     this.log = false
     this.expConfig = []
+    if (this.timer) {
+      clearTimeout(this.timer)
+    }
     this.timer = 0
     this.isInit = false
     this.shuntRes = {}
@@ -153,6 +156,11 @@ export const mergeConfig = (config: IConfigMiniWechat, defaultConfigs = defaultC
  * （完成）
  */
 export const cbdABTest = (funcName: string, ...arg: any[]) => {
+  if (funcName === 'start' || funcName === 'refresh') {
+    return new Promise(resolve => {
+      ;(sdk[funcName as keyof typeof sdk] as Function)(resolve, ...arg)
+    })
+  }
   if (sdk[funcName as keyof typeof sdk] && isFunction(sdk[funcName as keyof typeof sdk])) {
     ;(sdk[funcName as keyof typeof sdk] as Function)(...arg)
   }
@@ -180,7 +188,7 @@ export const getExperimentConfig = async (appKey: number, ctx: typeof sdk) => {
 export const abTestShunt = (ctx: typeof sdk) => {
   const config = ctx.expConfig
   const shuntResArr: IOption = {}
-  config.forEach((val: IExpConfig, index: number) => {
+  config.forEach((val: IExpConfig) => {
     const shuntRes = shuntAlgorithm(ctx.configOption.userId!, val.experimentTrafficWeight)
     shuntResArr[val.experimentId] = {
       ...val,
@@ -199,13 +207,13 @@ export const shuntAlgorithm = (key: string, weight: number) => {
   const res = value / 10
   return {
     isEntry: res <= weight, // res <= weight * 10,
-    hashVal: value,
+    hashVal: res,
   }
 }
 /**
  * 分组方法
  */
-export const abTestGrouping = (ctx: typeof sdk, expShuntRes: IExpConfig) => {
+export const abTestGrouping = (ctx: typeof sdk, expShuntRes: IOption) => {
   let totalWeight = 0
   const expShuntResVal = expShuntRes
   const versionWeight = expShuntResVal.hashVal! * (100 / expShuntResVal.experimentTrafficWeight)
@@ -214,9 +222,10 @@ export const abTestGrouping = (ctx: typeof sdk, expShuntRes: IExpConfig) => {
     res: {
       isEntryVersion: false,
       versionId: 0,
+      versionParam: {},
     },
   }
-  for (let i = 0; i <= expShuntResVal.versions.length; i++) {
+  for (let i = 0; i < expShuntResVal.versions.length; i++) {
     totalWeight += expShuntResVal.versions[i].versionTrafficWeight
     // 小于版本权重 且不在白名单内
     if (
@@ -226,6 +235,7 @@ export const abTestGrouping = (ctx: typeof sdk, expShuntRes: IExpConfig) => {
       res.res = {
         isEntryVersion: true,
         versionId: expShuntResVal.versions[i].versionId,
+        versionParam: expShuntResVal.versions[i].versionParam,
       }
       break
     }

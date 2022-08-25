@@ -37,6 +37,7 @@ export interface IVersionConfig {
   versionId: number
   versionTrafficWeight: number
   whitelist: string
+  versionParam: IOption
 }
 export interface IExpConfig {
   experimentId: number
