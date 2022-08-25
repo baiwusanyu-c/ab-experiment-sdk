@@ -12,6 +12,10 @@ cbdABTest('init', {
 })
 cbdABTest('start')
 
+setTimeout(()=>{
+  cbdABTest('getVar',1)
+},3000)
+
 
 /*cbdABTest('init', {
   appKey: 'CBD_WX_MP', // 替换成您的appKey

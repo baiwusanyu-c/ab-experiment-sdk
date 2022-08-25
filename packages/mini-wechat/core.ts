@@ -9,6 +9,7 @@ export const sdk = {
   timer: 0, // 自动刷新定时器
   isInit: false, // 是否初始化
   shuntRes: {} as IOption, // 分流结果
+  groupRes: {} as IOption, // 分组流结果
   /**
    * 初始化sdk
    * （完成）
@@ -25,7 +26,7 @@ export const sdk = {
    * 获取实验参数，即通过分流算法获取结果
    * 结果将存储在sdk实例对象上
    */
-  async start(cb: any) {
+  async start(cb: Function) {
     if (!this.isInit) {
       this.log && log('sdk not initialized')
       return
@@ -42,14 +43,16 @@ export const sdk = {
     if (this.configOption.autoRefresh) {
       autoRefresh(this)
     }
-    return cb && cb(this.expConfig)
+    return cb && cb(this.expConfig, this.shuntRes)
   },
   /**
    * 获取实验参数，即通过分组算法获取结果
    * 接受一个实验id，让开发者在合适的时候获取对应的分组结果
    * @param expId 实验id
+   * @param defaultVal 异常兜底，异常下直接返回这个值，开发者判断直接走兜底逻辑
+   * @param cb 回调
    */
-  getVar(expId: string) {
+  getVar(expId: string, defaultVal: string, cb: Function) {
     if (!this.isInit) {
       this.log && log('sdk not initialized')
       return
@@ -57,9 +60,22 @@ export const sdk = {
     this.log && log('getVar running')
     // 进行分组
     const expShuntRes = this.shuntRes[expId]
-    if (expShuntRes.isEntry) {
-      abTestGrouping(this, expShuntRes)
+    // 传入的expId 进入实验，则进行分组
+    if (expShuntRes && expShuntRes.isEntry) {
+      this.groupRes = abTestGrouping(this, expShuntRes)
       // TODO: 分组后获取版本参数并返回
+      this.log && log('group successfully')
+      cb && cb(this.groupRes)
+    }
+    // 传入的expId 没有进入实验
+    if (expShuntRes && !expShuntRes.isEntry) {
+      this.log && log('user did not enter the experiment')
+      cb && cb({ res: defaultVal, msg: 'user did not enter the experiment' })
+    }
+    // 异常兜底
+    if (!expShuntRes) {
+      this.log && log('unknown exception')
+      cb && cb({ res: defaultVal, msg: 'unknown exception' })
     }
   },
 
@@ -76,10 +92,11 @@ export const sdk = {
     this.configOption = mergeConfig(nConfig, this.configOption)
     this.log && log('config set success !')
   },
+
   /**
    * 刷新实验配置，刷新后会自动重新分流，你需要重新调用getVar
    */
-  async refresh() {
+  async refresh(cb?: Function) {
     if (!this.isInit) {
       this.log && log('sdk not initialized')
       return
@@ -90,8 +107,20 @@ export const sdk = {
 
     // 根据参数进行分流，并存储到sdk实例
     this.shuntRes = abTestShunt(this)
+    return cb && cb(this.expConfig, this.shuntRes)
   },
-
+  /**
+   * 重置实例方法
+   */
+  resetInstance() {
+    this.configOption = {}
+    this.log = false
+    this.expConfig = []
+    this.timer = 0
+    this.isInit = false
+    this.shuntRes = {}
+    this.groupRes = {}
+  },
   /**
    * 触发自定义事件
    * (预留，现阶段不需要)
@@ -104,10 +133,12 @@ export const sdk = {
     this.log && log('triggerEvt')
   },
 }
+
 /**
  * 合并配置
  * @param config
  * @param defaultConfigs
+ * （单测完成）
  * （完成）
  */
 export const mergeConfig = (config: IConfigMiniWechat, defaultConfigs = defaultConfig) => {
@@ -118,6 +149,7 @@ export const mergeConfig = (config: IConfigMiniWechat, defaultConfigs = defaultC
  * 导出的api入口
  * @param funcName
  * @param arg
+ * （单测完成）
  * （完成）
  */
 export const cbdABTest = (funcName: string, ...arg: any[]) => {
@@ -149,49 +181,56 @@ export const abTestShunt = (ctx: typeof sdk) => {
   const config = ctx.expConfig
   const shuntResArr: IOption = {}
   config.forEach((val: IExpConfig, index: number) => {
-    // TODO:分流
-    // TODO:存储分流结果
-    const isEntry = shuntAlgorithm(ctx.configOption.userId!, val.experimentTrafficWeight)
+    const shuntRes = shuntAlgorithm(ctx.configOption.userId!, val.experimentTrafficWeight)
     shuntResArr[val.experimentId] = {
       ...val,
-      isEntry,
+      ...shuntRes,
     }
   })
   return shuntResArr
 }
 /**
- * hash取模分流算法
+ * hash取模分流
  * @param key
  * @param weight
  */
 export const shuntAlgorithm = (key: string, weight: number) => {
   const value = Math.abs(hash(key)) % 1000
   const res = value / 10
-  return res <= weight * 10
+  return {
+    isEntry: res <= weight, // res <= weight * 10,
+    hashVal: value,
+  }
 }
 /**
  * 分组方法
  */
 export const abTestGrouping = (ctx: typeof sdk, expShuntRes: IExpConfig) => {
-  // const value = Math.abs(hash(`${ctx.expConfig.userId}abTestGrouping`)) % 100
-  // const weight = value / 10
-  // return weight <= ctx.expConfig.versionTrafficWeight * 10
+  let totalWeight = 0
   const expShuntResVal = expShuntRes
-  expShuntResVal.versions.forEach(val => {
-    // TODO:分组
-    // TODO:存储分组结果及对应版版本参数到sdk实例
-  })
-  // TODO:根据分组结果获取版本参数
-}
-/**
- * hash取模分流算法
- * @param key
- * @param weight
- */
-export const groupingAlgorithm = (key: string, weight: number) => {
-  const value = Math.abs(hash(key)) % 1000
-  const res = value / 10
-  return res <= weight * 10
+  const versionWeight = expShuntResVal.hashVal! * (100 / expShuntResVal.experimentTrafficWeight)
+  const res = {
+    msg: 'group successfully',
+    res: {
+      isEntryVersion: false,
+      versionId: 0,
+    },
+  }
+  for (let i = 0; i <= expShuntResVal.versions.length; i++) {
+    totalWeight += expShuntResVal.versions[i].versionTrafficWeight
+    // 小于版本权重 且不在白名单内
+    if (
+      versionWeight < totalWeight &&
+      expShuntResVal.versions[i].whitelist.indexOf(ctx.configOption.userId!) < 0
+    ) {
+      res.res = {
+        isEntryVersion: true,
+        versionId: expShuntResVal.versions[i].versionId,
+      }
+      break
+    }
+  }
+  return res
 }
 /**
  * 自动刷新实验配置

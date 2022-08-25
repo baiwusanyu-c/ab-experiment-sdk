@@ -18,7 +18,7 @@ const request = async (
   // 请求拦截
   const { reqUrl, headers } = interceptorsRequest(url, config)
   // 发送请求
-  const promise = await sendRequest(reqUrl, headers, config)
+  const promise = await sendRequest(reqUrl, headers as Headers, config)
   // 处理请求结果(响应拦截)
   return interceptorsResponse(promise, handleRes)
 }

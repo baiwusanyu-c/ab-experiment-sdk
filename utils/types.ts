@@ -36,10 +36,13 @@ export interface ISysInfo {
 export interface IVersionConfig {
   versionId: number
   versionTrafficWeight: number
+  whitelist: string
 }
 export interface IExpConfig {
   experimentId: number
   experimentKey: string
   experimentTrafficWeight: number
   versions: Array<IVersionConfig>
+  hashVal?: number
+  isEntry?: boolean
 }
