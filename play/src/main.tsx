@@ -7,14 +7,14 @@ import './index.css'
 cbdABTest('init', {
   appKey: 'CBD_WX_MP', // 替换成您的appKey
   log: true, // 是否打印log
-  userId:'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  userId:'GACo74wkDIkDzEhkwRwgjGt1pqlk'
 
 })
-cbdABTest('start')
-
-setTimeout(()=>{
-  cbdABTest('getVar',1)
-},3000)
+async function startSDK(){
+  const sdk:any = await cbdABTest('start')
+  debugger
+}
+startSDK()
 
 
 /*cbdABTest('init', {

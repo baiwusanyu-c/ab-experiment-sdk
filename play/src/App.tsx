@@ -1,9 +1,14 @@
 
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
+// @ts-ignore
+import { cbdABTest} from '../../dist/web/ab-test-sdk-web.es'
 import './App.css'
 function App() {
   const [count, setCount] = useState(0)
+    cbdABTest('getVar','2','defaultVersion',(data:any)=>{
+        debugger
+    })
   return (
     <div className="App">
       <div>

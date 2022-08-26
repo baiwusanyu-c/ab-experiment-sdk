@@ -36,15 +36,29 @@ export const sdk = {
     this.log && log('start running')
     // 获取实验参数(可以考虑做本地存储)
     this.expConfig = await this.getExpConfig(this.configOption.appKey!, this)
-    if (!this.expConfig) return
-
-    // 根据参数进行分流，并存储到sdk实例
-    this.shuntRes = abTestShunt(this)
     // 如果配置了自动刷新
     if (this.configOption.autoRefresh) {
       autoRefresh(this)
     }
-    return cb && cb({ expConfig: this.expConfig, shuntRes: this.shuntRes, sdk: this })
+    if (!this.expConfig) {
+      return (
+        cb &&
+        cb({
+          res: { expConfig: {}, shuntRes: {}, sdk: this },
+          msg: 'unknown exception',
+        })
+      )
+    }
+    // 根据参数进行分流，并存储到sdk实例
+    this.shuntRes = abTestShunt(this)
+    this.log && log('shunt successfully')
+    return (
+      cb &&
+      cb({
+        res: { expConfig: this.expConfig, shuntRes: this.shuntRes, sdk: this },
+        msg: 'shunt successfully',
+      })
+    )
   },
   /**
    * 获取实验参数，即通过分组算法获取结果
@@ -177,7 +191,7 @@ export const getExperimentConfig = async (appKey: number, ctx: typeof sdk) => {
   const res = await experimentConfig(params)
   if (!res) {
     ctx.log && log('Failed to get experimental parameters')
-    return
+    return undefined
   }
   ctx.log && log('The experimental parameters were successfully obtained')
   return res

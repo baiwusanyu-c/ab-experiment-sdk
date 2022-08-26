@@ -27,7 +27,7 @@ const request = async (
  * 发送请求
  */
 function sendRequest(url: string, headers: Headers, config: IReqConfig) {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     // @ts-ignore
     wx.request({
       url,
@@ -37,9 +37,14 @@ function sendRequest(url: string, headers: Headers, config: IReqConfig) {
         ...headers,
       },
       success: (res: any) => {
-        resolve(res)
+        if (res.statusCode === 200) {
+          resolve(res)
+        } else {
+          reject(res)
+        }
       },
       fail: (err: Error) => {
+        reject(err)
         log(err.message)
       },
     })

@@ -163,10 +163,10 @@ describe('test-mini-wechat--core.ts', () => {
         },getExpConfig)
 
         const startSDK:any  = await cbdABTest('start')
-        const initExpId =  startSDK.expConfig[0].experimentId
+        const initExpId =  startSDK.res.expConfig[0].experimentId
         expect(initExpId).toBe(1)
-        expect(startSDK.shuntRes['1'].isEntry).not.toBeTruthy()
-        expect(startSDK.shuntRes['1'].hashVal).toBe(91)
+        expect(startSDK.res.shuntRes['1'].isEntry).not.toBeTruthy()
+        expect(startSDK.res.shuntRes['1'].hashVal).toBe(91)
     })
 
     test('sdk instance function ———— getVar', async () => {
