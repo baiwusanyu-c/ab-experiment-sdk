@@ -38,7 +38,7 @@ function sendRequest(url: string, headers: Headers, config: IReqConfig) {
       },
       success: (res: any) => {
         if (res.statusCode === 200) {
-          resolve(res)
+          resolve(res.data)
         } else {
           reject(res)
         }
