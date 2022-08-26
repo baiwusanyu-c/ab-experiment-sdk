@@ -1,7 +1,4 @@
-export const log = (info: string) => {
-  console.info(`[cbd -- A/B test sdk] ${info}`)
-}
-function uaMatch(ua: string) {
+/*function uaMatch(ua: string) {
   const rMsie = /(msie\s|trident.*rv:)([\w.]+)/
   const rFirefox = /(firefox)\/([\w.]+)/
   const rOpera = /(opera).+version\/([\w.]+)/
@@ -48,7 +45,7 @@ export function getOsVersion() {
     os_version = ''
   if (u.indexOf('Mac OS X') > -1) {
     // ios
-    const regStr_saf = /OS [\d._]*/gi
+    const regStr_saf = /OS [\d._]*!/gi
     const verinfo = u.match(regStr_saf)
     device_model = `IOS${`${verinfo}`.replace(/[^0-9|_.]/gi, '').replace(/_/gi, '.')}`
     os_name = 'IOS'
@@ -118,9 +115,13 @@ export const getSysInfo = () => {
     }
   }
 }
-
+*/
 export const extend = (objFir: any, objSec: any) => {
   return Object.assign({}, objFir, objSec)
+}
+
+export const log = (info: string) => {
+  console.info(`[cbd -- A/B test sdk] ${info}`)
 }
 
 // 判定布尔
@@ -132,4 +133,8 @@ export const isNumber = (val: unknown) => typeof val === 'number'
 
 // 判定 是否是方法
 export const isFunction = (val: unknown) =>
-  Object.prototype.toString.call(val) === '[object Function]'
+  Object.prototype.toString.call(val) === '[object Function]' ||
+  Object.prototype.toString.call(val) === '[object AsyncFunction]'
+
+// 判断是否为空对象
+export const isEmptyObj = (val: unknown) => JSON.stringify(val) === '{}'

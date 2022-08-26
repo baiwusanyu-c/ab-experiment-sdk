@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "build:wechat": "gulp --require sucrase/register/ts -f build-mini-wechat-sdk.esm.js",
+    "build:wechat": "cross-env CURRENT_ENV=mini-wechat gulp --require sucrase/register/ts -f build-mini-wechat-sdk.esm.js",
+    "build:web": "cross-env CURRENT_ENV=web gulp --require sucrase/register/ts -f build-web-sdk.esm.js",
     "build": "gulp --require sucrase/register/ts -f gulpfile.esm.js"
   },
   "keywords": [],

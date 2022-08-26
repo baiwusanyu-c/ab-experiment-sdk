@@ -6,18 +6,19 @@ import commonjs from '@rollup/plugin-commonjs'
 import typescript from 'rollup-plugin-typescript2'
 import { rollup } from 'rollup'
 import cleanup from 'rollup-plugin-cleanup'
-import { terser } from 'rollup-plugin-terser'
 import replace from 'rollup-plugin-replace'
+import { terser } from 'rollup-plugin-terser'
 const config = {
     input: '../packages/mini-wechat/index.ts', // 必须，入口文件
     plugins: [
         // 引入的插件在这里配置
         resolve(),
-        replace({
-            'process.env.CURRENT_ENV':'`mini-wechat`'
-        }),
         typescript(),
+        replace({
+            'process.env.CURRENT_ENV':'`web`'
+        }),
         babel({
+            presets:['@babel/preset-env'],
             exclude: '**/node_modules/**',
         }),
         commonjs(),
@@ -28,13 +29,13 @@ const config = {
 const buildConfig =  [
 
         {
-            file: '../dist/mini-wechat/ab-test-sdk-mini-wechat.es.js',
+            file: '../dist/web/ab-test-sdk-web.es.js',
             format: 'es',
             inlineDynamicImports:true,
             name: 'ab-test-sdk-mini-wechat',
         },
         {
-            file: '../dist/mini-wechat/ab-test-sdk-mini-wechat.cjs.js',
+            file: '../dist/web/ab-test-sdk-web.cjs.js',
             format: 'cjs',
             inlineDynamicImports:true,
             name: 'ab-test-sdk-mini-wechat',
@@ -44,6 +45,7 @@ const buildConfig =  [
 
 // 打包处理
 export const buildPackages = (dirname, name) => {
+    console.log('process.env.CURRENT_ENV +++++++++++++++++++++',process.env.CURRENT_ENV)
     const build = async () =>{
         const bundle = await rollup(config)
         return Promise.all(
