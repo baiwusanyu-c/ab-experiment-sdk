@@ -7,15 +7,11 @@ import './index.css'
 cbdABTest('init', {
   appKey: 'CBD_WX_MP', // 替换成您的appKey
   log: true, // 是否打印log
-  userId:'GACo74wkDIkDzEhkwRwgjGt1pqlk'
-
+  // userId:'GACo74wkDIkDzEhkwRwgjGt1pqlk',
+  userId:'GACo74wkDIkDzEhkwRwgjGz1123',
 })
-async function startSDK(){
-  const sdk:any = await cbdABTest('start')
-  debugger
-}
-startSDK()
 
+await cbdABTest('start')
 
 /*cbdABTest('init', {
   appKey: 'CBD_WX_MP', // 替换成您的appKey
