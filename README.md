@@ -1,6 +1,6 @@
 
 <h1 align="center">AB-TEST-SDK</h1>
-<h3 align="center">茶百道 AB-TEST 前端SDK，支持微信小程序、抖音小程序、h5、web</h3>
+<h3 align="center"> AB-TEST 前端SDK，支持微信小程序、抖音小程序、h5、web</h3>
 
 ## 前端运行指令
 
