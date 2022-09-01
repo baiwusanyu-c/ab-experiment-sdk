@@ -1,6 +1,15 @@
-import {cbdABTest, mergeConfig, sdk, shuntAlgorithm, abTestShunt, abTestGrouping} from "../core";
+import {
+    cbdABTest,
+    mergeConfig,
+    sdk,
+    shuntAlgorithm,
+    abTestShunt,
+    abTestGrouping,
+    autoRefresh,
+    getExperimentConfig
+} from "../core";
 import defaultConfig from '../config'
-import {IConfigMiniWechat, IExpConfig, IOption} from "@ab-test-sdk/utils";
+import {IConfigMiniWechat} from "@ab-test-sdk/utils";
 
 const expConfigObj = [
     {
@@ -80,6 +89,27 @@ describe('test-mini-wechat--core.ts', () => {
         expect(callFn).toBeCalled()
     })
 
+    test('cbdABTest can refresh', () => {
+        jest.useFakeTimers();
+        const callFn = jest.fn()
+        const ctx = {
+            configOption:{
+                autoRefreshStep:100
+            },
+            timer:0,
+            refresh:callFn
+        }
+        autoRefresh(ctx as any)
+        jest.advanceTimersByTime(1000)
+        expect(callFn).toBeCalled()
+    })
+
+    test('cbdABTest getExperimentConfig', async () => {
+        const res = await getExperimentConfig(123,{log:false} as any)
+        expect(res).toBe(undefined)
+
+    })
+
     test('cbdABTest can return sdk instance', () => {
         const reSDK =  cbdABTest('resetInstance')
         expect(reSDK === sdk).toBeTruthy()
@@ -140,6 +170,23 @@ describe('test-mini-wechat--core.ts', () => {
             appKey: 123456
         } as any, defaultConfig)
         expect(mergeRes.appKey).toBe(123456)
+    })
+
+    test('sdk instance not init',async () =>{
+        const startSDK:any  = await cbdABTest('start')
+        expect(startSDK).toBe(undefined)
+        cbdABTest('getVar','1','defaultVersion',(data:any)=>{
+            expect(data.res).toBe(undefined)
+        })
+        cbdABTest('config', {
+            appKey: 'CBD_DY_MP',
+            userId: 'GACo74wkDIkDzEhkwRwgjGt1pqlk--Change'
+        },(data:any)=>{
+            expect(data.res).toBe(undefined)
+        })
+        cbdABTest('refresh',(data:any)=>{
+            expect(data.res).toBe(undefined)
+        })
     })
 
     test('sdk instance function ———— init', () => {
@@ -245,6 +292,20 @@ describe('test-mini-wechat--core.ts', () => {
         }
         const refreshChangeSDK = await cbdABTest('refresh')
         expect(initExpId !== (refreshChangeSDK as {expConfig:Array<any>}).expConfig[0].experimentId).toBeTruthy()
+    })
+
+    test('sdk instance function ———— resetInstance', async () => {
+        const initReSDK:any = cbdABTest('init', {
+            appKey: 'CBD_WX_MP',
+            userId: 'GACo74wkDIkDzEhkwRwgjGt1pqlk'
+        },getExpConfig)
+        console.log(initReSDK.configOption.appKey)
+        expect(initReSDK.configOption.appKey).toBe('CBD_WX_MP')
+        initReSDK.timer = 1
+        cbdABTest('resetInstance')
+        expect(initReSDK.configOption.appKey).toBe(undefined)
+        expect(initReSDK.timer).toBe(0)
+
     })
 
 })

@@ -30,6 +30,7 @@ export const sdk = {
    */
   async start(cb: Function) {
     if (!this.isInit) {
+      cb && cb()
       this.log && log('sdk not initialized')
       return
     }
@@ -69,6 +70,7 @@ export const sdk = {
    */
   getVar(expId: string, defaultVal: string, cb: Function) {
     if (!this.isInit) {
+      cb && cb({ res: undefined, msg: 'sdk not initialized' })
       this.log && log('sdk not initialized')
       return
     }
@@ -97,8 +99,9 @@ export const sdk = {
    * 修改config,在自动模式开启时会自动生效，否则需要手动start
    * （完成）
    */
-  config(nConfig: IConfigMiniWechat) {
+  config(nConfig: IConfigMiniWechat,cb:Function) {
     if (!this.isInit) {
+      cb && cb({ res: undefined, msg: 'sdk not initialized' })
       this.log && log('sdk not initialized')
       return
     }
@@ -112,6 +115,7 @@ export const sdk = {
    */
   async refresh(cb?: Function) {
     if (!this.isInit) {
+      cb && cb({ res: undefined, msg: 'sdk not initialized' })
       this.log && log('sdk not initialized')
       return
     }
@@ -142,13 +146,13 @@ export const sdk = {
    * 触发自定义事件
    * (预留，现阶段不需要)
    */
-  triggerEvt() {
+  /*triggerEvt() {
     if (!this.isInit) {
       this.log && log('sdk not initialized')
       return
     }
     this.log && log('triggerEvt')
-  },
+  },*/
 }
 
 /**
