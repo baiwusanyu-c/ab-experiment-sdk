@@ -10,6 +10,7 @@ export interface IConfig extends IOption {
   customConfig: IOption
   autoRefresh: boolean
   autoRefreshStep: number
+  userId?: string
 }
 export interface IConfigMiniWechat extends IConfig {
   clear_ab_cache_on_user_change?: boolean
@@ -30,4 +31,19 @@ export interface ISysInfo {
   screen_height: number
   screen_width: number
   width: number
+}
+
+export interface IVersionConfig {
+  versionId: number
+  versionTrafficWeight: number
+  whitelist: string
+  versionParam: IOption
+}
+export interface IExpConfig {
+  experimentId: number
+  experimentKey: string
+  experimentTrafficWeight: number
+  versions: Array<IVersionConfig>
+  hashVal?: number
+  isEntry?: boolean
 }

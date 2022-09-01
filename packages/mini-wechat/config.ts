@@ -10,6 +10,7 @@ const config: IConfigMiniWechat = {
   customConfig: {},
   autoRefresh: false,
   autoRefreshStep: 0,
+  userId: '',
 }
 /**
  * 设置配置对象

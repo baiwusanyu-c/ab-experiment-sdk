@@ -18,7 +18,7 @@ const request = async (
   // 请求拦截
   const { reqUrl, headers } = interceptorsRequest(url, config)
   // 发送请求
-  const promise = await sendRequest(reqUrl, headers, config)
+  const promise = await sendRequest(reqUrl, headers as Headers, config)
   // 处理请求结果(响应拦截)
   return interceptorsResponse(promise, handleRes)
 }
@@ -27,7 +27,7 @@ const request = async (
  * 发送请求
  */
 function sendRequest(url: string, headers: Headers, config: IReqConfig) {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     // @ts-ignore
     wx.request({
       url,
@@ -37,9 +37,14 @@ function sendRequest(url: string, headers: Headers, config: IReqConfig) {
         ...headers,
       },
       success: (res: any) => {
-        resolve(res)
+        if (res.statusCode === 200) {
+          resolve(res.data)
+        } else {
+          reject(res)
+        }
       },
       fail: (err: Error) => {
+        reject(err)
         log(err.message)
       },
     })

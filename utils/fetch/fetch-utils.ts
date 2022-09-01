@@ -1,3 +1,5 @@
+import { ENV } from '../env-config'
+
 export enum ContentType {
   json = 'application/json;charset=UTF-8',
 }
@@ -27,7 +29,7 @@ export interface IHeader {
 export function interceptorsRequest(url: string, config: IReqConfig) {
   const contentType: string = setContentType(config)
   const reqUrl = setRequestUrl(url)
-  const headers: Headers = setHeader(contentType, config)
+  const headers = setHeader(contentType, config)
   return {
     contentType,
     reqUrl,
@@ -53,19 +55,27 @@ const setContentType = (config?: IReqConfig): string => {
  * @param url
  */
 const setRequestUrl = (url: string): string => {
-  return url.replace('//', '/')
+  return `http://47.96.100.195/api/${url.replace('//', '/')}`
 }
 /**
  * 设置请求头
  * @param contentType
  * @param config
  */
-const setHeader = (contentType: string, config?: IReqConfig): Headers => {
+const setHeader = (contentType: string, config?: IReqConfig) => {
   const token = !config || config.token === undefined ? '' : config.token
-  return new Headers({
-    token,
-    'Content-Type': contentType,
-  } as IHeader)
+  const currentEnv = process.env.CURRENT_ENV
+  if (currentEnv === ENV.MINI_WECHAT) {
+    return {
+      token,
+      'Content-Type': contentType,
+    }
+  } else {
+    return new Headers({
+      token,
+      'Content-Type': contentType,
+    } as IHeader)
+  }
 }
 
 /**
