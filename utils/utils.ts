@@ -116,6 +116,7 @@ export const getSysInfo = () => {
   }
 }
 */
+
 export const extend = (objFir: any, objSec: any) => {
   return Object.assign({}, objFir, objSec)
 }
