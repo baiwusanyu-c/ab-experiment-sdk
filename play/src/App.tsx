@@ -2,7 +2,7 @@
 import {useEffect, useState} from 'react'
 import reactLogo from './assets/react.svg'
 // @ts-ignore
-import { cbdABTest} from '../../dist/web/ab-test-sdk-web.es'
+import {ABTest} from '../../dist/web/ab-test-sdk-web.es'
 import './App.css'
 
 function App() {
@@ -10,12 +10,14 @@ function App() {
   const [isEntryVersion, setVersion] = useState(false)
     useEffect(()=>{
         async function getVarFunc(){
-            await cbdABTest('getVar','1','defaultVersion',(data:any)=>{
+            // 方法名，实验id，兜底参数
+            await ABTest('getVar','24','defaultVersion',(data:any)=>{
                 console.log(data)
                 setVersion((version)=> version = data.res.isEntryVersion)
             })
         }
         getVarFunc()
+
     },[])
 
   return (
