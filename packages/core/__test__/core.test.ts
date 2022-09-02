@@ -1,15 +1,10 @@
 import {
     cbdABTest,
-    mergeConfig,
     sdk,
-    shuntAlgorithm,
-    abTestShunt,
-    abTestGrouping,
     autoRefresh,
     getExperimentConfig
 } from "../core";
-import defaultConfig from '../config'
-import {IConfigMiniWechat} from "@ab-test-sdk/utils";
+import {IConfigMiniWechat, setRequestInst} from '@ab-test-sdk/utils'
 
 const expConfigObj = [
     {
@@ -68,7 +63,7 @@ const expConfigObjChange = [
 const getExpConfig = () => {
     return expConfigObj
 }
-describe('test-mini-wechat--core.ts', () => {
+describe('core--core.ts', () => {
 
     test('cbdABTest can call sdk instance function', () => {
         const sdkInst = cbdABTest('resetInstance') as typeof sdk
@@ -105,6 +100,7 @@ describe('test-mini-wechat--core.ts', () => {
     })
 
     test('cbdABTest getExperimentConfig', async () => {
+        setRequestInst(import('../../../utils/fetch/fetch-web'))
         const res = await getExperimentConfig(123,{log:false} as any)
         expect(res).toBe(undefined)
 
@@ -113,63 +109,6 @@ describe('test-mini-wechat--core.ts', () => {
     test('cbdABTest can return sdk instance', () => {
         const reSDK =  cbdABTest('resetInstance')
         expect(reSDK === sdk).toBeTruthy()
-    })
-
-    test('shunt algorithm', () => {
-        const shuntResFalse = shuntAlgorithm('GACo74wkDIkDzEhkwRwgjGt1pqlk', 5.6)
-        expect(!shuntResFalse.isEntry).toBeTruthy()
-        expect(shuntResFalse.hashVal).toBe(91)
-        const shuntResTrue = shuntAlgorithm('GACo74wkDIkDzEhkwRwgjGz1123', 5.6)
-        expect(shuntResTrue.isEntry).toBeTruthy()
-        expect(shuntResTrue.hashVal).toBe(2.2)
-    })
-
-    test('ab test shunt', () => {
-        const ctx = {
-            expConfig: expConfigObj,
-            configOption: {
-                userId: 'GACo74wkDIkDzEhkwRwgjGt1pqlk',
-            } as IConfigMiniWechat
-        }
-        const shuntResArrFalse = abTestShunt(ctx as any)
-        expect(shuntResArrFalse[expConfigObj[0].experimentId].experimentId).toBe(expConfigObj[0].experimentId)
-        expect(shuntResArrFalse[expConfigObj[0].experimentId].isEntry).not.toBeTruthy()
-        expect(shuntResArrFalse[expConfigObj[0].experimentId].hashVal).toBe(91)
-        ctx.configOption.userId = 'GACo74wkDIkDzEhkwRwgjGz1123'
-        const shuntResArrTrue = abTestShunt(ctx as any)
-        expect(shuntResArrTrue[expConfigObj[0].experimentId].experimentId).toBe(expConfigObj[0].experimentId)
-        expect(shuntResArrTrue[expConfigObj[0].experimentId].isEntry).toBeTruthy()
-        expect(shuntResArrTrue[expConfigObj[0].experimentId].hashVal).toBe(2.2)
-    })
-
-    test('ab test grouping', () => {
-        const ctx = {
-            configOption: {
-                userId: 'GACo74wkDIkDzEhkwRwgjGz1123',
-            } as IConfigMiniWechat
-        }
-        const shuntRes = {
-            '1': {
-                experimentId: 1,
-                experimentKey: 'MP_INDEX',
-                experimentTrafficWeight: 5.6,
-                versions: expConfigObj[0].versions,
-                isEntry: false,
-                hashVal: 2.2
-
-            }
-        }
-        const groupRes = abTestGrouping(ctx as any, shuntRes['1'])
-        expect(groupRes.res.isEntryVersion).toBe(true)
-        expect(groupRes.msg).toBe('group successfully')
-    })
-
-    test('merge config', () => {
-        expect(defaultConfig.appKey).toBe(undefined)
-        const mergeRes = mergeConfig({
-            appKey: 123456
-        } as any, defaultConfig)
-        expect(mergeRes.appKey).toBe(123456)
     })
 
     test('sdk instance not init',async () =>{

@@ -1,3 +1,4 @@
+import { extend } from '@ab-test-sdk/utils'
 import type { IConfigMiniWechat } from '@ab-test-sdk/utils'
 
 const config: IConfigMiniWechat = {
@@ -23,6 +24,17 @@ export const setConfig = function (key: string, val: keyof IConfigMiniWechat) {
   } else {
     config.customConfig[key] = val
   }
+}
+
+/**
+ * 合并配置
+ * @param config
+ * @param defaultConfigs
+ * （单测完成）
+ * （完成）
+ */
+export const mergeConfig = (config: IConfigMiniWechat, defaultConfigs = config) => {
+  return extend(defaultConfigs, config)
 }
 
 export default config
