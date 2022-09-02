@@ -1,7 +1,7 @@
 import { experimentConfig, isFunction, log } from '@ab-test-sdk/utils'
 import defaultConfig, { mergeConfig } from './config'
+import { abTestGrouping, abTestShunt } from './shunt-group'
 import type { IConfigMiniWechat, IExpConfig, IOption } from '@ab-test-sdk/utils'
-import {abTestGrouping, abTestShunt} from "./shunt-group";
 
 export const sdk = {
   configOption: {} as IConfigMiniWechat, // sdk配置

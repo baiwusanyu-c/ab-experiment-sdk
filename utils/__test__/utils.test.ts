@@ -5,7 +5,7 @@ describe('test-utils.ts', () => {
     expect(isBool(false)).toBeTruthy()
     expect(isBool(1)).not.toBeTruthy()
     expect(isBool('1')).not.toBeTruthy()
-    expect(isBool(() => {})).not.toBeTruthy()
+    expect(isBool(() => jest.fn)).not.toBeTruthy()
     expect(isBool({})).not.toBeTruthy()
   })
 
@@ -13,7 +13,7 @@ describe('test-utils.ts', () => {
     expect(isString(false)).not.toBeTruthy()
     expect(isString(1)).not.toBeTruthy()
     expect(isString('1')).toBeTruthy()
-    expect(isString(() => {})).not.toBeTruthy()
+    expect(isString(() => jest.fn)).not.toBeTruthy()
     expect(isString({})).not.toBeTruthy()
   })
 
@@ -21,7 +21,7 @@ describe('test-utils.ts', () => {
     expect(isNumber(false)).not.toBeTruthy()
     expect(isNumber(1)).toBeTruthy()
     expect(isNumber('1')).not.toBeTruthy()
-    expect(isNumber(() => {})).not.toBeTruthy()
+    expect(isNumber(() => jest.fn)).not.toBeTruthy()
     expect(isNumber({})).not.toBeTruthy()
   })
 
@@ -29,9 +29,9 @@ describe('test-utils.ts', () => {
     expect(isFunction(false)).not.toBeTruthy()
     expect(isFunction(1)).not.toBeTruthy()
     expect(isFunction('1')).not.toBeTruthy()
-    expect(isFunction(() => {})).toBeTruthy()
+    expect(isFunction(() => jest.fn)).toBeTruthy()
     expect(isFunction({})).not.toBeTruthy()
-    expect(isFunction(async () => {})).toBeTruthy()
+    expect(isFunction(async () => jest.fn)).toBeTruthy()
   })
 
   test('isEmptyObj', () => {
@@ -40,7 +40,7 @@ describe('test-utils.ts', () => {
     expect(isEmptyObj('1')).not.toBeTruthy()
     expect(isEmptyObj({ s: 1 })).not.toBeTruthy()
     expect(isEmptyObj({})).toBeTruthy()
-    expect(isEmptyObj(() => {})).not.toBeTruthy()
+    expect(isEmptyObj(() => jest.fn)).not.toBeTruthy()
   })
 
   test('extend', () => {

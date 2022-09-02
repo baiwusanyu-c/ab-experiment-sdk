@@ -1,11 +1,9 @@
-
 let requestInst: any = null
 
-export const setRequestInst = async (reqScript:any) => {
+export const setRequestInst = async (reqScript: any) => {
   requestInst = reqScript
   return requestInst
 }
-
 
 function req(url: string, params: any = {}) {
   return new Promise(resolve => {
