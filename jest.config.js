@@ -13,7 +13,13 @@ module.exports = {
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
   testEnvironment: 'jsdom',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
-  collectCoverageFrom: ['packages/**/*.ts','utils/**/*.ts','!utils/fetch-api.ts','!utils/fetch/*.ts','!packages/**/index.ts'],
+  collectCoverageFrom: [
+      'packages/**/*.ts',
+      'utils/**/*.ts',
+      '!utils/fetch-api.ts',
+      '!utils/fetch/*.ts',
+      '!packages/**/index.ts'
+  ],
   // u can change this option to a more specific folder for test single component or util when dev
   // for example, ['<rootDir>/packages/input']
 

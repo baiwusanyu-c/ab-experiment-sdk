@@ -9,7 +9,7 @@ import cleanup from 'rollup-plugin-cleanup'
 import replace from 'rollup-plugin-replace'
 import { terser } from 'rollup-plugin-terser'
 const config = {
-    input: '../packages/mini-wechat/index.ts', // 必须，入口文件
+    input: '../packages/web/index.ts', // 必须，入口文件
     plugins: [
         // 引入的插件在这里配置
         resolve(),

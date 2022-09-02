@@ -5,6 +5,7 @@ importers:
   .:
     specifiers:
       '@ab-test-sdk/build': workspace:^1.0.0
+      '@ab-test-sdk/core': workspace:^1.0.0
       '@ab-test-sdk/play': workspace:^1.0.0
       '@ab-test-sdk/utils': workspace:^1.0.0
       '@ab-test-sdk/web': workspace:^1.0.0
@@ -58,6 +59,7 @@ importers:
       yaml-eslint-parser: ^0.5.0
     devDependencies:
       '@ab-test-sdk/build': link:build-script
+      '@ab-test-sdk/core': link:packages/core
       '@ab-test-sdk/play': link:play
       '@ab-test-sdk/utils': link:utils
       '@ab-test-sdk/web': link:packages/web

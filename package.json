@@ -28,6 +28,7 @@
     "@ab-test-sdk/utils": "workspace:^1.0.0",
     "@ab-test-sdk/web": "workspace:^1.0.0",
     "@ab-test-sdk/wechat": "workspace:^1.0.0",
+    "@ab-test-sdk/core": "workspace:^1.0.0",
     "@antfu/eslint-config": "^0.25.2",
     "@babel/preset-env": "^7.18.10",
     "@babel/preset-typescript": "^7.16.0",
