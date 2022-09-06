@@ -1,6 +1,6 @@
 
 // @ts-ignore
-import { ABTest } from '../../dist/web/ab-test-sdk-web.esm'
+import { ABTest } from '../../dist/web/esm/ab-test-sdk-web.esm'
 
 const callABTest = async (length:number) =>{
     return new Promise(async (resolve, reject) => {

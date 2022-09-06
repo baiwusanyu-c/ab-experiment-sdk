@@ -21,20 +21,21 @@ const config = {
             exclude: '**/node_modules/**',
         }),
         commonjs(),
-        terser(),
         cleanup({ comments: 'none' }),
     ],
 }
+process.env.CURRENT_DEV_ENV !== 'dev' && config.plugins.push(terser())
+
 const buildConfig =  [
 
         {
-            file: '../dist/mini-wechat/ab-test-sdk-mini-wechat.esm.js',
+            file: '../dist/mini-wechat/esm/ab-test-sdk-mini-wechat.esm.js',
             format: 'es',
             inlineDynamicImports:true,
             name: 'ab-test-sdk-mini-wechat',
         },
         {
-            file: '../dist/mini-wechat/ab-test-sdk-mini-wechat.cjs.js',
+            file: '../dist/mini-wechat/cjs/ab-test-sdk-mini-wechat.cjs.js',
             format: 'cjs',
             inlineDynamicImports:true,
             name: 'ab-test-sdk-mini-wechat',
