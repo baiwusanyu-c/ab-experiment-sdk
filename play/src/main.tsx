@@ -1,9 +1,10 @@
 import React from 'react'
-// @ts-ignore
-import { ABTest } from '../../dist/web/ab-test-sdk-web.es'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.css'
+
+// @ts-ignore
+/*import { ABTest } from '../../dist/web/ab-test-sdk-web.esm'
 ABTest('init', {
   appKey: 'SDK_TEST_WB_APP', // 替换成您的appKey
   log: true, // 是否打印log
@@ -11,8 +12,8 @@ ABTest('init', {
   //userId:'GACo74wkDIkDzEhkwRwgjGz1123',
 })
 
-await ABTest('start')
+await ABTest('start')*/
 
-
+import './main-process.test'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(<App />)

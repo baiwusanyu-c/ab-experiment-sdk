@@ -21,14 +21,14 @@ const config = {
             exclude: '**/node_modules/**',
         }),
         commonjs(),
-        //terser(),
+        terser(),
         cleanup({ comments: 'none' }),
     ],
 }
 const buildConfig =  [
 
         {
-            file: '../dist/mini-wechat/ab-test-sdk-mini-wechat.es.js',
+            file: '../dist/mini-wechat/ab-test-sdk-mini-wechat.esm.js',
             format: 'es',
             inlineDynamicImports:true,
             name: 'ab-test-sdk-mini-wechat',

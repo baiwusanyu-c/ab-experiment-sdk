@@ -9,5 +9,5 @@ commitlint.config.js
 /**/*.d.ts
 build-script
 play
-play-mini-wechat
+play-miniwechat
 dist

@@ -53,3 +53,6 @@ pnpm run clean
 ### packages
 
 目录下根据各个平台存放了对应的SDK实现逻辑代码
+
+
+TODO: 文件变动监听，自动打包并移动到play，同时开发环境下 不压缩

@@ -11,7 +11,7 @@ function req(url: string, params: any = {}) {
       reqFn
         .default(url, { params }, false)
         .then((res: any) => {
-          if (res && res.code === 200) {
+          if (res && res.code === 200 && res.data && res.data.length > 0) {
             resolve(res.data)
           } else {
             resolve(undefined)

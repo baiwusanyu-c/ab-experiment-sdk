@@ -1,22 +1,21 @@
 
 import {useEffect, useState} from 'react'
 import reactLogo from './assets/react.svg'
-// @ts-ignore
-import {ABTest} from '../../dist/web/ab-test-sdk-web.es'
 import './App.css'
-
+// @ts-ignore
+// import {ABTest} from '../../dist/web/ab-test-sdk-web.esm'
 function App() {
   const [count, setCount] = useState(0)
   const [isEntryVersion, setVersion] = useState(false)
     useEffect(()=>{
-        async function getVarFunc(){
+       /* async function getVarFunc(){
             // 方法名，实验id，兜底参数
             await ABTest('getVar','24','defaultVersion',(data:any)=>{
                 console.log(data)
                 setVersion((version)=> version = data.res.isEntryVersion)
             })
         }
-        getVarFunc()
+        getVarFunc()*/
 
     },[])
 

@@ -4,8 +4,7 @@
  * @update (czh 2022/7/22)
  */
 // 打包方式：串行(series)  并行(parallel)
-import path from 'path'
-import { dest, series, src } from 'gulp'
+import { series } from 'gulp'
 import { run, withTaskName } from './utils.js'
 
 export default series(
