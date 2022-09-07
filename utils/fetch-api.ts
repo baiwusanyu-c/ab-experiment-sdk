@@ -20,7 +20,7 @@ function req(url: string, params: any = {}) {
         })
         .catch((err: Error) => {
           resolve(undefined)
-          console.error('Request error:', err)
+          console.warn('Request error:', err)
         })
     })
   })

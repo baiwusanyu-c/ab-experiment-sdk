@@ -14,6 +14,6 @@ ABTest('init', {
 
 await ABTest('start')*/
 
-import './main-process.test'
+import './main-process-test'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(<App />)
