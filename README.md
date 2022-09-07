@@ -12,6 +12,12 @@ git clone https://XXXX.XXXX.XXXX.XXXX
 # 项目根目录安装依赖
 pnpm i 或运行 pnpm run init
 
+# 启动一个监听，监听core和web目录，文件变动后会自动打包到对应play
+pnpm run dev:web
+
+# 启动一个监听，监听core和mini-wechat目录，文件变动后会自动打包到对应play
+pnpm run dev:wechat
+
 # 启动一个react项目，用于调试打包后的sdk
 pnpm run play:web
 
