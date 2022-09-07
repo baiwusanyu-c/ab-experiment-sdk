@@ -116,6 +116,7 @@ export const getSysInfo = () => {
   }
 }
 */
+
 export const extend = (objFir: any, objSec: any) => {
   return Object.assign({}, objFir, objSec)
 }
@@ -138,3 +139,38 @@ export const isFunction = (val: unknown) =>
 
 // 判断是否为空对象
 export const isEmptyObj = (val: unknown) => JSON.stringify(val) === '{}'
+
+const nativeIsArray = Array.isArray
+export function isObject(obj: unknown) {
+  if (obj === undefined || obj === null) {
+    return false
+  } else {
+    return toString.call(obj) == '[object Object]'
+  }
+}
+export const isArray =
+  nativeIsArray ||
+  function (obj: unknown) {
+    return toString.call(obj) === '[object Array]'
+  }
+
+export function deepCopy(obj: unknown) {
+  const temp = {}
+
+  function deepClone(target: any, source: any) {
+    for (const k in source) {
+      const item = source[k]
+      if (isArray(item)) {
+        target[k] = []
+        deepClone(target[k], item)
+      } else if (isObject(item)) {
+        target[k] = {}
+        deepClone(target[k], item)
+      } else {
+        target[k] = item
+      }
+    }
+  }
+  deepClone(temp, obj)
+  return temp
+}

@@ -9,7 +9,7 @@ import cleanup from 'rollup-plugin-cleanup'
 import replace from 'rollup-plugin-replace'
 import { terser } from 'rollup-plugin-terser'
 const config = {
-    input: '../packages/mini-wechat/index.ts', // 必须，入口文件
+    input: '../packages/web/index.ts', // 必须，入口文件
     plugins: [
         // 引入的插件在这里配置
         resolve(),
@@ -22,20 +22,20 @@ const config = {
             exclude: '**/node_modules/**',
         }),
         commonjs(),
-        //terser(),
         cleanup({ comments: 'none' }),
     ],
 }
+process.env.CURRENT_DEV_ENV !== 'dev' && config.plugins.push(terser())
 const buildConfig =  [
 
         {
-            file: '../dist/web/ab-test-sdk-web.es.js',
+            file: '../dist/web/esm/ab-test-sdk-web.esm.js',
             format: 'es',
             inlineDynamicImports:true,
             name: 'ab-test-sdk-mini-wechat',
         },
         {
-            file: '../dist/web/ab-test-sdk-web.cjs.js',
+            file: '../dist/web/cjs/ab-test-sdk-web.cjs.js',
             format: 'cjs',
             inlineDynamicImports:true,
             name: 'ab-test-sdk-mini-wechat',
@@ -45,7 +45,6 @@ const buildConfig =  [
 
 // 打包处理
 export const buildPackages = (dirname, name) => {
-    console.log('process.env.CURRENT_ENV +++++++++++++++++++++',process.env.CURRENT_ENV)
     const build = async () =>{
         const bundle = await rollup(config)
         return Promise.all(
