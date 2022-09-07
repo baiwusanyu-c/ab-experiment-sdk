@@ -178,7 +178,9 @@ export function cbdABTest(nameKey: INameKey | string, ...arg: any[]): any {
   // sdkKey 存在值 则是多个实例的情况
   if (sdkKey) {
     if (!sdkInstMap.get(sdkKey) && funcName === 'init') {
+      const resSDK = sdkFuncCall(funcName, sdk, ...arg)
       sdkInstMap.set(sdkKey, deepCopy(sdk))
+      return resSDK
     }
     if (!sdkInstMap.get(sdkKey) && funcName !== 'init') {
       return {
