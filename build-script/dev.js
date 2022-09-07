@@ -26,7 +26,7 @@ const watcher = chokidar.watch(watchPath, {
 
         console.log('update file change ......')
         await run('pnpm run --filter @ab-test-sdk/build --parallel build:wechat')
-        const distPath = '../dist/mini-wechat/cjs'
+        const distPath = '../dist/mini-wechat/esm'
         const playPath = '../play-miniwechat'
         await copyToDir(distPath,playPath)
     }
