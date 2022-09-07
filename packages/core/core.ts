@@ -1,7 +1,7 @@
-import { experimentConfig, isFunction, log } from '@ab-test-sdk/utils'
+import { deepCopy, experimentConfig, isFunction, isString, log } from '@ab-test-sdk/utils'
 import defaultConfig, { mergeConfig } from './config'
 import { abTestGrouping, abTestShunt } from './shunt-group'
-import type { IConfigMiniWechat, IExpConfig, IOption } from '@ab-test-sdk/utils'
+import type { IConfigMiniWechat, IExpConfig, INameKey, IOption } from '@ab-test-sdk/utils'
 
 export const sdk = {
   configOption: {} as IConfigMiniWechat, // sdk配置
@@ -158,22 +158,58 @@ export const sdk = {
 
 /**
  * 导出的api入口
- * @param funcName
+ * @param nameKey
  * @param arg
  * （单测完成）
  * （完成）
  */
-export const cbdABTest = (funcName: string, ...arg: any[]) => {
+const sdkInstMap = new Map()
+export function cbdABTest(nameKey: string, ...arg: any[]): any
+export function cbdABTest(nameKey: INameKey | string, ...arg: any[]): any {
+  let funcName = ''
+  let sdkKey: string | undefined = ''
+  // 重载逻辑处理，根据情况赋值
+  if (isString(nameKey)) {
+    funcName = nameKey as string
+  } else {
+    funcName = (nameKey as INameKey).funcName
+    sdkKey = (nameKey as INameKey).sdkKey
+  }
+  // sdkKey 存在值 则是多个实例的情况
+  if (sdkKey) {
+    if (!sdkInstMap.get(sdkKey) && funcName === 'init') {
+      sdkInstMap.set(sdkKey, deepCopy(sdk))
+    }
+    if (!sdkInstMap.get(sdkKey) && funcName !== 'init') {
+      return {
+        res: { expConfig: {}, shuntRes: {}, sdk: sdkInstMap.get(sdkKey) },
+        msg: 'sdkKey does not exist',
+      }
+    }
+    return sdkFuncCall(funcName, sdkInstMap.get(sdkKey), ...arg)
+  } else {
+    return sdkFuncCall(funcName, sdk, ...arg)
+  }
+}
+
+/**
+ * sdk 方法调用
+ * @param funcName 方法名
+ * @param sdkInst sdk实例对象
+ * @param arg 参数
+ */
+const sdkFuncCall = (funcName: string, sdkInst: typeof sdk, ...arg: any[]) => {
   if (funcName === 'start' || funcName === 'refresh') {
     return new Promise(resolve => {
-      ;(sdk[funcName as keyof typeof sdk] as Function)(resolve, ...arg)
+      ;(sdkInst[funcName as keyof typeof sdk] as Function).call(sdkInst, resolve, ...arg)
     })
   }
-  if (sdk[funcName as keyof typeof sdk] && isFunction(sdk[funcName as keyof typeof sdk])) {
-    ;(sdk[funcName as keyof typeof sdk] as Function)(...arg)
+  if (sdkInst[funcName as keyof typeof sdk] && isFunction(sdkInst[funcName as keyof typeof sdk])) {
+    ;(sdkInst[funcName as keyof typeof sdk] as Function).call(sdkInst, ...arg)
   }
-  return sdk
+  return sdkInst
 }
+
 /**
  * 获取实验配置
  * @param appKey

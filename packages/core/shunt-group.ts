@@ -50,7 +50,8 @@ export const abTestGrouping = (ctx: typeof sdk, expShuntRes: IOption) => {
     // 小于版本权重 且不在白名单内
     if (
       versionWeight < totalWeight &&
-      expShuntResVal.versions[i].whitelist.indexOf(ctx.configOption.userId!) < 0
+      (!expShuntResVal.versions[i].whitelist ||
+        expShuntResVal.versions[i].whitelist.indexOf(ctx.configOption.userId!) < 0)
     ) {
       res.res = {
         isEntryVersion: true,

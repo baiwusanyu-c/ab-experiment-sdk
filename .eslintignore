@@ -11,3 +11,4 @@ build-script
 play
 play-miniwechat
 dist
+coverage

@@ -15,7 +15,7 @@ function req(url: string, params: any = {}) {
             resolve(res.data)
           } else {
             resolve(undefined)
-            console.error(res.msg)
+            console.warn(res.msg)
           }
         })
         .catch((err: Error) => {

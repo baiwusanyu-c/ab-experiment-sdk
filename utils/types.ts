@@ -47,3 +47,8 @@ export interface IExpConfig {
   hashVal?: number
   isEntry?: boolean
 }
+
+export interface INameKey {
+  funcName: string
+  sdkKey?: string
+}
