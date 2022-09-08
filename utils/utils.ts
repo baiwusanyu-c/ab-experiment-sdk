@@ -140,6 +140,10 @@ export const isFunction = (val: unknown) =>
 // 判断是否为空对象
 export const isEmptyObj = (val: unknown) => JSON.stringify(val) === '{}'
 
+
+
+
+
 const nativeIsArray = Array.isArray
 export function isObject(obj: unknown) {
   if (obj === undefined || obj === null) {
