@@ -1,13 +1,14 @@
 import {
+  deepCopy,
   extend,
+  isArray,
   isBool,
   isEmptyObj,
   isFunction,
   isNumber,
-  isString,
-  isArray,
   isObject,
-  deepCopy } from '@ab-test-sdk/utils'
+  isString,
+} from '@ab-test-sdk/utils'
 
 describe('test-utils.ts', () => {
   test('isBool', () => {
@@ -83,19 +84,18 @@ describe('test-utils.ts', () => {
 
   test('deepCopy', () => {
     const obj = {
-      1:1,
-      2:'2',
-      3:true,
-      4:[],
-      5:{},
-      6:()=>jest.fn,
-      7:null,
-      8:undefined,
+      1: 1,
+      2: '2',
+      3: true,
+      4: [],
+      5: {},
+      6: () => jest.fn,
+      7: null,
+      8: undefined,
     }
     const obj2 = obj
     const obj3 = deepCopy(obj)
     expect(obj2 === obj).toBeTruthy()
     expect(obj3 !== obj).toBeTruthy()
-
   })
 })
