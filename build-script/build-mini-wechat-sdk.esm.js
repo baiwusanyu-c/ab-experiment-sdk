@@ -8,6 +8,7 @@ import { rollup } from 'rollup'
 import cleanup from 'rollup-plugin-cleanup'
 import { terser } from 'rollup-plugin-terser'
 import replace from 'rollup-plugin-replace'
+import dts from "rollup-plugin-dts";
 const config = {
     input: '../packages/mini-wechat/index.ts', // 必须，入口文件
     plugins: [
@@ -42,10 +43,21 @@ const buildConfig =  [
         },
 ]
 
+const typeConfig = {
+    input: '../packages/mini-wechat/index.ts', // 必须，入口文件
+    plugins: [resolve(),dts()],
+}
+const buildTypeConfig = [
+    {
+        file: '../dist/mini-wechat/types/ab-test-sdk-mini-wechat.d.ts',
+        format: 'es',
+    }
+]
 
 // 打包处理
 export const buildPackages = (dirname, name) => {
-    const build = async () =>{
+
+    const build = async (config,buildConfig) =>{
         const bundle = await rollup(config)
         return Promise.all(
             buildConfig.map(option => {
@@ -53,6 +65,6 @@ export const buildPackages = (dirname, name) => {
             })
         )
     }
-    return parallel(build)
+    return parallel(()=>build(config,buildConfig),()=>build(typeConfig,buildTypeConfig))
 }
 export default buildPackages()

@@ -120,13 +120,20 @@ export const sdk = {
       this.log && log('sdk not initialized')
       return
     }
-    // 获取实验参数，并缓存本地
+    // 获取实验参数
     this.expConfig = await this.getExpConfig(this.configOption.appKey!, this)
     if (!this.expConfig) return
 
     // 根据参数进行分流，并存储到sdk实例
     this.shuntRes = abTestShunt(this)
-    return cb && cb({ expConfig: this.expConfig, shuntRes: this.shuntRes, sdk: this })
+    this.log && log('shunt successfully')
+    return (
+        cb &&
+        cb({
+          res: { expConfig: this.expConfig, shuntRes: this.shuntRes, sdk: this },
+          msg: 'shunt successfully',
+        })
+    )
   },
   /**
    * 重置实例方法
@@ -164,6 +171,7 @@ export const sdk = {
  * （完成）
  */
 const sdkInstMap = new Map()
+export function cbdABTest(nameKey: INameKey, ...arg: any[]): any
 export function cbdABTest(nameKey: string, ...arg: any[]): any
 export function cbdABTest(nameKey: INameKey | string, ...arg: any[]): any {
   let funcName = ''

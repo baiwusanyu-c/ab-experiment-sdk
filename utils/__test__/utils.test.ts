@@ -1,4 +1,13 @@
-import { extend, isBool, isEmptyObj, isFunction, isNumber, isString } from '@ab-test-sdk/utils'
+import {
+  extend,
+  isBool,
+  isEmptyObj,
+  isFunction,
+  isNumber,
+  isString,
+  isArray,
+  isObject,
+  deepCopy } from '@ab-test-sdk/utils'
 
 describe('test-utils.ts', () => {
   test('isBool', () => {
@@ -48,5 +57,45 @@ describe('test-utils.ts', () => {
     const te = { b: 2 }
     expect(extend(foo, te).a === 1).toBeTruthy()
     expect(extend(foo, te).b === 2).toBeTruthy()
+  })
+
+  test('isObject', () => {
+    expect(isObject({})).toBeTruthy()
+    expect(isObject(null)).not.toBeTruthy()
+    expect(isObject(1)).not.toBeTruthy()
+    expect(isObject('null')).not.toBeTruthy()
+    expect(isObject(true)).not.toBeTruthy()
+    expect(isObject(undefined)).not.toBeTruthy()
+    expect(isObject(() => jest.fn)).not.toBeTruthy()
+    expect(isObject([])).not.toBeTruthy()
+  })
+
+  test('isArray', () => {
+    expect(isArray({})).not.toBeTruthy()
+    expect(isArray(null)).not.toBeTruthy()
+    expect(isArray(1)).not.toBeTruthy()
+    expect(isArray('null')).not.toBeTruthy()
+    expect(isArray(true)).not.toBeTruthy()
+    expect(isArray(undefined)).not.toBeTruthy()
+    expect(isArray(() => jest.fn)).not.toBeTruthy()
+    expect(isArray([])).toBeTruthy()
+  })
+
+  test('deepCopy', () => {
+    const obj = {
+      1:1,
+      2:'2',
+      3:true,
+      4:[],
+      5:{},
+      6:()=>jest.fn,
+      7:null,
+      8:undefined,
+    }
+    const obj2 = obj
+    const obj3 = deepCopy(obj)
+    expect(obj2 === obj).toBeTruthy()
+    expect(obj3 !== obj).toBeTruthy()
+
   })
 })
