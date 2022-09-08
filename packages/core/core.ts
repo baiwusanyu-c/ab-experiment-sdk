@@ -164,6 +164,7 @@ export const sdk = {
  * （完成）
  */
 const sdkInstMap = new Map()
+export function cbdABTest(nameKey: INameKey, ...arg: any[]): any
 export function cbdABTest(nameKey: string, ...arg: any[]): any
 export function cbdABTest(nameKey: INameKey | string, ...arg: any[]): any {
   let funcName = ''

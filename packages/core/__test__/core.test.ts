@@ -84,6 +84,33 @@ describe('core--core.ts', () => {
         expect(callFn).toBeCalled()
     })
 
+   /* test('cbdABTest can be threaded into the object to build multiple sdk instances', () => {
+        const sdkInst = cbdABTest('resetInstance') as typeof sdk
+
+        const sdkKey = `GACo74wkSCABTESTDIkDzEhkwRwgjGt1pqlklength`
+        cbdABTest({funcName:'init',sdkKey}, {
+            appKey: 'SC_TEST_APP', // 替换成您的appKey
+            log: false, // 是否打印log
+            userId:'GACo74wkDIkDzEhkwRwgjGt1pqlk',
+        })
+
+        const callFn = jest.fn(()=>{
+            sdkInst.configOption = {} as IConfigMiniWechat
+            sdkInst.log = false
+            sdkInst.expConfig = []
+            if(sdkInst.timer){
+                clearTimeout(sdkInst.timer)
+            }
+            sdkInst.timer = 0
+            sdkInst.isInit = false
+            sdkInst.shuntRes = {}
+            sdkInst.groupRes = {}
+        })
+        sdkInst.resetInstance = callFn
+        cbdABTest('resetInstance')
+        expect(callFn).toBeCalled()
+    })*/
+
     test('cbdABTest can refresh', () => {
         jest.useFakeTimers();
         const callFn = jest.fn()
@@ -139,6 +166,23 @@ describe('core--core.ts', () => {
         expect(reSDK.isInit).toBeTruthy()
         expect(reSDK.configOption.appKey).toBe('CBD_WX_MP')
         expect(reSDK.configOption.userId).toBe('GACo74wkDIkDzEhkwRwgjGt1pqlk')
+
+        cbdABTest('resetInstance')
+        const sdkKey = `GACo74wkSCABTESTDIkDzEhkwRwgjGt1pqlklength`
+        const reSDKInst = cbdABTest({funcName:'init',sdkKey}, {
+            appKey: 'SC_TEST_APP', // 替换成您的appKey
+            log: true, // 是否打印log
+            userId:'GACo74wkSCABTESTDIkDzEhkwRwgjGt1pqlklength',
+        })
+
+        expect(reSDKInst.log).toBeTruthy()
+        expect(reSDKInst.isInit).toBeTruthy()
+        expect(reSDKInst.configOption.appKey).toBe('SC_TEST_APP')
+        expect(reSDKInst.configOption.userId).toBe('GACo74wkSCABTESTDIkDzEhkwRwgjGt1pqlklength')
+
+        const startSDK = cbdABTest({funcName:'start',sdkKey:'wqdasdqwdwqd'})
+        expect(startSDK.msg).toBe('sdkKey does not exist')
+
     })
 
     test('sdk instance function ———— start', async () => {
