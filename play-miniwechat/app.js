@@ -1,5 +1,4 @@
 import gulpError from './utils/gulpError'
-import {testResult} from './main-process-test'
 const sensors = require('./sensorsdata.min.js');
 // 配置初始化参数
 sensors.setPara({
@@ -26,7 +25,7 @@ sensors.setPara({
 });
 
 sensors.init();
-console.log('%c sensors 初始化模拟完成...','color:#00ffff;font-size:25px')
+console.log('%c sensors 初始化模拟完成...','color:#30B08F;font-size:25px')
 
 // 如果需要使用 openid 作为匿名 ID，请单独获取 openid 之后调用 sensors.setOpenid() 方法
 /*wx.request({
@@ -45,8 +44,7 @@ console.log('%c sensors 初始化模拟完成...','color:#00ffff;font-size:25px'
 App({
   abtest:null,
   async onLaunch() {
-    this.abtest = await testResult(1000)
-    console.log('%c abtest 初始化模拟分流完成...','color:#00ffff;font-size:25px')
+
   },
   onShow() {
     if (gulpError !== 'gulpErrorPlaceHolder') {

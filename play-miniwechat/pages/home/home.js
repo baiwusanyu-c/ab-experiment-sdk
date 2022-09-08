@@ -1,57 +1,21 @@
-import list from './data/index'
+import {testResult} from '../../main-process-test'
+const app = getApp()
 Page({
   data: {
-    list,
+    progress:0
   },
-  onLoad(options) {
-    const { path, q } = options
-    console.log(path)
-    if (q) {
-      const str = this.getQueryByUrl(decodeURIComponent(q))
-      console.log(str, str.page)
-      wx.navigateTo({
-        url: `/pages/${str.page}/${str.page}`,
-      })
-    }
-  },
-  clickHandle(e) {
-    let { name, path = '' } = e.detail.item
-    if (!path) {
-      name = name.replace(/^[A-Z]/, match => `${match}`.toLocaleLowerCase())
-      name = name.replace(/[A-Z]/g, match => {
-        return `-${match.toLowerCase()}`
-      })
-      path = `/pages/${name}/${name}`
-    }
-    wx.navigateTo({
-      url: path,
-      fail: () => {
-        wx.navigateTo({
-          url: '/pages/home/navigateFail/navigateFail',
-        })
-      },
+  async onInitABTest(){
+    app.abtest = await testResult(1000)
+    const logArr = app.abtest.map(val=>{
+      return {userId: val.sdkKey}
     })
+    console.log(`%c 分流进入实验用户数：${logArr.length}`,'color:#4AB7BD;font-size:20px')
+    console.table(logArr)
+    console.log('%c abtest 初始化模拟分流完成...','color:#30B08F;font-size:25px')
   },
-  onShareAppMessage() {
-    return {
-      title: 'TDesign UI',
-      path: '/pages/home/home',
-    }
-  },
-  getQueryByUrl(url) {
-    const data = {}
-    const queryArr = `${url}`.match(/([^=&#?]+)=[^&#]+/g) || []
-    if (queryArr.length) {
-      queryArr.forEach(para => {
-        const d = para.split('=')
-        const val = decodeURIComponent(d[1])
-        if (data[d[0]] !== undefined) {
-          data[d[0]] += `,${val}`
-        } else {
-          data[d[0]] = val
-        }
-      })
-    }
-    return data
+  onButtonTap(){
+    wx.navigateTo({
+      url: `/pages/demo/demo`,
+    })
   },
 })
