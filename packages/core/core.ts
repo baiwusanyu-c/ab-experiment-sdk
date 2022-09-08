@@ -128,11 +128,11 @@ export const sdk = {
     this.shuntRes = abTestShunt(this)
     this.log && log('shunt successfully')
     return (
-        cb &&
-        cb({
-          res: { expConfig: this.expConfig, shuntRes: this.shuntRes, sdk: this },
-          msg: 'shunt successfully',
-        })
+      cb &&
+      cb({
+        res: { expConfig: this.expConfig, shuntRes: this.shuntRes, sdk: this },
+        msg: 'shunt successfully',
+      })
     )
   },
   /**
