@@ -59,7 +59,7 @@ const buildTypeConfig = [
 
 // 打包处理
 export const buildPackages = (dirname, name) => {
-    const build = async () => {
+    const build = async (config,buildConfig) =>{
         const bundle = await rollup(config)
         return Promise.all(
             buildConfig.map(option => {
@@ -67,15 +67,6 @@ export const buildPackages = (dirname, name) => {
             })
         )
     }
-
-    const buildType = async () => {
-        const bundle = await rollup(typeConfig)
-        return Promise.all(
-            buildTypeConfig.map(option => {
-                bundle.write(option)
-            })
-        )
-    }
-    return parallel(build,buildType)
+    return parallel(()=>build(config,buildConfig),()=>build(typeConfig,buildTypeConfig))
 }
 export default buildPackages()
