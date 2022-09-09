@@ -6,7 +6,7 @@ Page({
   },
   async onInitABTest(){
     let cur = Number((new Date()))
-    app.abtest = await testResult(1000)
+    app.abtest = await testResult(1)
     const logArr = app.abtest.map(val=>{
       return {userId: val.sdkKey}
     })

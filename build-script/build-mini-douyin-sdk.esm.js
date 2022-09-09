@@ -11,12 +11,12 @@ import dts from "rollup-plugin-dts";
 import { build } from "./utils";
 
 const config = {
-    input: '../packages/mini-wechat/index.ts', // 必须，入口文件
+    input: '../packages/mini-douyin/index.ts', // 必须，入口文件
     plugins: [
         // 引入的插件在这里配置
         resolve(),
         replace({
-            'process.env.CURRENT_ENV':'`mini-wechat`'
+            'process.env.CURRENT_ENV':'`mini-douyin`'
         }),
         typescript(),
         babel({
@@ -31,26 +31,26 @@ process.env.CURRENT_DEV_ENV !== 'dev' && config.plugins.push(terser())
 const buildConfig =  [
 
         {
-            file: '../dist/mini-wechat/esm/ab-test-sdk-mini-wechat.esm.js',
+            file: '../dist/mini-douyin/esm/ab-test-sdk-mini-douyin.esm.js',
             format: 'es',
             inlineDynamicImports:true,
-            name: 'ab-test-sdk-mini-wechat',
+            name: 'ab-test-sdk-mini-douyin',
         },
         {
-            file: '../dist/mini-wechat/cjs/ab-test-sdk-mini-wechat.cjs.js',
+            file: '../dist/mini-douyin/cjs/ab-test-sdk-mini-douyin.cjs.js',
             format: 'cjs',
             inlineDynamicImports:true,
-            name: 'ab-test-sdk-mini-wechat',
+            name: 'ab-test-sdk-mini-douyin',
         },
 ]
 
 const typeConfig = {
-    input: '../packages/mini-wechat/index.ts', // 必须，入口文件
+    input: '../packages/mini-douyin/index.ts', // 必须，入口文件
     plugins: [resolve(),dts()],
 }
 const buildTypeConfig = [
     {
-        file: '../dist/mini-wechat/types/ab-test-sdk-mini-wechat.d.ts',
+        file: '../dist/mini-douyin/types/ab-test-sdk-mini-douyin.d.ts',
         format: 'es',
     }
 ]
