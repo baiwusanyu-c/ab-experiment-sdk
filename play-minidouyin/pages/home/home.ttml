@@ -1,0 +1,9 @@
+<view class="main">
+  <view class="title-wrap">
+    <image class="title-icon" mode="aspectFit" src="/assets/cbd.png" />
+  </view>
+  <view class="desc"> ABTest 抖音小程序测试项目</view>
+  <button bind:tap="onInitABTest" class="focus-btn">点击开始分流</button>
+  <view class="btn"></view>
+  <button class='btn-primary' bind:tap="onButtonTap">点击跳转</button>
+</view>
