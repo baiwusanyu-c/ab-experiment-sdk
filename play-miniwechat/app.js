@@ -41,11 +41,28 @@ console.log('%c sensors 初始化模拟完成...','color:#30B08F;font-size:25px'
   }
 });*/
 
+// 小程序入口文件 app.js
 App({
   abtest:null,
-  async onLaunch() {
-
-  },
+  // async onLaunch() {
+  //   const { ABTest } = await (import('./ab-test-sdk-mini-wechat.esm'))
+  //   ABTest('init', {
+  //     appKey: 'SC_TEST_APP', // 替换成您的appKey
+  //     log: true, // 是否打印log
+  //     userId:'GACo74wkSCABTESTDIkDzEhkwRwgjGt1pqlk1', // 用户唯一标识
+  //   })
+  //   const sdk = await ABTest('start')
+  //   this.abtest = sdk
+  //   const expId = sdk.res.expConfig[0].experimentId
+  //   ABTest(
+  //       'getVar', // 方法名称
+  //       expId,// 实验id
+  //       'defaultVersion',// 兜底参数，在网络异常，或用户没有命中任何实验时返回
+  //       (data)=>{
+  //         const app = getApp()
+  //         app.getVarInHome(data)
+  //   })
+  // },
   onShow() {
     if (gulpError !== 'gulpErrorPlaceHolder') {
       wx.redirectTo({
