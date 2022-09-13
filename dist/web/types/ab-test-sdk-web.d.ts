@@ -160,13 +160,14 @@ declare const shuntAlgorithm: (key: string, weight: number) => {
 /**
  * 分组方法
  */
-declare const abTestGrouping: (ctx: typeof sdk, expShuntRes: IOption) => {
+declare const abTestGrouping: (ctx: typeof sdk, expShuntRes: IOption, defaultVal: string) => {
     msg: string;
     res: {
         isEntryVersion: boolean;
         versionId: number;
         versionParam: {};
     };
+    status: boolean;
 };
 
 declare const ABTest: (funcName: string, ...arg: any[]) => any;

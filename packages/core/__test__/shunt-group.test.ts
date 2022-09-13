@@ -75,7 +75,7 @@ describe('core--shunt-group.ts', () => {
 
             }
         }
-        const groupRes = abTestGrouping(ctx as any, shuntRes['1'])
+        const groupRes = abTestGrouping(ctx as any, shuntRes['1'],'')
         expect(groupRes.res.isEntryVersion).toBe(true)
         expect(groupRes.msg).toBe('group successfully')
     })

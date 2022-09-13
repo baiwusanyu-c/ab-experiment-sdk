@@ -1,12 +1,20 @@
 import {testResult} from '../../main-process-test'
-const app = getApp()
+// 首页 home.js
 Page({
   data: {
-    progress:0
+    userNum:100
   },
+ //  onShow(){
+ //    const app = getApp()
+ //    app.getVarInHome = this.getVar
+ // },
+ // getVar(data){
+ //   console.log(data)
+ // },
   async onInitABTest(){
+    const app = getApp()
     let cur = Number((new Date()))
-    app.abtest = await testResult(1)
+    app.abtest = await testResult(this.data.userNum)
     const logArr = app.abtest.map(val=>{
       return {userId: val.sdkKey}
     })
