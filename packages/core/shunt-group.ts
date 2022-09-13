@@ -33,7 +33,7 @@ export const shuntAlgorithm = (key: string, weight: number) => {
 /**
  * 分组方法
  */
-export const abTestGrouping = (ctx: typeof sdk, expShuntRes: IOption) => {
+export const abTestGrouping = (ctx: typeof sdk, expShuntRes: IOption,defaultVal:string) => {
   let totalWeight = 0
   const expShuntResVal = expShuntRes
   const versionWeight = expShuntResVal.hashVal! * (100 / expShuntResVal.experimentTrafficWeight)
@@ -44,6 +44,7 @@ export const abTestGrouping = (ctx: typeof sdk, expShuntRes: IOption) => {
       versionId: 0,
       versionParam: {},
     },
+    status:false
   }
   for (let i = 0; i < expShuntResVal.versions.length; i++) {
     totalWeight += expShuntResVal.versions[i].versionTrafficWeight
@@ -58,6 +59,7 @@ export const abTestGrouping = (ctx: typeof sdk, expShuntRes: IOption) => {
         versionId: expShuntResVal.versions[i].versionId,
         versionParam: expShuntResVal.versions[i].versionParam,
       }
+      res.status = true
       break
     }
   }

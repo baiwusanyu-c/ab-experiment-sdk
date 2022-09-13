@@ -82,7 +82,7 @@ export const sdk = {
     const expShuntRes = this.shuntRes[expId]
     // 传入的expId 进入实验，则进行分组
     if (expShuntRes && expShuntRes.isEntry) {
-      this.groupRes = abTestGrouping(this, expShuntRes)
+      this.groupRes = abTestGrouping(this, expShuntRes,defaultVal)
       this.log && log('group successfully')
       cb && cb(this.groupRes)
     }
@@ -234,7 +234,7 @@ export const getExperimentConfig = async (appKey: number, ctx: typeof sdk) => {
   const res = await experimentConfig(params)
   if (!res) {
     ctx.log && log('Failed to get experimental parameters')
-    return undefined
+    return []
   }
   ctx.log && log('The experimental parameters were successfully obtained')
   return res

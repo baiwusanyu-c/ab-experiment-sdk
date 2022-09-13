@@ -128,8 +128,8 @@ describe('core--core.ts', () => {
 
     test('cbdABTest getExperimentConfig', async () => {
         setRequestInst(import('../../../utils/fetch/fetch-web'))
-        const res = await getExperimentConfig(123,{log:false} as any)
-        expect(res).toBe(undefined)
+        const res = await getExperimentConfig(123,{log:false} as any) as Array<any>
+        expect(res.length).toBe(0)
 
     })
 
@@ -140,7 +140,7 @@ describe('core--core.ts', () => {
 
     test('sdk instance not init',async () =>{
         const startSDK:any  = await cbdABTest('start')
-        expect(startSDK).toBe(undefined)
+        expect(startSDK.res).toBe(undefined)
         cbdABTest('getVar','1','defaultVersion',(data:any)=>{
             expect(data.res).toBe(undefined)
         })
@@ -266,15 +266,15 @@ describe('core--core.ts', () => {
         },getExpConfig)
 
         const refreshSDK:any  = await cbdABTest('refresh')
-        const initExpId =  refreshSDK.expConfig[0].experimentId
-        expect(refreshSDK.shuntRes['1'].isEntry).not.toBeTruthy()
-        expect(refreshSDK.shuntRes['1'].hashVal).toBe(91)
+        const initExpId =  refreshSDK.res.expConfig[0].experimentId
+        expect(refreshSDK.res.shuntRes['1'].isEntry).not.toBeTruthy()
+        expect(refreshSDK.res.shuntRes['1'].hashVal).toBe(91)
 
         initReSDK.getExpConfig = () =>{
             return expConfigObjChange
         }
         const refreshChangeSDK = await cbdABTest('refresh')
-        expect(initExpId !== (refreshChangeSDK as {expConfig:Array<any>}).expConfig[0].experimentId).toBeTruthy()
+        expect(initExpId !== (refreshChangeSDK.res as {expConfig:Array<any>}).expConfig[0].experimentId).toBeTruthy()
     })
 
     test('sdk instance function ———— resetInstance', async () => {
@@ -282,7 +282,6 @@ describe('core--core.ts', () => {
             appKey: 'CBD_WX_MP',
             userId: 'GACo74wkDIkDzEhkwRwgjGt1pqlk'
         },getExpConfig)
-        console.log(initReSDK.configOption.appKey)
         expect(initReSDK.configOption.appKey).toBe('CBD_WX_MP')
         initReSDK.timer = 1
         cbdABTest('resetInstance')
