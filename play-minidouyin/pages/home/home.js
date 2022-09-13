@@ -1,12 +1,13 @@
-import {testResult} from '../../main-process-test'
+import {testResult} from '../../main-process-test.js'
 const app = getApp()
+
 Page({
   data: {
     progress:0
   },
   async onInitABTest(){
     let cur = Number((new Date()))
-    app.abtest = await testResult(1)
+    app.abtest = await testResult(10)
     const logArr = app.abtest.map(val=>{
       return {userId: val.sdkKey}
     })
@@ -16,7 +17,7 @@ Page({
     console.log(`%c 接口调用耗时:${Number(new Date()) - cur}`,'color:#30B08F;font-size:25px')
   },
   onButtonTap(){
-    wx.navigateTo({
+    tt.navigateTo({
       url: `/pages/demo/demo`,
     })
   },

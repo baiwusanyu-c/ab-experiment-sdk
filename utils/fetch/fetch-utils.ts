@@ -65,7 +65,8 @@ const setRequestUrl = (url: string): string => {
 const setHeader = (contentType: string, config?: IReqConfig) => {
   const token = !config || config.token === undefined ? '' : config.token
   const currentEnv = process.env.CURRENT_ENV
-  if (currentEnv === ENV.MINI_WECHAT) {
+  // @ts-ignore
+  if (currentEnv === ENV.MINI_WECHAT || currentEnv === ENV.MINI_DOUYIN) {
     return {
       token,
       'Content-Type': contentType,

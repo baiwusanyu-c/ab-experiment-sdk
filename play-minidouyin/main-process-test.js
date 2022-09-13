@@ -1,7 +1,7 @@
 
 const callABTest = async (length) =>{
     return new Promise(async (resolve, reject) => {
-        const { ABTest } = await (import('./ab-test-sdk-mini-wechat.esm'))
+        const { ABTest } = await (import('./ab-test-sdk-mini-douyin.esm'))
 
         const sdkKey = `GACo74wkSCABTESTDIkDzEhkwRwgjGt1pqlk${length}`
         ABTest({funcName:'init',sdkKey}, {

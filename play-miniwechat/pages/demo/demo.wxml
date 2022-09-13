@@ -1,0 +1,12 @@
+<view class="main">
+  <view class="title-wrap">
+    <image class="title-icon" mode="aspectFit" src="/assets/cbd.png" />
+  </view>
+  <view class="desc"> ABTest demo</view>
+  <t-button theme="primary" block bind:tap="onGroupABTest">点击开始分组</t-button>
+  <view wx:for="{{list}}" wx:for-item="itemName" style="margin-top:20rpx">
+    <view>userId:  <text>{{itemName.userId}}</text></view>
+    <view>分组版本Id:  <text>{{itemName.versionId}}</text></view>
+    <view>分组版本参数:  <text style="color:{{itemName.versionParam.color}}">{{itemName.versionParam.color}}</text></view>
+  </view>
+</view>

@@ -33,4 +33,19 @@ page {
 }
 .btn{
   margin-top: 30rpx;
+
+}
+.btn-primary{
+  background-color: transparent;
+  border: 1px solid #0052d9;
+  color:#0052d9;
+  height:80rpx;
+  line-height: 80rpx;
+}
+.focus-btn{
+    background-color: #0052d9;
+    border: 1px solid #0052d9;
+    color:#ffffff;
+    height:80rpx;
+    line-height: 80rpx;
 }

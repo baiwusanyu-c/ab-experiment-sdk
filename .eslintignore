@@ -10,5 +10,6 @@ commitlint.config.js
 build-script
 play
 play-miniwechat
+play-minidouyin
 dist
 coverage

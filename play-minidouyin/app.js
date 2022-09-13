@@ -1,5 +1,4 @@
-import gulpError from './utils/gulpError'
-const sensors = require('./sensorsdata.min.js');
+const sensors = require('./sensorsdata.autotrack.min');
 // 配置初始化参数
 sensors.setPara({
   name: 'sensors',
@@ -43,14 +42,5 @@ console.log('%c sensors 初始化模拟完成...','color:#30B08F;font-size:25px'
 
 App({
   abtest:null,
-  async onLaunch() {
-
-  },
-  onShow() {
-    if (gulpError !== 'gulpErrorPlaceHolder') {
-      wx.redirectTo({
-        url: `/pages/gulp-error/index?gulpError=${gulpError}`,
-      })
-    }
-  },
+  async onLaunch() {}
 })

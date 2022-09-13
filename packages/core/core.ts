@@ -31,7 +31,7 @@ export const sdk = {
    */
   async start(cb: Function) {
     if (!this.isInit) {
-      cb && cb()
+      cb && cb({ res: undefined, msg: 'sdk not initialized' ,status:false})
       this.log && log('sdk not initialized')
       return
     }
@@ -48,6 +48,7 @@ export const sdk = {
         cb({
           res: { expConfig: {}, shuntRes: {}, sdk: this },
           msg: 'unknown exception',
+          status:false
         })
       )
     }
@@ -59,6 +60,7 @@ export const sdk = {
       cb({
         res: { expConfig: this.expConfig, shuntRes: this.shuntRes, sdk: this },
         msg: 'shunt successfully',
+        status:true
       })
     )
   },
@@ -71,7 +73,7 @@ export const sdk = {
    */
   getVar(expId: string, defaultVal: string, cb: Function) {
     if (!this.isInit) {
-      cb && cb({ res: undefined, msg: 'sdk not initialized' })
+      cb && cb({ res: undefined, msg: 'sdk not initialized',status:false })
       this.log && log('sdk not initialized')
       return
     }
@@ -87,12 +89,12 @@ export const sdk = {
     // 传入的expId 没有进入实验
     if (expShuntRes && !expShuntRes.isEntry) {
       this.log && log('user did not enter the experiment')
-      cb && cb({ res: defaultVal, msg: 'user did not enter the experiment' })
+      cb && cb({ res: defaultVal, msg: 'user did not enter the experiment',status:false })
     }
     // 异常兜底，传入没有的id、
     if (!expShuntRes || this.expConfig.length === 0) {
       this.log && log('unknown exception')
-      cb && cb({ res: defaultVal, msg: 'unknown exception' })
+      cb && cb({ res: defaultVal, msg: 'unknown exception',status:false })
     }
   },
 
@@ -102,7 +104,7 @@ export const sdk = {
    */
   config(nConfig: IConfigMiniWechat, cb: Function) {
     if (!this.isInit) {
-      cb && cb({ res: undefined, msg: 'sdk not initialized' })
+      cb && cb({ res: undefined, msg: 'sdk not initialized' ,status:false})
       this.log && log('sdk not initialized')
       return
     }
@@ -116,17 +118,25 @@ export const sdk = {
    */
   async refresh(cb?: Function) {
     if (!this.isInit) {
-      cb && cb({ res: undefined, msg: 'sdk not initialized' })
+      cb && cb({ res: undefined, msg: 'sdk not initialized' ,status:false})
       this.log && log('sdk not initialized')
       return
     }
-    // 获取实验参数，并缓存本地
+    // 获取实验参数
     this.expConfig = await this.getExpConfig(this.configOption.appKey!, this)
     if (!this.expConfig) return
 
     // 根据参数进行分流，并存储到sdk实例
     this.shuntRes = abTestShunt(this)
-    return cb && cb({ expConfig: this.expConfig, shuntRes: this.shuntRes, sdk: this })
+    this.log && log('shunt successfully')
+    return (
+      cb &&
+      cb({
+        res: { expConfig: this.expConfig, shuntRes: this.shuntRes, sdk: this },
+        msg: 'shunt successfully',
+        status:true
+      })
+    )
   },
   /**
    * 重置实例方法
@@ -164,6 +174,7 @@ export const sdk = {
  * （完成）
  */
 const sdkInstMap = new Map()
+export function cbdABTest(nameKey: INameKey, ...arg: any[]): any
 export function cbdABTest(nameKey: string, ...arg: any[]): any
 export function cbdABTest(nameKey: INameKey | string, ...arg: any[]): any {
   let funcName = ''
