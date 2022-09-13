@@ -12,6 +12,7 @@ Page({
  //   console.log(data)
  // },
   async onInitABTest(){
+    const app = getApp()
     let cur = Number((new Date()))
     app.abtest = await testResult(this.data.userNum)
     const logArr = app.abtest.map(val=>{
