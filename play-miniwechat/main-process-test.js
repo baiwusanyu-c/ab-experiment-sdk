@@ -1,11 +1,17 @@
-
+function guid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        let r = Math.random() * 16 | 0,
+            v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
 const callABTest = async (length) =>{
     return new Promise(async (resolve, reject) => {
         const { ABTest } = await (import('./ab-test-sdk-mini-wechat.esm'))
 
-        const sdkKey = `GACo74wkSCABTESTDIkDzEhkwRwgjGt1pqlk${length}`
+        const sdkKey = `${guid()}${length}`
         ABTest({funcName:'init',sdkKey}, {
-            appKey: 'SC_TEST_APP', // 替换成您的appKey
+            appKey: 'wyb_app_key', // 替换成您的appKey
             log: false, // 是否打印log
             userId:sdkKey,
             //userId:'GACo74wkDIkDzEhkwRwgjGz1123',
@@ -44,7 +50,17 @@ async function run(length, arr,concurrent) {
 }
 
 export async function testResult(num,concurrent=true) {
-    let res = await run(num, [],concurrent);
+    const dateList = ['2022-09-14']
+    let res = []
+    for(let i = 0;i < dateList.length; i++){
+
+        const resData = await run(num, [],concurrent);
+        res.push({
+            date:dateList[i],
+            res:resData
+        })
+    }
+
     return res
 }
 
