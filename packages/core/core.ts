@@ -31,7 +31,7 @@ export const sdk = {
    */
   async start(cb: Function) {
     if (!this.isInit) {
-      cb && cb({ res: undefined, msg: 'sdk not initialized' ,status:false})
+      cb && cb({ res: undefined, msg: 'sdk not initialized', status: false })
       this.log && log('sdk not initialized')
       return
     }
@@ -42,13 +42,13 @@ export const sdk = {
     if (this.configOption.autoRefresh) {
       autoRefresh(this)
     }
-    if (!this.expConfig || this.expConfig.length === 0 ) {
+    if (!this.expConfig || this.expConfig.length === 0) {
       return (
         cb &&
         cb({
           res: { expConfig: [], shuntRes: {}, sdk: this },
           msg: 'unknown exception',
-          status:false
+          status: false,
         })
       )
     }
@@ -60,7 +60,7 @@ export const sdk = {
       cb({
         res: { expConfig: this.expConfig, shuntRes: this.shuntRes, sdk: this },
         msg: 'shunt successfully',
-        status:true
+        status: true,
       })
     )
   },
@@ -77,19 +77,19 @@ export const sdk = {
     const expShuntRes = this.shuntRes[expId]
     // 传入的expId 进入实验，则进行分组
     if (expShuntRes && expShuntRes.isEntry) {
-      this.groupRes = abTestGrouping(this, expShuntRes,defaultVal)
+      this.groupRes = abTestGrouping(this, expShuntRes, defaultVal)
       this.log && log('group successfully')
       cb && cb(this.groupRes)
     }
     // 传入的expId 没有进入实验
     if (expShuntRes && !expShuntRes.isEntry) {
       this.log && log('user did not enter the experiment')
-      cb && cb({ res: defaultVal, msg: 'user did not enter the experiment',status:false })
+      cb && cb({ res: defaultVal, msg: 'user did not enter the experiment', status: false })
     }
     // 异常兜底，传入没有的id、
     if (!expShuntRes || this.expConfig.length === 0) {
       this.log && log('unknown exception')
-      cb && cb({ res: defaultVal, msg: 'unknown exception',status:false })
+      cb && cb({ res: defaultVal, msg: 'unknown exception', status: false })
     }
   },
 
@@ -99,7 +99,7 @@ export const sdk = {
    */
   config(nConfig: IConfigMiniWechat, cb: Function) {
     if (!this.isInit) {
-      cb && cb({ res: undefined, msg: 'sdk not initialized' ,status:false})
+      cb && cb({ res: undefined, msg: 'sdk not initialized', status: false })
       this.log && log('sdk not initialized')
       return
     }
@@ -113,20 +113,20 @@ export const sdk = {
    */
   async refresh(cb?: Function) {
     if (!this.isInit) {
-      cb && cb({ res: undefined, msg: 'sdk not initialized' ,status:false})
+      cb && cb({ res: undefined, msg: 'sdk not initialized', status: false })
       this.log && log('sdk not initialized')
       return
     }
     // 获取实验参数
     this.expConfig = await this.getExpConfig(this.configOption.appKey!, this)
-    if (!this.expConfig || this.expConfig.length === 0 ) {
+    if (!this.expConfig || this.expConfig.length === 0) {
       return (
-          cb &&
-          cb({
-            res: { expConfig: [], shuntRes: {}, sdk: this },
-            msg: 'unknown exception',
-            status:false
-          })
+        cb &&
+        cb({
+          res: { expConfig: [], shuntRes: {}, sdk: this },
+          msg: 'unknown exception',
+          status: false,
+        })
       )
     }
 
@@ -138,7 +138,7 @@ export const sdk = {
       cb({
         res: { expConfig: this.expConfig, shuntRes: this.shuntRes, sdk: this },
         msg: 'shunt successfully',
-        status:true
+        status: true,
       })
     )
   },
@@ -221,10 +221,10 @@ const sdkFuncCall = (funcName: string, sdkInst: typeof sdk, ...arg: any[]) => {
       ;(sdkInst[funcName as keyof typeof sdk] as Function).call(sdkInst, resolve, ...arg)
     })
   }
-  if(funcName !== 'init' && funcName !== 'resetInstance' && !sdk.isInit){
-    const res = { res: undefined, msg: 'sdk not initialized' ,status:false}
-    if(funcName === 'getVar'){
-      (arg[2] && isFunction(arg[2])) && arg[2](res)
+  if (funcName !== 'init' && funcName !== 'resetInstance' && !sdk.isInit) {
+    const res = { res: undefined, msg: 'sdk not initialized', status: false }
+    if (funcName === 'getVar') {
+      arg[2] && isFunction(arg[2]) && arg[2](res)
     }
     return res
   }
