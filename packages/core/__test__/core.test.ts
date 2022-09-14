@@ -84,7 +84,7 @@ describe('core--core.ts', () => {
         expect(callFn).toBeCalled()
     })
 
-   /* test('cbdABTest can be threaded into the object to build multiple sdk instances', () => {
+    test('cbdABTest can be threaded into the object to build multiple sdk instances', () => {
         const sdkInst = cbdABTest('resetInstance') as typeof sdk
 
         const sdkKey = `GACo74wkSCABTESTDIkDzEhkwRwgjGt1pqlklength`
@@ -109,7 +109,7 @@ describe('core--core.ts', () => {
         sdkInst.resetInstance = callFn
         cbdABTest('resetInstance')
         expect(callFn).toBeCalled()
-    })*/
+    })
 
     test('cbdABTest can refresh', () => {
         jest.useFakeTimers();
