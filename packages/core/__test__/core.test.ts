@@ -227,6 +227,7 @@ describe('core--core.ts', () => {
     })
 
     test('sdk instance function ———— config', () => {
+        cbdABTest('resetInstance')
         const reSDK = cbdABTest('init', {
             appKey: 'CBD_WX_MP',
             userId: 'GACo74wkDIkDzEhkwRwgjGt1pqlk'

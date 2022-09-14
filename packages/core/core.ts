@@ -42,11 +42,11 @@ export const sdk = {
     if (this.configOption.autoRefresh) {
       autoRefresh(this)
     }
-    if (!this.expConfig) {
+    if (!this.expConfig || this.expConfig.length === 0 ) {
       return (
         cb &&
         cb({
-          res: { expConfig: {}, shuntRes: {}, sdk: this },
+          res: { expConfig: [], shuntRes: {}, sdk: this },
           msg: 'unknown exception',
           status:false
         })
@@ -72,11 +72,6 @@ export const sdk = {
    * @param cb 回调
    */
   getVar(expId: string, defaultVal: string, cb: Function) {
-    if (!this.isInit) {
-      cb && cb({ res: undefined, msg: 'sdk not initialized',status:false })
-      this.log && log('sdk not initialized')
-      return
-    }
     this.log && log('getVar running')
     // 进行分组
     const expShuntRes = this.shuntRes[expId]
@@ -124,7 +119,16 @@ export const sdk = {
     }
     // 获取实验参数
     this.expConfig = await this.getExpConfig(this.configOption.appKey!, this)
-    if (!this.expConfig) return
+    if (!this.expConfig || this.expConfig.length === 0 ) {
+      return (
+          cb &&
+          cb({
+            res: { expConfig: [], shuntRes: {}, sdk: this },
+            msg: 'unknown exception',
+            status:false
+          })
+      )
+    }
 
     // 根据参数进行分流，并存储到sdk实例
     this.shuntRes = abTestShunt(this)
@@ -216,6 +220,13 @@ const sdkFuncCall = (funcName: string, sdkInst: typeof sdk, ...arg: any[]) => {
     return new Promise(resolve => {
       ;(sdkInst[funcName as keyof typeof sdk] as Function).call(sdkInst, resolve, ...arg)
     })
+  }
+  if(funcName !== 'init' && funcName !== 'resetInstance' && !sdk.isInit){
+    const res = { res: undefined, msg: 'sdk not initialized' ,status:false}
+    if(funcName === 'getVar'){
+      (arg[2] && isFunction(arg[2])) && arg[2](res)
+    }
+    return res
   }
   if (sdkInst[funcName as keyof typeof sdk] && isFunction(sdkInst[funcName as keyof typeof sdk])) {
     ;(sdkInst[funcName as keyof typeof sdk] as Function).call(sdkInst, ...arg)

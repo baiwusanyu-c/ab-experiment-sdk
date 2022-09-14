@@ -34,7 +34,7 @@ async function run(length, arr,concurrent) {
         for(let i = 0;i < length; i++){
             arrList.push(callABTest(i))
         }
-        console.log(`%c ABTest获取实验参数接口并发调用中...`,'color:#4AB7BD;font-size:25px')
+        console.log(`%c ABTest获取实验参数接口调用中...`,'color:#4AB7BD;font-size:25px')
         arr = await Promise.all(arrList)
         arr = [...new Set(arr)].filter((val)=>val)
     }else{
