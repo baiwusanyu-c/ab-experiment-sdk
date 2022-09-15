@@ -50,7 +50,7 @@ async function run(length, arr,concurrent) {
 }
 
 export async function testResult(num,concurrent=true) {
-    const dateList = ['2022-09-14']
+    const dateList = ['2022-09-15']
     let res = []
     for(let i = 0;i < dateList.length; i++){
 

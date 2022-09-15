@@ -98,11 +98,6 @@ export const sdk = {
    * （完成）
    */
   config(nConfig: IConfigMiniWechat, cb: Function) {
-    if (!this.isInit) {
-      cb && cb({ res: undefined, msg: 'sdk not initialized', status: false })
-      this.log && log('sdk not initialized')
-      return
-    }
     // 根据现有config 进行合并更新
     this.configOption = mergeConfig(nConfig, this.configOption)
     this.log && log('config set success !')
@@ -238,11 +233,12 @@ const sdkFuncCall = (funcName: string, sdkInst: typeof sdk, ...arg: any[]) => {
  * 获取实验配置
  * @param appKey
  * @param ctx
+ * @param reqFunc
  * （完成）
  */
-export const getExperimentConfig = async (appKey: number, ctx: typeof sdk) => {
+export const getExperimentConfig = async (appKey: number, ctx: typeof sdk,reqFunc:Function = experimentConfig) => {
   const params = { appKey }
-  const res = await experimentConfig(params)
+  const res = await reqFunc(params)
   if (!res) {
     ctx.log && log('Failed to get experimental parameters')
     return []

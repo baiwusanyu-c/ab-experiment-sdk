@@ -19,7 +19,7 @@ Page({
               "experimentId": expId, // 实验ID
               "versionId": data.res.versionId,    // 版本ID
               "userId": inst.sdkKey,  // 用户ID
-              "color": data.res.versionParam.color,    // 是否点击
+              "color": data.res.versionParam.color, 
               'generateDate':instObj.date
             });
             console.log('%c sensors 数据上报SC_ABTEST事件完成...','color:#30B08F;font-size:25px')
