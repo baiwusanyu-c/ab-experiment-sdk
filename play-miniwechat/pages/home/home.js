@@ -20,7 +20,7 @@ Page({
   async onInitABTest(){
     const app = getApp()
     let cur = Number((new Date()))
-    console.log(this.data.userNum)
+
     app.abtest = await testResult(this.data.userNum)
     /*let logArr = []
     app.abtest.forEach((val,index)=>{
