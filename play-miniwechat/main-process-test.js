@@ -19,7 +19,7 @@ const callABTest = async (length) =>{
 
         const sdk = await ABTest({funcName:'start',sdkKey})
         // 只返回进入实验的
-        if(sdk.res.shuntRes[sdk.res.expConfig[0].experimentId].isEntry){
+        if(sdk.status && sdk.res.shuntRes[sdk.res.expConfig[0].experimentId].isEntry){
             resolve({ABTest,sdk,sdkKey:sdkKey})
         }else{
             resolve(null)

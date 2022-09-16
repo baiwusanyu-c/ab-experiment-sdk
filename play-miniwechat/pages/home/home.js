@@ -10,13 +10,13 @@ Page({
       userNum:value,
     });
   },
-  // onShow(){
-  //    const app = getApp()
-  //    app.getVarInHome = this.getVar
-  // },
-  // getVar(data){
-  //   console.log(data)
-  // },
+  //  onShow(){
+  //     const app = getApp()
+  //     app.getVarInHome = this.getVar
+  //  },
+  //  getVar(data){
+  //    console.log(data)
+  //  },
   async onInitABTest(){
     const app = getApp()
     let cur = Number((new Date()))

@@ -138,7 +138,7 @@ declare function cbdABTest(nameKey: string, ...arg: any[]): any;
  * @param reqFunc
  * （完成）
  */
-declare const getExperimentConfig: (appKey: number, ctx: typeof sdk, reqFunc?: typeof experimentConfig) => Promise<unknown>;
+declare const getExperimentConfig: (appKey: number, ctx: typeof sdk, reqFunc?: Function) => Promise<any>;
 /**
  * 自动刷新实验配置
  * @param ctx

@@ -45,23 +45,26 @@ console.log('%c sensors 初始化模拟完成...','color:#30B08F;font-size:25px'
 App({
   abtest:null,
   async onLaunch() {
-  // const { ABTest } = await (import('./ab-test-sdk-mini-wechat.esm'))
-  // ABTest('init', {
-  //   appKey: 'wyb_app_key', // 替换成您的appKey
-  //   log: true, // 是否打印log
-  //   userId:'d23d4672-b295-48cf-a8e1-fe841e44829a90', // 用户唯一标识
-  // })
-  // const sdk = await ABTest('start')
-  // this.abtest = sdk
-  // const expId = sdk.res.expConfig[0].experimentId
-  // ABTest(
-  //     'getVar', // 方法名称
-  //     expId,// 实验id
-  //     'defaultVersion',// 兜底参数，在网络异常，或用户没有命中任何实验时返回
-  //     (data)=>{
-  //       const app = getApp()
-  //       app.getVarInHome(data)
-  // })
+   // const { ABTest } = await (import('./ab-test-sdk-mini-wechat.esm'))
+   // ABTest('init', {
+   //   appKey: 'wyb_app_key', // 替换成您的appKey
+   //   log: true, // 是否打印log
+   //   userId:'d23d4672-b295-48cf-a8e1-fe841e44829a90', // 用户唯一标识
+   // })
+   // const sdk = await ABTest('start')
+   //    console.log(sdk)
+   //  if(sdk.status){
+   //    this.abtest = sdk
+   //    const expId = sdk.res.expConfig[0].experimentId
+   //    ABTest(
+   //        'getVar', // 方法名称
+   //        expId,// 实验id
+   //        'defaultVersion',// 兜底参数，在网络异常，或用户没有命中任何实验时返回
+   //        (data)=>{
+   //          const app = getApp()
+   //          app.getVarInHome(data)
+   //        })
+   //  }
   },
   onShow() {
     if (gulpError !== 'gulpErrorPlaceHolder') {
