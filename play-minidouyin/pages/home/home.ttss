@@ -49,3 +49,11 @@ page {
     height:80rpx;
     line-height: 80rpx;
 }
+
+.input{
+        border: 1px solid #0052d9;
+        padding:0 20rpx;
+        height:80rpx;
+        border-radius:10rpx;
+        line-height: 80rpx;
+}

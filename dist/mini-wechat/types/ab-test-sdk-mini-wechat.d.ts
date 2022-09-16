@@ -57,7 +57,7 @@ declare const isNumber: (val: unknown) => boolean;
 declare const isFunction: (val: unknown) => boolean;
 declare const isEmptyObj: (val: unknown) => boolean;
 declare function isObject(obj: unknown): boolean;
-declare const isArray: (arg: any) => arg is any[];
+declare const isArray: (obj: unknown, func?: null | undefined | Function) => any;
 declare function deepCopy(obj: unknown): {};
 
 declare const setRequestInst: (reqScript: any) => Promise<any>;
@@ -135,9 +135,10 @@ declare function cbdABTest(nameKey: string, ...arg: any[]): any;
  * 获取实验配置
  * @param appKey
  * @param ctx
+ * @param reqFunc
  * （完成）
  */
-declare const getExperimentConfig: (appKey: number, ctx: typeof sdk) => Promise<unknown>;
+declare const getExperimentConfig: (appKey: number, ctx: typeof sdk, reqFunc?: Function) => Promise<any>;
 /**
  * 自动刷新实验配置
  * @param ctx

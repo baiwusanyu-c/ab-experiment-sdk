@@ -31,7 +31,7 @@ export const sdk = {
    */
   async start(cb: Function) {
     if (!this.isInit) {
-      cb && cb({ res: undefined, msg: 'sdk not initialized' ,status:false})
+      cb && cb({ res: undefined, msg: 'sdk not initialized', status: false })
       this.log && log('sdk not initialized')
       return
     }
@@ -42,13 +42,13 @@ export const sdk = {
     if (this.configOption.autoRefresh) {
       autoRefresh(this)
     }
-    if (!this.expConfig) {
+    if (!this.expConfig || this.expConfig.length === 0) {
       return (
         cb &&
         cb({
-          res: { expConfig: {}, shuntRes: {}, sdk: this },
+          res: { expConfig: [], shuntRes: {}, sdk: this },
           msg: 'unknown exception',
-          status:false
+          status: false,
         })
       )
     }
@@ -60,7 +60,7 @@ export const sdk = {
       cb({
         res: { expConfig: this.expConfig, shuntRes: this.shuntRes, sdk: this },
         msg: 'shunt successfully',
-        status:true
+        status: true,
       })
     )
   },
@@ -72,29 +72,24 @@ export const sdk = {
    * @param cb 回调
    */
   getVar(expId: string, defaultVal: string, cb: Function) {
-    if (!this.isInit) {
-      cb && cb({ res: undefined, msg: 'sdk not initialized',status:false })
-      this.log && log('sdk not initialized')
-      return
-    }
     this.log && log('getVar running')
     // 进行分组
     const expShuntRes = this.shuntRes[expId]
     // 传入的expId 进入实验，则进行分组
     if (expShuntRes && expShuntRes.isEntry) {
-      this.groupRes = abTestGrouping(this, expShuntRes,defaultVal)
+      this.groupRes = abTestGrouping(this, expShuntRes, defaultVal)
       this.log && log('group successfully')
       cb && cb(this.groupRes)
     }
     // 传入的expId 没有进入实验
     if (expShuntRes && !expShuntRes.isEntry) {
       this.log && log('user did not enter the experiment')
-      cb && cb({ res: defaultVal, msg: 'user did not enter the experiment',status:false })
+      cb && cb({ res: defaultVal, msg: 'user did not enter the experiment', status: false })
     }
     // 异常兜底，传入没有的id、
     if (!expShuntRes || this.expConfig.length === 0) {
       this.log && log('unknown exception')
-      cb && cb({ res: defaultVal, msg: 'unknown exception',status:false })
+      cb && cb({ res: defaultVal, msg: 'unknown exception', status: false })
     }
   },
 
@@ -103,11 +98,6 @@ export const sdk = {
    * （完成）
    */
   config(nConfig: IConfigMiniWechat, cb: Function) {
-    if (!this.isInit) {
-      cb && cb({ res: undefined, msg: 'sdk not initialized' ,status:false})
-      this.log && log('sdk not initialized')
-      return
-    }
     // 根据现有config 进行合并更新
     this.configOption = mergeConfig(nConfig, this.configOption)
     this.log && log('config set success !')
@@ -118,13 +108,22 @@ export const sdk = {
    */
   async refresh(cb?: Function) {
     if (!this.isInit) {
-      cb && cb({ res: undefined, msg: 'sdk not initialized' ,status:false})
+      cb && cb({ res: undefined, msg: 'sdk not initialized', status: false })
       this.log && log('sdk not initialized')
       return
     }
     // 获取实验参数
     this.expConfig = await this.getExpConfig(this.configOption.appKey!, this)
-    if (!this.expConfig) return
+    if (!this.expConfig || this.expConfig.length === 0) {
+      return (
+        cb &&
+        cb({
+          res: { expConfig: [], shuntRes: {}, sdk: this },
+          msg: 'unknown exception',
+          status: false,
+        })
+      )
+    }
 
     // 根据参数进行分流，并存储到sdk实例
     this.shuntRes = abTestShunt(this)
@@ -134,7 +133,7 @@ export const sdk = {
       cb({
         res: { expConfig: this.expConfig, shuntRes: this.shuntRes, sdk: this },
         msg: 'shunt successfully',
-        status:true
+        status: true,
       })
     )
   },
@@ -217,6 +216,13 @@ const sdkFuncCall = (funcName: string, sdkInst: typeof sdk, ...arg: any[]) => {
       ;(sdkInst[funcName as keyof typeof sdk] as Function).call(sdkInst, resolve, ...arg)
     })
   }
+  if (funcName !== 'init' && funcName !== 'resetInstance' && !sdk.isInit) {
+    const res = { res: undefined, msg: 'sdk not initialized', status: false }
+    if (funcName === 'getVar') {
+      arg[2] && isFunction(arg[2]) && arg[2](res)
+    }
+    return res
+  }
   if (sdkInst[funcName as keyof typeof sdk] && isFunction(sdkInst[funcName as keyof typeof sdk])) {
     ;(sdkInst[funcName as keyof typeof sdk] as Function).call(sdkInst, ...arg)
   }
@@ -227,11 +233,12 @@ const sdkFuncCall = (funcName: string, sdkInst: typeof sdk, ...arg: any[]) => {
  * 获取实验配置
  * @param appKey
  * @param ctx
+ * @param reqFunc
  * （完成）
  */
-export const getExperimentConfig = async (appKey: number, ctx: typeof sdk) => {
+export const getExperimentConfig = async (appKey: number, ctx: typeof sdk,reqFunc:Function = experimentConfig) => {
   const params = { appKey }
-  const res = await experimentConfig(params)
+  const res = await reqFunc(params)
   if (!res) {
     ctx.log && log('Failed to get experimental parameters')
     return []
