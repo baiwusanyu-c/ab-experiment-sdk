@@ -26,6 +26,10 @@
       "git add"
     ]
   },
+  "repository": {
+    "type": "git",
+    "url": "http://192.168.110.101:8081/bigdata/frontend/ab-test-sdk.git"
+  },
   "devDependencies": {
     "@ab-test-sdk/build": "workspace:^1.0.0",
     "@ab-test-sdk/core": "workspace:^1.0.0",
