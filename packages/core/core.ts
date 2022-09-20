@@ -77,9 +77,14 @@ export const sdk = {
     const expShuntRes = this.shuntRes[expId]
     // 传入的expId 进入实验，则进行分组
     if (expShuntRes && expShuntRes.isEntry) {
-      this.groupRes = abTestGrouping(this, expShuntRes, defaultVal)
+      const res = abTestGrouping(this, expShuntRes, defaultVal)
       this.log && log('group successfully')
-      cb && cb(this.groupRes)
+      if (res.status) {
+        this.groupRes = res
+        cb && cb(this.groupRes)
+      } else {
+        cb && cb({ res: defaultVal, msg: 'user did not enter the version', status: false })
+      }
     }
     // 传入的expId 没有进入实验
     if (expShuntRes && !expShuntRes.isEntry) {
@@ -236,7 +241,11 @@ const sdkFuncCall = (funcName: string, sdkInst: typeof sdk, ...arg: any[]) => {
  * @param reqFunc
  * （完成）
  */
-export const getExperimentConfig = async (appKey: number, ctx: typeof sdk,reqFunc:Function = experimentConfig) => {
+export const getExperimentConfig = async (
+  appKey: number,
+  ctx: typeof sdk,
+  reqFunc: Function = experimentConfig
+) => {
   const params = { appKey }
   const res = await reqFunc(params)
   if (!res) {
