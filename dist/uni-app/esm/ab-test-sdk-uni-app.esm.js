@@ -890,7 +890,9 @@ const setHeader = (contentType, config) => {
     // @ts-ignore
     const currentEnv = `uni-app`;
     // @ts-ignore
-    if (currentEnv === ENV.MINI_WECHAT || currentEnv === ENV.MINI_DOUYIN || currentEnv === ENV.UNI_APP) {
+    if (currentEnv === ENV.MINI_WECHAT ||
+        currentEnv === ENV.MINI_DOUYIN ||
+        currentEnv === ENV.UNI_APP) {
         return {
             token,
             'Content-Type': contentType,
