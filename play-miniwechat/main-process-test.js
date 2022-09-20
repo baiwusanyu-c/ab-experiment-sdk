@@ -11,7 +11,7 @@ const callABTest = async (length) =>{
 
         const sdkKey = `${guid()}${length}`
         ABTest({funcName:'init',sdkKey}, {
-            appKey: 'wyb_app_key', // 替换成您的appKey
+            appKey: 'cbd_wx_mp', // 替换成您的appKey
             log: false, // 是否打印log
             userId:sdkKey,
             //userId:'GACo74wkDIkDzEhkwRwgjGz1123',
@@ -50,7 +50,16 @@ async function run(length, arr,concurrent) {
 }
 
 export async function testResult(num,concurrent=true) {
-    const dateList = ['2022-09-15']
+    const dateList = [
+     // '2022-09-09',
+     // '2022-09-10',
+     // '2022-09-11',
+     // '2022-09-12',
+     // '2022-09-13',
+     // '2022-09-14',
+     // '2022-09-15',
+      '2022-09-16',
+    ]
     let res = []
     for(let i = 0;i < dateList.length; i++){
 
