@@ -211,6 +211,7 @@ exports.ENV = void 0;
     ENV["WEB"] = "web";
     ENV["MINI_WECHAT"] = "mini-wechat";
     ENV["MINI_DOUYIN"] = "mini-douyin";
+    ENV["UNI_APP"] = "uni-app";
 })(exports.ENV || (exports.ENV = {}));
 
 const config = {
@@ -835,7 +836,7 @@ const autoRefresh = (ctx) => {
 };
 
 // 设置微信小程序的请求脚本
-setRequestInst(Promise.resolve().then(function () { return fetchWechatDouyin; }));
+setRequestInst(Promise.resolve().then(function () { return fetchMiniApp; }));
 const ABTest = (funcName, ...arg) => {
     return cbdABTest(funcName, ...arg);
 };
@@ -929,6 +930,20 @@ const request = async (url, config = {
     // 处理请求结果(响应拦截)
     return interceptorsResponse(promise, handleRes);
 };
+const setReqByEnv = (env, curEnv) => {
+    if (curEnv === env.MINI_DOUYIN) {
+        // @ts-ignore
+        return tt;
+    }
+    if (curEnv === env.MINI_WECHAT) {
+        // @ts-ignore
+        return wx;
+    }
+    if (curEnv === env.UNI_APP) {
+        // @ts-ignore
+        return uni;
+    }
+};
 /**
  * 发送请求
  */
@@ -936,7 +951,7 @@ function sendRequest(url, headers, config) {
     return new Promise((resolve, reject) => {
         const currentEnv = `mini-wechat`;
         // @ts-ignore
-        const pReq = currentEnv === exports.ENV.MINI_DOUYIN ? tt : wx;
+        const pReq = setReqByEnv(exports.ENV, currentEnv);
         pReq.request({
             url,
             method: HttpMethod.post,
@@ -967,7 +982,7 @@ const handleRes = (res) => {
     return res;
 };
 
-var fetchWechatDouyin = /*#__PURE__*/Object.freeze({
+var fetchMiniApp = /*#__PURE__*/Object.freeze({
   __proto__: null,
   'default': request
 });

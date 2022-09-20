@@ -69,7 +69,8 @@ declare function experimentConfig(params: IExperimentConfig): Promise<unknown>;
 declare enum ENV {
     WEB = "web",
     MINI_WECHAT = "mini-wechat",
-    MINI_DOUYIN = "mini-douyin"
+    MINI_DOUYIN = "mini-douyin",
+    UNI_APP = "uni-app"
 }
 
 /**

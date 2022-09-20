@@ -7,6 +7,7 @@ importers:
       '@ab-test-sdk/build': workspace:^1.0.0
       '@ab-test-sdk/core': workspace:^1.0.0
       '@ab-test-sdk/play': workspace:^1.0.0
+      '@ab-test-sdk/uniapp': workspace:^1.0.0
       '@ab-test-sdk/utils': workspace:^1.0.0
       '@ab-test-sdk/web': workspace:^1.0.0
       '@ab-test-sdk/wechat': workspace:^1.0.0
@@ -65,6 +66,7 @@ importers:
       '@ab-test-sdk/build': link:build-script
       '@ab-test-sdk/core': link:packages/core
       '@ab-test-sdk/play': link:play
+      '@ab-test-sdk/uniapp': link:packages/uni-app
       '@ab-test-sdk/utils': link:utils
       '@ab-test-sdk/web': link:packages/web
       '@ab-test-sdk/wechat': link:packages/mini-wechat
@@ -124,17 +126,29 @@ importers:
     specifiers: {}
 
   packages/core:
+    specifiers:
+      '@ab-test-sdk/utils': '*'
+    devDependencies:
+      '@ab-test-sdk/utils': link:../../utils
+
+  packages/mini-douyin:
     specifiers: {}
 
   packages/mini-wechat:
     specifiers: {}
 
   packages/web:
-    specifiers: {}
+    specifiers:
+      '@ab-test-sdk/core': '*'
+      '@ab-test-sdk/utils': '*'
+    devDependencies:
+      '@ab-test-sdk/core': link:../core
+      '@ab-test-sdk/utils': link:../../utils
 
   play:
     specifiers:
       '@ab-test-sdk/utils': workspace:^1.0.0
+      '@ab-test-sdk/web': workspace:^1.0.0
       '@types/react': ^18.0.15
       '@types/react-dom': ^18.0.6
       '@vitejs/plugin-react': ^2.0.0
@@ -147,6 +161,7 @@ importers:
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
       '@ab-test-sdk/utils': link:../utils
+      '@ab-test-sdk/web': link:../packages/web
       '@types/react': 18.0.17
       '@types/react-dom': 18.0.6
       '@vitejs/plugin-react': 2.0.1_vite@3.0.8

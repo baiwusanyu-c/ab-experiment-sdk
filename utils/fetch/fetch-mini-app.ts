@@ -24,6 +24,20 @@ const request = async (
   return interceptorsResponse(promise, handleRes)
 }
 
+const setReqByEnv = (env: typeof ENV, curEnv: string) => {
+  if (curEnv === env.MINI_DOUYIN) {
+    // @ts-ignore
+    return tt
+  }
+  if (curEnv === env.MINI_WECHAT) {
+    // @ts-ignore
+    return wx
+  }
+  if (curEnv === env.UNI_APP) {
+    // @ts-ignore
+    return uni
+  }
+}
 /**
  * 发送请求
  */
@@ -31,7 +45,7 @@ function sendRequest(url: string, headers: Headers, config: IReqConfig) {
   return new Promise((resolve, reject) => {
     const currentEnv = process.env.CURRENT_ENV
     // @ts-ignore
-    const pReq = currentEnv === ENV.MINI_DOUYIN ? tt : wx
+    const pReq = setReqByEnv(ENV, currentEnv)
     pReq.request({
       url,
       method: HttpMethod.post,
