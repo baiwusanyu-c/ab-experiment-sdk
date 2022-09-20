@@ -24,7 +24,7 @@ const request = async (
   return interceptorsResponse(promise, handleRes)
 }
 
-const setReqByEnv = (env: typeof ENV, curEnv: string) => {
+const setReqByEnv = (env: typeof ENV, curEnv: any) => {
   if (curEnv === env.MINI_DOUYIN) {
     // @ts-ignore
     return tt
@@ -43,8 +43,8 @@ const setReqByEnv = (env: typeof ENV, curEnv: string) => {
  */
 function sendRequest(url: string, headers: Headers, config: IReqConfig) {
   return new Promise((resolve, reject) => {
-    const currentEnv = process.env.CURRENT_ENV
     // @ts-ignore
+    const currentEnv = process.env.CURRENT_ENV
     const pReq = setReqByEnv(ENV, currentEnv)
     pReq.request({
       url,
@@ -60,7 +60,7 @@ function sendRequest(url: string, headers: Headers, config: IReqConfig) {
           reject(res)
         }
       },
-      fail: (err: Error) => {
+      fail: (err: any) => {
         reject(err)
         log(err.message)
       },

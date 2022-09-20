@@ -207,7 +207,7 @@ var ENV;
     ENV["WEB"] = "web";
     ENV["MINI_WECHAT"] = "mini-wechat";
     ENV["MINI_DOUYIN"] = "mini-douyin";
-    ENV["UNI_APP"] = "uniapp";
+    ENV["UNI_APP"] = "uni-app";
 })(ENV || (ENV = {}));
 
 const config = {
@@ -831,7 +831,7 @@ const autoRefresh = (ctx) => {
     }, step);
 };
 
-// 设置微信小程序的请求脚本
+// 设置 uniapp 的请求脚本
 setRequestInst(Promise.resolve().then(function () { return fetchMiniApp; }));
 const ABTest = (funcName, ...arg) => {
     return cbdABTest(funcName, ...arg);
@@ -888,7 +888,7 @@ const setRequestUrl = (url) => {
 const setHeader = (contentType, config) => {
     const token = !config || config.token === undefined ? '' : config.token;
     // @ts-ignore
-    const currentEnv = `mini-wechat`;
+    const currentEnv = `uni-app`;
     // @ts-ignore
     if (currentEnv === ENV.MINI_WECHAT || currentEnv === ENV.MINI_DOUYIN || currentEnv === ENV.UNI_APP) {
         return {
@@ -947,7 +947,7 @@ const setReqByEnv = (env, curEnv) => {
 function sendRequest(url, headers, config) {
     return new Promise((resolve, reject) => {
         // @ts-ignore
-        const currentEnv = `mini-wechat`;
+        const currentEnv = `uni-app`;
         const pReq = setReqByEnv(ENV, currentEnv);
         pReq.request({
             url,

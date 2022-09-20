@@ -1,3 +1,7 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
 /*function uaMatch(ua: string) {
   const rMsie = /(msie\s|trident.*rv:)([\w.]+)/
   const rFirefox = /(firefox)\/([\w.]+)/
@@ -202,13 +206,13 @@ async function experimentConfig(params) {
     return res;
 }
 
-var ENV;
+exports.ENV = void 0;
 (function (ENV) {
     ENV["WEB"] = "web";
     ENV["MINI_WECHAT"] = "mini-wechat";
     ENV["MINI_DOUYIN"] = "mini-douyin";
-    ENV["UNI_APP"] = "uniapp";
-})(ENV || (ENV = {}));
+    ENV["UNI_APP"] = "uni-app";
+})(exports.ENV || (exports.ENV = {}));
 
 const config = {
     appKey: undefined,
@@ -831,7 +835,7 @@ const autoRefresh = (ctx) => {
     }, step);
 };
 
-// 设置微信小程序的请求脚本
+// 设置 uniapp 的请求脚本
 setRequestInst(Promise.resolve().then(function () { return fetchMiniApp; }));
 const ABTest = (funcName, ...arg) => {
     return cbdABTest(funcName, ...arg);
@@ -888,9 +892,9 @@ const setRequestUrl = (url) => {
 const setHeader = (contentType, config) => {
     const token = !config || config.token === undefined ? '' : config.token;
     // @ts-ignore
-    const currentEnv = `mini-wechat`;
+    const currentEnv = `uni-app`;
     // @ts-ignore
-    if (currentEnv === ENV.MINI_WECHAT || currentEnv === ENV.MINI_DOUYIN || currentEnv === ENV.UNI_APP) {
+    if (currentEnv === exports.ENV.MINI_WECHAT || currentEnv === exports.ENV.MINI_DOUYIN || currentEnv === exports.ENV.UNI_APP) {
         return {
             token,
             'Content-Type': contentType,
@@ -947,8 +951,8 @@ const setReqByEnv = (env, curEnv) => {
 function sendRequest(url, headers, config) {
     return new Promise((resolve, reject) => {
         // @ts-ignore
-        const currentEnv = `mini-wechat`;
-        const pReq = setReqByEnv(ENV, currentEnv);
+        const currentEnv = `uni-app`;
+        const pReq = setReqByEnv(exports.ENV, currentEnv);
         pReq.request({
             url,
             method: HttpMethod.post,
@@ -984,4 +988,25 @@ var fetchMiniApp = /*#__PURE__*/Object.freeze({
   'default': request
 });
 
-export { ABTest, ENV, abTestGrouping, abTestShunt, autoRefresh, cbdABTest, deepCopy, experimentConfig, extend, getExperimentConfig, isArray, isBool, isEmptyObj, isFunction, isNumber, isObject, isString, log, mergeConfig, sdk, setConfig, setRequestInst, shuntAlgorithm };
+exports.ABTest = ABTest;
+exports.abTestGrouping = abTestGrouping;
+exports.abTestShunt = abTestShunt;
+exports.autoRefresh = autoRefresh;
+exports.cbdABTest = cbdABTest;
+exports.deepCopy = deepCopy;
+exports.experimentConfig = experimentConfig;
+exports.extend = extend;
+exports.getExperimentConfig = getExperimentConfig;
+exports.isArray = isArray;
+exports.isBool = isBool;
+exports.isEmptyObj = isEmptyObj;
+exports.isFunction = isFunction;
+exports.isNumber = isNumber;
+exports.isObject = isObject;
+exports.isString = isString;
+exports.log = log;
+exports.mergeConfig = mergeConfig;
+exports.sdk = sdk;
+exports.setConfig = setConfig;
+exports.setRequestInst = setRequestInst;
+exports.shuntAlgorithm = shuntAlgorithm;

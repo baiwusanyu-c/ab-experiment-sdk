@@ -16,6 +16,7 @@ importers:
       '@babel/preset-typescript': ^7.16.0
       '@commitlint/cli': ^16.2.1
       '@commitlint/config-conventional': ^16.2.1
+      '@dcloudio/types': ^3.0.15
       '@rollup/plugin-babel': ^5.3.1
       '@rollup/plugin-commonjs': ^22.0.2
       '@rollup/plugin-node-resolve': ^13.3.0
@@ -75,6 +76,7 @@ importers:
       '@babel/preset-typescript': 7.18.6_@babel+core@7.18.10
       '@commitlint/cli': 16.3.0
       '@commitlint/config-conventional': 16.2.4
+      '@dcloudio/types': 3.0.15
       '@rollup/plugin-babel': 5.3.1_56fnebo2rl23pzm3cph57q7t7i
       '@rollup/plugin-commonjs': 22.0.2_rollup@2.77.3
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.3
@@ -1703,6 +1705,10 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
+    dev: true
+
+  /@dcloudio/types/3.0.15:
+    resolution: {integrity: sha512-3ngPB4X1Nql8OxWn3sjXgGYAB57mPnAzzmlOBv1nppYGJMD/Hn/oet1LUK72IdJKxiCU5kMBftWylDPQAx6Y7g==}
     dev: true
 
   /@esbuild-kit/cjs-loader/2.3.3:

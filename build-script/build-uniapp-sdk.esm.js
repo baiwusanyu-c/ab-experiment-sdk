@@ -16,7 +16,7 @@ const config = {
         // 引入的插件在这里配置
         resolve(),
         replace({
-            'process.env.CURRENT_ENV':'uni-app`'
+            'process.env.CURRENT_ENV':'`uni-app`'
         }),
         typescript(),
         babel({
