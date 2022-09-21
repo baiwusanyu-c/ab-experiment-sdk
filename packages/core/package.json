@@ -1,0 +1,13 @@
+{
+  "name": "@ab-test-sdk/core",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "./index.ts",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@ab-test-sdk/utils": "*"
+  }
+}

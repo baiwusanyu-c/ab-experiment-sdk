@@ -1,0 +1,13 @@
+<view class="main">
+  <view class="title-wrap">
+    <image class="title-icon" mode="aspectFit" src="/assets/cbd.png" />
+  </view>
+  <view class="desc"> ABTest 微信小程序测试项目</view>
+  <t-cell title="模拟用户数">
+    <t-stepper defaultValue="{{userNum}}" slot="right-icon" max="10000" value="{{userNum}}" bind:change="handleChange"/>
+  </t-cell>
+  <view class="btn"></view>
+  <t-button theme="primary" block bind:tap="onInitABTest">点击开始分流</t-button>
+  <view class="btn"></view>
+  <t-button theme="primary" variant="plain" block bind:tap="onButtonTap">点击跳转</t-button>
+</view>
