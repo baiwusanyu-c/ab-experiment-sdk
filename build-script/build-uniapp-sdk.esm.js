@@ -9,7 +9,8 @@ import { terser } from 'rollup-plugin-terser'
 import replace from 'rollup-plugin-replace'
 import dts from "rollup-plugin-dts";
 import { build } from "./utils";
-
+import packageJson from "../package.json"
+const version = packageJson.version
 const config = {
     input: '../packages/uni-app/index.ts', // 必须，入口文件
     plugins: [
@@ -20,7 +21,10 @@ const config = {
         }),
         typescript(),
         babel({
+            babelHelpers:'runtime',
+            presets: ['@babel/preset-env'],
             exclude: '**/node_modules/**',
+            plugins:['@babel/plugin-transform-runtime']
         }),
         commonjs(),
         cleanup({ comments: 'none' }),
@@ -31,16 +35,16 @@ process.env.CURRENT_DEV_ENV !== 'dev' && config.plugins.push(terser())
 const buildConfig =  [
 
         {
-            file: '../dist/uni-app/esm/ab-test-sdk-uni-app.esm.js',
+            file: `../dist/uni-app/esm/ab-uni-app_v${version}.js`,
             format: 'es',
             inlineDynamicImports:true,
-            name: 'ab-test-sdk-uni-app',
+            name: 'ab-uni-app',
         },
         {
-            file: '../dist/uni-app/cjs/ab-test-sdk-uni-app.cjs.js',
+            file: `../dist/uni-app/cjs/ab-uni-app_v${version}.cjs.js`,
             format: 'cjs',
             inlineDynamicImports:true,
-            name: 'ab-test-sdk-uni-app',
+            name: 'ab-uni-app',
         },
 ]
 
@@ -50,7 +54,7 @@ const typeConfig = {
 }
 const buildTypeConfig = [
     {
-        file: '../dist/uni-app/types/ab-test-sdk-uni-app.d.ts',
+        file: `../dist/uni-app/types/ab-uni-app_v${version}.d.ts`,
         format: 'es',
     }
 ]

@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.css'
 
-// @ts-ignore
-import { ABTest } from '../../dist/web/esm/ab-test-sdk-web.esm'
+import { ABTest } from '../sdk/ab-web_v1.0.0'
 ABTest('init', {
   appKey: 'wyb_app_key', // 替换成您的appKey
   log: true, // 是否打印log

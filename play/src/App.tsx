@@ -2,8 +2,8 @@
 import {useEffect, useState} from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
-// @ts-ignore
-import {ABTest} from '../../dist/web/esm/ab-test-sdk-web.esm'
+
+import { ABTest } from '../sdk/ab-web_v1.0.0'
 function App() {
   const [count, setCount] = useState(0)
   const [isEntryVersion, setVersion] = useState(false)
