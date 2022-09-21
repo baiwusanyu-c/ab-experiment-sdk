@@ -27,6 +27,12 @@ const platformOption = {
         distPath:'../dist/mini-douyin/esm',
         playPath:'../play-minidouyin'
     },
+    'uni-app':{
+        watchPath:'../packages/uni-app/index.ts',
+        command:'pnpm run --filter @ab-test-sdk/build --parallel build:uniapp',
+        distPath:'../dist/uni-app/esm',
+        playPath:'../play-minidouyin'
+    },
 }
 
 const platformConfig = platformOption[curEnv]

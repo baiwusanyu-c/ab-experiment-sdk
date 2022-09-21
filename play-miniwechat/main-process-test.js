@@ -58,7 +58,7 @@ export async function testResult(num,concurrent=true) {
      // '2022-09-13',
      // '2022-09-14',
      // '2022-09-15',
-      '2022-09-16',
+      '2022-09-20',
     ]
     let res = []
     for(let i = 0;i < dateList.length; i++){

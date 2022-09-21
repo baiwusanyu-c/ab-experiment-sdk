@@ -7,7 +7,7 @@ const callABTest = async (length:number) =>{
         // @ts-ignore
         // const { ABTest } = await (import('./index'))
         ABTest('init', {
-            appKey: 'SDK_TEST_WB_APP', // 替换成您的appKey
+            appKey: 'wyb_app_key', // 替换成您的appKey
             log: false, // 是否打印log
             userId:`GACo74wkDIkDzEhkwRwgjGt1pqlk${length}`,
             //userId:'GACo74wkDIkDzEhkwRwgjGz1123',

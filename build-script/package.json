@@ -7,9 +7,11 @@
     "dev:wechat": "cross-env CURRENT_ENV=mini-wechat CURRENT_DEV_ENV=dev esno dev.js",
     "dev:douyin": "cross-env CURRENT_ENV=mini-douyin CURRENT_DEV_ENV=dev esno dev.js",
     "dev:web": "cross-env CURRENT_ENV=web CURRENT_DEV_ENV=dev esno dev.js",
+    "dev:uniapp": "cross-env CURRENT_ENV=uni-app CURRENT_DEV_ENV=dev esno dev.js",
     "build:wechat": "cross-env CURRENT_ENV=mini-wechat gulp -f build-mini-wechat-sdk.esm.js",
     "build:douyin": "cross-env CURRENT_ENV=mini-douyin gulp -f build-mini-douyin-sdk.esm.js",
     "build:web": "cross-env CURRENT_ENV=web gulp -f build-web-sdk.esm.js",
+    "build:uniapp": "cross-env CURRENT_ENV=uni-app gulp -f build-uniapp-sdk.esm.js",
     "build": "gulp -f gulpfile.esm.js"
   },
   "keywords": [],

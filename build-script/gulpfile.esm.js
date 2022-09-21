@@ -22,4 +22,8 @@ export default series(
       await run('pnpm run --filter @ab-test-sdk/build --parallel build:web')
   }),
 
+  withTaskName('build uniapp sdk....', async () => {
+      await run('pnpm run --filter @ab-test-sdk/build --parallel build:uniapp')
+  }),
+
 )

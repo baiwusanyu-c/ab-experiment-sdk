@@ -1,12 +1,13 @@
 {
   "name": "ab-test-sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "scripts": {
     "init": "pnpm install --w",
     "dev:web": "pnpm --filter @ab-test-sdk/build run dev:web",
     "dev:wechat": "pnpm --filter @ab-test-sdk/build run dev:wechat",
     "dev:douyin": "pnpm --filter @ab-test-sdk/build run dev:douyin",
+    "dev:uniapp": "pnpm --filter @ab-test-sdk/build run dev:uniapp",
     "play:web": "pnpm --filter @ab-test-sdk/play run dev",
     "lint:ts-fix": "eslint --fix ./ --ext .js,.ts,.jsx,.tsx",
     "prepare": "husky install",
@@ -14,7 +15,8 @@
     "test:coverage": "jest --coverage",
     "build": "pnpm --filter @ab-test-sdk/build run build",
     "clean": "rimraf dist",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
+    "release:tag": "bumpp package.json --commit --push --tag"
   },
   "keywords": [],
   "author": "",
@@ -25,10 +27,15 @@
       "git add"
     ]
   },
+  "repository": {
+    "type": "git",
+    "url": "http://192.168.110.101:8081/bigdata/frontend/ab-test-sdk.git"
+  },
   "devDependencies": {
     "@ab-test-sdk/build": "workspace:^1.0.0",
     "@ab-test-sdk/core": "workspace:^1.0.0",
     "@ab-test-sdk/play": "workspace:^1.0.0",
+    "@ab-test-sdk/uniapp": "workspace:^1.0.0",
     "@ab-test-sdk/utils": "workspace:^1.0.0",
     "@ab-test-sdk/web": "workspace:^1.0.0",
     "@ab-test-sdk/wechat": "workspace:^1.0.0",
@@ -37,6 +44,7 @@
     "@babel/preset-typescript": "^7.16.0",
     "@commitlint/cli": "^16.2.1",
     "@commitlint/config-conventional": "^16.2.1",
+    "@dcloudio/types": "^3.0.15",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-node-resolve": "^13.3.0",
@@ -48,7 +56,9 @@
     "@typescript-eslint/parser": "^5.10.0",
     "@vue/eslint-config-prettier": "^7.0.0",
     "babel-jest": "^27.5.1",
+    "bumpp": "^8.2.1",
     "chokidar": "^3.5.3",
+    "conventional-changelog-cli": "^2.2.2",
     "cross-env": "^7.0.3",
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.5.0",
@@ -80,7 +90,6 @@
     "rollup-plugin-vue": "^6.0.0",
     "ts-jest": "27.1.4",
     "typescript": "^4.1.3",
-    "yaml-eslint-parser": "^0.5.0",
-    "conventional-changelog-cli": "^2.2.2"
+    "yaml-eslint-parser": "^0.5.0"
   }
 }
