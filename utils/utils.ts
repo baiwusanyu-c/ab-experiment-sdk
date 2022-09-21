@@ -140,7 +140,6 @@ export const isFunction = (val: unknown) =>
 // 判断是否为空对象
 export const isEmptyObj = (val: unknown) => JSON.stringify(val) === '{}'
 
-
 export function isObject(obj: unknown) {
   if (obj === undefined || obj === null) {
     return false
@@ -148,10 +147,10 @@ export function isObject(obj: unknown) {
     return toString.call(obj) == '[object Object]'
   }
 }
-export const isArray = (obj: unknown,func:null | undefined | Function = Array.isArray) => {
-  if(func){
+export const isArray = (obj: unknown, func: null | undefined | Function = Array.isArray) => {
+  if (func) {
     return func(obj)
-  }else{
+  } else {
     return toString.call(obj) === '[object Array]'
   }
 }

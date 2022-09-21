@@ -77,7 +77,7 @@ export const sdk = {
     const expShuntRes = this.shuntRes[expId]
     // 传入的expId 进入实验，则进行分组
     if (expShuntRes && expShuntRes.isEntry) {
-      const res = abTestGrouping(this, expShuntRes, defaultVal)
+      const res = abTestGrouping(this, expShuntRes)
       this.log && log('group successfully')
       if (res.status) {
         this.groupRes = res
@@ -102,7 +102,7 @@ export const sdk = {
    * 修改config,在自动模式开启时会自动生效，否则需要手动start
    * （完成）
    */
-  config(nConfig: IConfigMiniWechat, cb: Function) {
+  config(nConfig: IConfigMiniWechat) {
     // 根据现有config 进行合并更新
     this.configOption = mergeConfig(nConfig, this.configOption)
     this.log && log('config set success !')

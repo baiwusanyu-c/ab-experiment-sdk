@@ -9,7 +9,8 @@ import replace from 'rollup-plugin-replace'
 import {terser} from 'rollup-plugin-terser'
 import dts from 'rollup-plugin-dts';
 import { build } from "./utils";
-
+import packageJson from "../package.json"
+const version = packageJson.version
 const config = {
         input: '../packages/web/index.ts', // 必须，入口文件
         plugins: [
@@ -20,8 +21,10 @@ const config = {
                 'process.env.CURRENT_ENV': '`web`'
             }),
             babel({
+                babelHelpers:'runtime',
                 presets: ['@babel/preset-env'],
                 exclude: '**/node_modules/**',
+                plugins:['@babel/plugin-transform-runtime']
             }),
             commonjs(),
             cleanup({comments: 'none'}),
@@ -32,26 +35,26 @@ process.env.CURRENT_DEV_ENV !== 'dev' && config.plugins.push(terser())
 
 const buildConfig = [
     {
-        file: '../dist/web/esm/ab-test-sdk-web.esm.js',
+        file: `../dist/web/esm/ab-web_v${version}.js`,
         format: 'es',
         inlineDynamicImports: true,
-        name: 'ab-test-sdk-web',
+        name: 'ab-web',
     },
     {
-        file: '../dist/web/cjs/ab-test-sdk-web.cjs.js',
+        file: `../dist/web/cjs/ab-web_v${version}.cjs.js`,
         format: 'cjs',
         inlineDynamicImports: true,
-        name: 'ab-test-sdk-web',
+        name: 'ab-web',
     },
 ]
 
 const typeConfig = {
-    input: '../packages/web/index.ts', // 必须，入口文件
+    input: `../packages/web/index.ts`, // 必须，入口文件
     plugins: [resolve(),dts()],
 }
 const buildTypeConfig = [
     {
-        file: '../dist/web/types/ab-test-sdk-web.d.ts',
+        file: `../dist/web/types/ab-web_v${version}.d.ts`,
         format: 'es',
     }
 ]
