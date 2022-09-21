@@ -1,0 +1,52 @@
+<view class="container">
+	<view class="article">
+		<!-- 标题 -->
+		<view class="article_title">{{title}}</view>
+		<!-- 作者 -->
+		<view tt:if="{{author}}" class="article_author">
+			<!-- 作者头像 -->
+			<image tt:if="{{author.avatarUrl}}" src="{{author.avatarUrl}}" mode="aspectFit" />
+			<view>
+				<!-- 作者名称 -->
+				<text tt:if="{{author.name}}" class="article_author_name">{{author.name}}</text>
+				<!-- 文章发布时间 -->
+				<text tt:if="{{author.publishTime}}" class="article_author_date">{{author.publishTime}}</text>
+			</view>
+		</view>
+		<view tt:else class="slot"></view>
+		<block tt:for="{{contents}}">
+			<view class="article_content">
+				<image tt:if="{{item.imgUrl}}" bindtap="previewContentsImgs" data-url="{{item.imgUrl}}" class="article_content_img" src="{{item.imgUrl}}"
+				/>
+				<rich-text tt:else class="article_content_richText" nodes="{{item.text}}"></rich-text>
+			</view>
+		</block>
+	</view>
+	<view class="ad" tt:if="{{!adIsDeleted &&(adId||recommend.url)}}">
+		<view tt:if="{{adId}}">
+			<ad bindclose="closeAd" unit-id="{{adId}}"></ad>
+		</view>
+		<view tt:else class="ad_recommend" bindtap="jumpToAnotherPage">
+			<image class="ad_recommend_img" src="{{recommend.imgUrl}}" />
+		</view>
+	</view>
+
+
+	<!-- 相关推荐 -->
+	<view tt:if="{{false}}" class="relative">
+		<block tt:for="{{relativeList}}">
+			<view class="relative_item">
+				<view class="relative_item_left">
+					<view>{{item.title}}</view>
+					<view>
+						<text>{{item.from}}</text>
+						<text>{{item.num}}</text>
+					</view>
+				</view>
+				<view class="relative_item_right">
+					<image src="{{item.imgUrl}}" mode="aspectFit" />
+				</view>
+			</view>
+		</block>
+	</view>
+</view>

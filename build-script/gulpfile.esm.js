@@ -4,8 +4,7 @@
  * @update (czh 2022/7/22)
  */
 // 打包方式：串行(series)  并行(parallel)
-import path from 'path'
-import { dest, series, src } from 'gulp'
+import { series } from 'gulp'
 import { run, withTaskName } from './utils.js'
 
 export default series(
@@ -13,6 +12,18 @@ export default series(
 
   withTaskName('build mini wechat sdk....', async () => {
     await run('pnpm run --filter @ab-test-sdk/build --parallel build:wechat')
+  }),
+
+  withTaskName('build mini douyin sdk....', async () => {
+      await run('pnpm run --filter @ab-test-sdk/build --parallel build:douyin')
+  }),
+
+  withTaskName('build web sdk....', async () => {
+      await run('pnpm run --filter @ab-test-sdk/build --parallel build:web')
+  }),
+
+  withTaskName('build uniapp sdk....', async () => {
+      await run('pnpm run --filter @ab-test-sdk/build --parallel build:uniapp')
   }),
 
 )

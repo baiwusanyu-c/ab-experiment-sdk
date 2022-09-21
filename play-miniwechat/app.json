@@ -1,0 +1,20 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/demo/demo"
+  ],
+  "usingComponents": {
+    "t-button": "miniprogram_npm/tdesign-miniprogram/button/button",
+    "t-cell": "miniprogram_npm/tdesign-miniprogram/cell/cell",
+    "t-stepper": "miniprogram_npm/tdesign-miniprogram/stepper/stepper",
+    "t-icon": "miniprogram_npm/tdesign-miniprogram/icon/icon"
+  },
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#f6f6f6",
+    "backgroundColor": "#f6f6f6",
+    "navigationBarTitleText": "TDesign",
+    "navigationBarTextStyle": "black"
+  },
+  "sitemapLocation": "sitemap.json"
+}
