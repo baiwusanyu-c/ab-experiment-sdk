@@ -4,7 +4,10 @@
     "pages/demo/demo"
   ],
   "usingComponents": {
-    "t-button": "tdesign-miniprogram/button/button"
+    "t-button": "miniprogram_npm/tdesign-miniprogram/button/button",
+    "t-cell": "miniprogram_npm/tdesign-miniprogram/cell/cell",
+    "t-stepper": "miniprogram_npm/tdesign-miniprogram/stepper/stepper",
+    "t-icon": "miniprogram_npm/tdesign-miniprogram/icon/icon"
   },
   "window": {
     "backgroundTextStyle": "light",

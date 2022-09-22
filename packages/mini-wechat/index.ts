@@ -4,7 +4,7 @@ export * from '@ab-test-sdk/core'
 export * from '@ab-test-sdk/utils'
 
 // 设置微信小程序的请求脚本
-setRequestInst(import('../../utils/fetch/fetch-mini-wechat'))
+setRequestInst(import('../../utils/fetch/fetch-wechat-douyin'))
 
 export const ABTest = (funcName: string, ...arg: any[]) => {
   return cbdABTest(funcName, ...arg)

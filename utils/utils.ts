@@ -140,7 +140,7 @@ export const isFunction = (val: unknown) =>
 // 判断是否为空对象
 export const isEmptyObj = (val: unknown) => JSON.stringify(val) === '{}'
 
-const nativeIsArray = Array.isArray
+
 export function isObject(obj: unknown) {
   if (obj === undefined || obj === null) {
     return false
@@ -148,11 +148,13 @@ export function isObject(obj: unknown) {
     return toString.call(obj) == '[object Object]'
   }
 }
-export const isArray =
-  nativeIsArray ||
-  function (obj: unknown) {
+export const isArray = (obj: unknown,func:null | undefined | Function = Array.isArray) => {
+  if(func){
+    return func(obj)
+  }else{
     return toString.call(obj) === '[object Array]'
   }
+}
 
 export function deepCopy(obj: unknown) {
   const temp = {}

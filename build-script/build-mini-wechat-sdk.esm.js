@@ -4,11 +4,12 @@ import resolve from '@rollup/plugin-node-resolve'
 import babel from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
 import typescript from 'rollup-plugin-typescript2'
-import { rollup } from 'rollup'
 import cleanup from 'rollup-plugin-cleanup'
 import { terser } from 'rollup-plugin-terser'
 import replace from 'rollup-plugin-replace'
 import dts from "rollup-plugin-dts";
+import { build } from "./utils";
+
 const config = {
     input: '../packages/mini-wechat/index.ts', // 必须，入口文件
     plugins: [
@@ -55,16 +56,7 @@ const buildTypeConfig = [
 ]
 
 // 打包处理
-export const buildPackages = (dirname, name) => {
-
-    const build = async (config,buildConfig) =>{
-        const bundle = await rollup(config)
-        return Promise.all(
-            buildConfig.map(option => {
-                bundle.write(option)
-            })
-        )
-    }
+export const buildPackages = () => {
     return parallel(()=>build(config,buildConfig),()=>build(typeConfig,buildTypeConfig))
 }
 export default buildPackages()

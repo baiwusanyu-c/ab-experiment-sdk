@@ -1,4 +1,5 @@
 import { log } from '../utils'
+import { ENV } from '../env-config'
 import { ContentType, HttpMethod, interceptorsRequest, interceptorsResponse } from './fetch-utils'
 import type { IReqConfig } from './fetch-utils'
 
@@ -28,8 +29,10 @@ const request = async (
  */
 function sendRequest(url: string, headers: Headers, config: IReqConfig) {
   return new Promise((resolve, reject) => {
+    const currentEnv = process.env.CURRENT_ENV
     // @ts-ignore
-    wx.request({
+    const pReq = currentEnv === ENV.MINI_DOUYIN ? tt : wx
+    pReq.request({
       url,
       method: HttpMethod.post,
       data: config.params,

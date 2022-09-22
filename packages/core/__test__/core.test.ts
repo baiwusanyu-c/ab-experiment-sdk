@@ -84,7 +84,7 @@ describe('core--core.ts', () => {
         expect(callFn).toBeCalled()
     })
 
-   /* test('cbdABTest can be threaded into the object to build multiple sdk instances', () => {
+    test('cbdABTest can be threaded into the object to build multiple sdk instances', () => {
         const sdkInst = cbdABTest('resetInstance') as typeof sdk
 
         const sdkKey = `GACo74wkSCABTESTDIkDzEhkwRwgjGt1pqlklength`
@@ -109,14 +109,14 @@ describe('core--core.ts', () => {
         sdkInst.resetInstance = callFn
         cbdABTest('resetInstance')
         expect(callFn).toBeCalled()
-    })*/
+    })
 
     test('cbdABTest can refresh', () => {
         jest.useFakeTimers();
         const callFn = jest.fn()
         const ctx = {
             configOption:{
-                autoRefreshStep:100
+                autoRefreshStep:100,
             },
             timer:0,
             refresh:callFn
@@ -128,8 +128,11 @@ describe('core--core.ts', () => {
 
     test('cbdABTest getExperimentConfig', async () => {
         setRequestInst(import('../../../utils/fetch/fetch-web'))
-        const res = await getExperimentConfig(123,{log:false} as any)
-        expect(res).toBe(undefined)
+        const res = await getExperimentConfig(123,{log:false} as any) as Array<any>
+        expect(res.length).toBe(0)
+
+        const resSuccess = await getExperimentConfig(123,{log:false} as any,()=>[1]) as Array<any>
+        expect(resSuccess.length).toBe(1)
 
     })
 
@@ -140,7 +143,7 @@ describe('core--core.ts', () => {
 
     test('sdk instance not init',async () =>{
         const startSDK:any  = await cbdABTest('start')
-        expect(startSDK).toBe(undefined)
+        expect(startSDK.res).toBe(undefined)
         cbdABTest('getVar','1','defaultVersion',(data:any)=>{
             expect(data.res).toBe(undefined)
         })
@@ -199,6 +202,19 @@ describe('core--core.ts', () => {
         expect(startSDK.res.shuntRes['1'].hashVal).toBe(91)
     })
 
+    test('sdk instance function ———— start fail', async () => {
+        cbdABTest('resetInstance')
+        cbdABTest('init', {
+            appKey: 'CBD_WX_MP',
+            userId: 'GACo74wkDIkDzEhkwRwgjGt1pqlk',
+            autoRefresh:true,
+            autoRefreshStep:100
+        },()=>[])
+
+        const startSDK:any  = await cbdABTest('start')
+        expect(startSDK.status).not.toBeTruthy()
+    })
+
     test('sdk instance function ———— getVar', async () => {
         cbdABTest('resetInstance')
         const reSDK = cbdABTest('init', {
@@ -227,6 +243,7 @@ describe('core--core.ts', () => {
     })
 
     test('sdk instance function ———— config', () => {
+        cbdABTest('resetInstance')
         const reSDK = cbdABTest('init', {
             appKey: 'CBD_WX_MP',
             userId: 'GACo74wkDIkDzEhkwRwgjGt1pqlk'
@@ -245,13 +262,16 @@ describe('core--core.ts', () => {
         const reSDK = cbdABTest('init', {
             appKey: 'CBD_WX_MP',
             log: true,
-            userId: 'GACo74wkDIkDzEhkwRwgjGt1pqlk'
+            userId: 'GACo74wkDIkDzEhkwRwgjGt1pqlk',
         }) as typeof sdk
+        reSDK.timer = 100
+        debugger
         expect(reSDK.log).toBeTruthy()
         expect(reSDK.isInit).toBeTruthy()
         expect(reSDK.configOption.appKey).toBe('CBD_WX_MP')
         expect(reSDK.configOption.userId).toBe('GACo74wkDIkDzEhkwRwgjGt1pqlk')
         cbdABTest('resetInstance')
+        expect(reSDK.timer).toBe(0)
         expect(reSDK.log).not.toBeTruthy()
         expect(reSDK.isInit).not.toBeTruthy()
         expect(reSDK.configOption.appKey).toBe(undefined)
@@ -266,15 +286,25 @@ describe('core--core.ts', () => {
         },getExpConfig)
 
         const refreshSDK:any  = await cbdABTest('refresh')
-        const initExpId =  refreshSDK.expConfig[0].experimentId
-        expect(refreshSDK.shuntRes['1'].isEntry).not.toBeTruthy()
-        expect(refreshSDK.shuntRes['1'].hashVal).toBe(91)
+        const initExpId =  refreshSDK.res.expConfig[0].experimentId
+        expect(refreshSDK.res.shuntRes['1'].isEntry).not.toBeTruthy()
+        expect(refreshSDK.res.shuntRes['1'].hashVal).toBe(91)
 
         initReSDK.getExpConfig = () =>{
             return expConfigObjChange
         }
         const refreshChangeSDK = await cbdABTest('refresh')
-        expect(initExpId !== (refreshChangeSDK as {expConfig:Array<any>}).expConfig[0].experimentId).toBeTruthy()
+        expect(initExpId !== (refreshChangeSDK.res as {expConfig:Array<any>}).expConfig[0].experimentId).toBeTruthy()
+
+    })
+    test('sdk instance function ———— refresh fail', async () => {
+        cbdABTest('resetInstance')
+        cbdABTest('init', {
+            appKey: 'CBD_WX_MP',
+            userId: 'GACo74wkDIkDzEhkwRwgjGt1pqlk'
+        },()=>[])
+        const refreshFailSDK = await cbdABTest('refresh')
+        expect(refreshFailSDK.status).not.toBeTruthy()
     })
 
     test('sdk instance function ———— resetInstance', async () => {
@@ -282,7 +312,6 @@ describe('core--core.ts', () => {
             appKey: 'CBD_WX_MP',
             userId: 'GACo74wkDIkDzEhkwRwgjGt1pqlk'
         },getExpConfig)
-        console.log(initReSDK.configOption.appKey)
         expect(initReSDK.configOption.appKey).toBe('CBD_WX_MP')
         initReSDK.timer = 1
         cbdABTest('resetInstance')

@@ -1,6 +1,7 @@
 {
   "pages": [
-    "miniprogram_npm/tt-templates-article/index"
+    "pages/home/home",
+    "pages/demo/demo"
   ],
   "window": {
     "backgroundTextStyle": "light",
