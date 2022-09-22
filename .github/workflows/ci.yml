@@ -28,7 +28,7 @@ jobs:
         run: pnpm install --no-frozen-lockfile
         
       - name: Lint
-        run: lint:ts-fix
+        run: pnpm run lint:ts-fix
 
   test:
     runs-on: ubuntu-latest
@@ -49,10 +49,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: pnpm
-        
-      - name: Init
-        run: pnpm install --no-frozen-lockfile
-        
+  
       - name: Test
         run: pnpm run test
 
