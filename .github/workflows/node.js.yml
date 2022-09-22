@@ -3,13 +3,11 @@ name: AB-TEST-SDK——CI
 on:
   push:
     branches:
-      - main
-      - next
+      - master
 
   pull_request:
     branches:
-      - main
-      - next
+      - master
 
 jobs:
   lint:
