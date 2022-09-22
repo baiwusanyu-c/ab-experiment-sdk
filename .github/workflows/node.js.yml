@@ -24,9 +24,6 @@ jobs:
           node-version: 16.x
           cache: pnpm
 
-      - name: Install
-        run: npm install pnpm
-        
       - name: Init
         run: pnpm i
         
