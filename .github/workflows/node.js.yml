@@ -1,4 +1,4 @@
-name: AB-TEST-SDK——CI
+name: AB-TEST-SDK—CI
 
 on:
   push:
@@ -25,8 +25,11 @@ jobs:
           cache: pnpm
 
       - name: Install
+        run: npm install pnpm
+        
+      - name: Init
         run: pnpm i
-
+        
       - name: Lint
         run: lint:ts-fix
 
@@ -51,8 +54,11 @@ jobs:
           cache: pnpm
 
       - name: Install
+        run: npm install pnpm
+        
+      - name: Init
         run: pnpm i
-
+        
       - name: Test
         run: pnpm run test
 
