@@ -2,6 +2,7 @@
   "name": "ab-test-sdk",
   "version": "1.0.0",
   "description": "",
+  "packageManager": "pnpm@7.6.0",
   "scripts": {
     "init": "pnpm install --w",
     "dev:web": "pnpm --filter @ab-test-sdk/build run dev:web",
