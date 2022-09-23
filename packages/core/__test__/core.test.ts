@@ -127,11 +127,17 @@ describe('core--core.ts', () => {
     })
 
     test('cbdABTest getExperimentConfig', async () => {
+        const ctx = {
+            log:false,
+            configOption:{
+                isDev:true
+            }
+        } as typeof sdk
         setRequestInst(import('../../../utils/fetch/fetch-web'))
-        const res = await getExperimentConfig(123,{log:false} as any) as Array<any>
+        const res = await getExperimentConfig(123,ctx) as Array<any>
         expect(res.length).toBe(0)
 
-        const resSuccess = await getExperimentConfig(123,{log:false} as any,()=>[1]) as Array<any>
+        const resSuccess = await getExperimentConfig(123,ctx,()=>[1]) as Array<any>
         expect(resSuccess.length).toBe(1)
 
     })

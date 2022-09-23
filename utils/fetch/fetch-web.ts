@@ -12,6 +12,7 @@ const request = async (
     },
     token: '',
     'Content-Type': ContentType.json,
+    isDev: false,
   }
 ) => {
   // 请求拦截

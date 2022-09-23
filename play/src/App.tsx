@@ -10,7 +10,7 @@ function App() {
     useEffect(()=>{
         async function getVarFunc(){
             // 方法名，实验id，兜底参数
-            await ABTest('getVar','24','defaultVersion',(data:any)=>{
+            await ABTest('getVar','1','defaultVersion',(data:any)=>{
                 console.log(data)
                 setVersion((version)=> version = data.res.isEntryVersion)
             })
