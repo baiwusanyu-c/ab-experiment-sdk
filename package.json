@@ -1,6 +1,6 @@
 {
   "name": "ab-test-sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "scripts": {
     "init": "pnpm install --w",
@@ -16,7 +16,7 @@
     "build": "pnpm --filter @ab-test-sdk/build run build",
     "clean": "rimraf dist",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
-    "release:tag": "bumpp package.json --commit --push --tag"
+    "release:tag": "bumpp package.json --commit"
   },
   "keywords": [],
   "author": "",
