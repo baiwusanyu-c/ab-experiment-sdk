@@ -247,7 +247,7 @@ export const getExperimentConfig = async (
   reqFunc: Function = experimentConfig
 ) => {
   const params = { appKey }
-  const res = await reqFunc(params)
+  const res = await reqFunc(params, ctx.configOption.isDev)
   if (!res) {
     ctx.log && log('Failed to get experimental parameters')
     return []

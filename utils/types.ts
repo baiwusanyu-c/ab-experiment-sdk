@@ -15,6 +15,7 @@ export interface IConfig extends IOption {
 export interface IConfigMiniWechat extends IConfig {
   clear_ab_cache_on_user_change?: boolean
   auto_report?: boolean
+  isDev: boolean
 }
 
 export interface ISysInfo {

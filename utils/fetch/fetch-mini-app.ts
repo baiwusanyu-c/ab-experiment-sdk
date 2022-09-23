@@ -14,6 +14,7 @@ const request = async (
     },
     token: '',
     'Content-Type': ContentType.json,
+    isDev: false,
   }
 ) => {
   // 请求拦截
@@ -24,7 +25,7 @@ const request = async (
   return interceptorsResponse(promise, handleRes)
 }
 
-const setReqByEnv = (env: typeof ENV, curEnv: any) => {
+const setReqByEnv = (env: typeof ENV, curEnv: string) => {
   if (curEnv === env.MINI_DOUYIN) {
     // @ts-ignore
     return tt
@@ -44,7 +45,7 @@ const setReqByEnv = (env: typeof ENV, curEnv: any) => {
 function sendRequest(url: string, headers: Headers, config: IReqConfig) {
   return new Promise((resolve, reject) => {
     // @ts-ignore
-    const currentEnv = process.env.CURRENT_ENV
+    const currentEnv = process.env.CURRENT_ENV as string
     const pReq = setReqByEnv(ENV, currentEnv)
     pReq.request({
       url,
