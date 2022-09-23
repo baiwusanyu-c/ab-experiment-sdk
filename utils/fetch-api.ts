@@ -5,11 +5,11 @@ export const setRequestInst = async (reqScript: any) => {
   return requestInst
 }
 
-function req(url: string, params: any = {}) {
+function req(url: string, params: unknown = {}, isDev: boolean) {
   return new Promise(resolve => {
     requestInst.then((reqFn: { default: Function }) => {
       reqFn
-        .default(url, { params }, false)
+        .default(url, { params, isDev })
         .then((res: any) => {
           if (res && res.code === 200 && res.data && res.data.length > 0) {
             resolve(res.data)
@@ -28,7 +28,7 @@ function req(url: string, params: any = {}) {
 interface IExperimentConfig {
   appKey?: number | string
 }
-export async function experimentConfig(params: IExperimentConfig) {
-  const res = await req('experiment/config/list', params)
+export async function experimentConfig(params: IExperimentConfig, isDev: boolean) {
+  const res = await req('experiment/config/list', params, isDev)
   return res
 }

@@ -36,7 +36,7 @@ export const shuntAlgorithm = (key: string, weight: number) => {
  * 实验分流hash结果 * （100 / 实验分流流量阈值） 得到版本流量总阈值
  * 循环各个版本流量值，并累加总阈值，每次循环，总阈值还小于版本流量总阈值，则进入该分组
  */
-export const abTestGrouping = (ctx: typeof sdk, expShuntRes: IOption, defaultVal: string) => {
+export const abTestGrouping = (ctx: typeof sdk, expShuntRes: IOption) => {
   let totalWeight = 0
   const expShuntResVal = expShuntRes
   const versionWeight = expShuntResVal.hashVal! * (100 / expShuntResVal.experimentTrafficWeight)

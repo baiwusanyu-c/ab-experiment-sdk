@@ -14,6 +14,7 @@ export interface IReqConfig {
   headers?: IHeader
   token?: string
   'Content-Type'?: string
+  isDev: boolean
 }
 
 export interface IHeader {
@@ -28,7 +29,7 @@ export interface IHeader {
  */
 export function interceptorsRequest(url: string, config: IReqConfig) {
   const contentType: string = setContentType(config)
-  const reqUrl = setRequestUrl(url)
+  const reqUrl = setRequestUrl(url, config.isDev)
   const headers = setHeader(contentType, config)
   return {
     contentType,
@@ -53,9 +54,14 @@ const setContentType = (config?: IReqConfig): string => {
 /**
  * 设置请求 url
  * @param url
+ * @param isDev
  */
-const setRequestUrl = (url: string): string => {
-  return `http://47.96.100.195/api/${url.replace('//', '/')}`
+const setRequestUrl = (url: string, isDev: boolean): string => {
+  let domain = 'http://47.96.100.195/'
+  if (!isDev) {
+    domain = 'http://www.abtest.shuxinyc.com'
+  }
+  return `${domain}/api/${url.replace('//', '/')}`
 }
 /**
  * 设置请求头

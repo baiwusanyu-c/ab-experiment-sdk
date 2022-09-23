@@ -80,7 +80,7 @@ describe('test-utils.ts', () => {
     expect(isArray(undefined)).not.toBeTruthy()
     expect(isArray(() => jest.fn)).not.toBeTruthy()
     expect(isArray([])).toBeTruthy()
-    expect(isArray([],null)).toBeTruthy()
+    expect(isArray([], null)).toBeTruthy()
   })
 
   test('deepCopy', () => {

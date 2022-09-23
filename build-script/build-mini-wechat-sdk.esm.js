@@ -9,7 +9,8 @@ import { terser } from 'rollup-plugin-terser'
 import replace from 'rollup-plugin-replace'
 import dts from "rollup-plugin-dts";
 import { build } from "./utils";
-
+import packageJson from "../package.json"
+const version = packageJson.version
 const config = {
     input: '../packages/mini-wechat/index.ts', // 必须，入口文件
     plugins: [
@@ -20,7 +21,10 @@ const config = {
         }),
         typescript(),
         babel({
+            babelHelpers:'runtime',
+            presets: ['@babel/preset-env'],
             exclude: '**/node_modules/**',
+            plugins:['@babel/plugin-transform-runtime']
         }),
         commonjs(),
         cleanup({ comments: 'none' }),
@@ -31,16 +35,16 @@ process.env.CURRENT_DEV_ENV !== 'dev' && config.plugins.push(terser())
 const buildConfig =  [
 
         {
-            file: '../dist/mini-wechat/esm/ab-test-sdk-mini-wechat.esm.js',
+            file: `../dist/mini-wechat/esm/ab-mini-wechat_v${version}.js`,
             format: 'es',
             inlineDynamicImports:true,
-            name: 'ab-test-sdk-mini-wechat',
+            name: 'ab-mini-wechat',
         },
         {
-            file: '../dist/mini-wechat/cjs/ab-test-sdk-mini-wechat.cjs.js',
+            file: `../dist/mini-wechat/cjs/ab-mini-wechat_v${version}.cjs.js`,
             format: 'cjs',
             inlineDynamicImports:true,
-            name: 'ab-test-sdk-mini-wechat',
+            name: 'ab-mini-wechat',
         },
 ]
 
@@ -50,7 +54,7 @@ const typeConfig = {
 }
 const buildTypeConfig = [
     {
-        file: '../dist/mini-wechat/types/ab-test-sdk-mini-wechat.d.ts',
+        file: `../dist/mini-wechat/types/ab-mini-wechat_v${version}.d.ts`,
         format: 'es',
     }
 ]
